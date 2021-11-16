@@ -1,34 +1,12 @@
-
-<?php
-    use App\Models\Category;
-    use App\Models\Item;
-
-        $category=Category::All();
-        $item=Item::All();
-        
-?>
-
+<template>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card mt-5">
                 <div class="card-header" style="position:relative;"><strong>Items</strong>
                     <button style="position: absolute; right: 10px; bottom:8px;" type="button" id="add_item_cat" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#addItemFCatForm">+</button>
                 </div>
                 <div class="card-body">
-                @foreach ($item as $view)
-                    <p>{{$view->item_name}}</p>
-                    <?php
-                        if($view->item_qty<=100){
-                            ?>
-                                <p>Stok tersisa Kurang dari 100</p>
-                    <?php
-                        }
-                    ?>
-                    <br>
-                @endforeach
-
-                <!-- Pop Up untuk insert -->
                         <div class="modal fade" id="addItemFCatForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content" >
@@ -40,7 +18,6 @@
                                     </div>
                                     <div class="modal-body">
                                         <form method="POST" action="/add_item" id="addItemForm">
-                                            @csrf
                                             <div class="form-group row">
                                                 <label for="name" class="col-md-4 col-form-label text-md-right">Item Name</label>
 
@@ -63,11 +40,8 @@
                                                 <label for="item_desc" class="col-md-4 col-form-label text-md-right">Item Category</label>
 
                                                 <div class="col-md-6">
-                                                    <select name="category_id" id="category_id" class="form-control input-lg dynamic @error('category_id') is-invalid @enderror" style="width:inherit;">
+                                                    <select name="category_id" id="category_id" class="form-control input-lg dynamic" style="width:inherit;">
                                                         <option value="">Choose Category</option>
-                                                        @foreach ($category as $object)
-                                                            <option value="{{$object->id}}">{{$object->category_name}}</option>
-                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -114,6 +88,8 @@
     </div>
 </div>
 
+</template>
+
 <script src="http://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
     function form_submit(){
@@ -121,3 +97,10 @@
     }
 </script>
 
+<script>
+    export default {
+        mounted() {
+            console.log('Component mounted.')
+        }
+    }
+</script>
