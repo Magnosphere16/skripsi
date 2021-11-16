@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+
 <?php
     use App\Models\Category;
     use App\Models\Item;
@@ -121,4 +120,4 @@
         document.getElementById("addItemForm").submit();
     }
 </script>
-@endsection
+
