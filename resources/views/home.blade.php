@@ -9,7 +9,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title>StockInFlow</title>
 </head>
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<div class="wrapper" id="app">
   <!-- Navbar -->
     @include('Template.navbar')
   <!-- /.navbar -->
@@ -19,14 +19,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper" id="app">
-        <new-component></new-component>
+  <div class="content-wrapper">
     <!-- Main content -->
     <div class="content">
-      <div class="container-fluid">
-
-      </div>
-      <!-- /.container-fluid -->
+         <router-view></router-view>
     </div>
     <!-- /.content -->
   </div>
