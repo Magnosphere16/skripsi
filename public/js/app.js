@@ -2231,21 +2231,25 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
 
-Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]); //direct ke page component, path adalah nama url yang digunakan untuk mengakses component konsep sama sprt web.php
+
 var routes = [{
   path: '/items',
   component: (__webpack_require__(/*! ./components/items.vue */ "./resources/js/components/items.vue")["default"])
-}];
-Vue.component('new-component', (__webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]));
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
+}]; //per component fragment untuk di put ke dalam blade
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('new-component', (__webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]));
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes
 });
-var app = new Vue({
+var app = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]({
   el: '#app',
   router: router
 });
