@@ -33,7 +33,8 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content" >
                                     <div class="modal-header text-center">
-                                        <h4 class="modal-title" id="exampleModalLongTitle">New Item</h4>
+                                        <h4 class="modal-title" id="exampleModalLongTitle" v-show="!modal">New Item</h4>
+                                        <h4 class="modal-title" id="exampleModalLongTitle" v-show="modal">Edit Item</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -212,27 +213,51 @@
                 this.$Progress.finish();
             },
             postData(){
+                this.$Progress.start();
                 this.loading = true;
                 this.disabled = true;
 
                 this.form.post('add_item').then(()=>{
                     Fire.$emit("refreshData");
-                    $('#addItemFCatForm').modal('hide');
+                    $('#addItemForm').modal('hide');
                     Toast.fire({
                         icon: 'success',
                         title: 'Item Saved successfully'
                         });
+                    this.$Progress.finish();
                     this.loading = false;
                     this.disabled = false;
                     })
                 // else
                 .catch(()=>{
+                    this.$Progress.fail();
                     this.loading = false;
                     this.disabled = false; 
                 });
             },
             editData(){
-                console.log("edit bang");
+                this.$Progress.start();
+                this.loading = true;
+                this.disabled = true;
+
+                this.form
+                    .put('edit_item').then(()=>{
+                    Fire.$emit("refreshData");
+                    $('#addItemForm').modal('hide');
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Item Edited successfully'
+                        });
+                    this.$Progress.finish();
+                    this.loading = false;
+                    this.disabled = false;
+                    })
+                // else
+                .catch(()=>{
+                    this.$Progress.fail();
+                    this.loading = false;
+                    this.disabled = false; 
+                });
             }
         },
         created(){

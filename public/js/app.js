@@ -2281,6 +2281,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2333,33 +2334,62 @@ __webpack_require__.r(__webpack_exports__);
     postData: function postData() {
       var _this2 = this;
 
+      this.$Progress.start();
       this.loading = true;
       this.disabled = true;
       this.form.post('add_item').then(function () {
         Fire.$emit("refreshData");
-        $('#addItemFCatForm').modal('hide');
+        $('#addItemForm').modal('hide');
         Toast.fire({
           icon: 'success',
           title: 'Item Saved successfully'
         });
+
+        _this2.$Progress.finish();
+
         _this2.loading = false;
         _this2.disabled = false;
       }) // else
       ["catch"](function () {
+        _this2.$Progress.fail();
+
         _this2.loading = false;
         _this2.disabled = false;
       });
     },
     editData: function editData() {
-      console.log("edit bang");
+      var _this3 = this;
+
+      this.$Progress.start();
+      this.loading = true;
+      this.disabled = true;
+      this.form.put('edit_item').then(function () {
+        Fire.$emit("refreshData");
+        $('#addItemForm').modal('hide');
+        Toast.fire({
+          icon: 'success',
+          title: 'Item Edited successfully'
+        });
+
+        _this3.$Progress.finish();
+
+        _this3.loading = false;
+        _this3.disabled = false;
+      }) // else
+      ["catch"](function () {
+        _this3.$Progress.fail();
+
+        _this3.loading = false;
+        _this3.disabled = false;
+      });
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.loadData();
     Fire.$on('refreshData', function () {
-      _this3.loadData();
+      _this4.loadData();
     });
   }
 });
@@ -42498,7 +42528,43 @@ var render = function () {
                   },
                   [
                     _c("div", { staticClass: "modal-content" }, [
-                      _vm._m(1),
+                      _c("div", { staticClass: "modal-header text-center" }, [
+                        _c(
+                          "h4",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: !_vm.modal,
+                                expression: "!modal",
+                              },
+                            ],
+                            staticClass: "modal-title",
+                            attrs: { id: "exampleModalLongTitle" },
+                          },
+                          [_vm._v("New Item")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "h4",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.modal,
+                                expression: "modal",
+                              },
+                            ],
+                            staticClass: "modal-title",
+                            attrs: { id: "exampleModalLongTitle" },
+                          },
+                          [_vm._v("Edit Item")]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(1),
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-body" }, [
                         _c(
@@ -43006,26 +43072,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header text-center" }, [
-      _c(
-        "h4",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
-        [_vm._v("New Item")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close",
-          },
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close",
         },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      ),
-    ])
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   },
 ]
 render._withStripped = true

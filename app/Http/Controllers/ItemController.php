@@ -43,6 +43,26 @@ class ItemController extends Controller
         Item::find($request->id)->delete();
     }
 
+    public function editItem(Request $request, $id){
+        $this->validate($request, [
+            'item_name' => ['required', 'string', 'min:3', 'max:255'],
+            'item_desc' => ['required', 'string', 'min:3', 'max:255'],
+            'item_category_id' => ['required', 'integer'],
+            'item_qty' => ['required', 'integer', 'min:3', 'max:999'],
+            'item_buy_price' => ['required', 'integer', 'min:1'],
+            'item_sell_price' => ['required', 'integer', 'min:1'],
+        ]);
+
+        $updtItem = Item::find($id)->update([
+                'item_name'=>$request->itemName,
+                'item_desc'=>$request->itemDesc,
+                'item_category_id'=>$request->category_id,
+                'item_qty'=>$request->itemQty,
+                'item_buy_price'=>$request->itemBuy,
+                'item_sell_price'=>$request->itemSell,
+        ]);
+    }
+
     public function getItem(){
         return Item::all();
     }
