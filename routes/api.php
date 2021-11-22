@@ -25,4 +25,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('get_category',[CategoryController::class, 'index']);
 
 Route::get('getItem',[ItemController::class, 'getItem']);
-Route::post('add_item',[ItemController::class, 'addItem']);
+Route::post('add_item',[ItemController::class, 'addItem']);\
+Route::post('delete_item',[ItemController::class, 'deleteItem']);

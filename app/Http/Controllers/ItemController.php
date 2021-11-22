@@ -8,7 +8,17 @@ use DB;
 
 class ItemController extends Controller
 {
+
     public function addItem(Request $request){
+        $this->validate($request, [
+            'item_name' => ['required', 'string', 'min:3', 'max:255'],
+            'item_desc' => ['required', 'string', 'min:3', 'max:255'],
+            'item_category_id' => ['required'],
+            'item_qty' => ['required', 'integer', 'min:3', 'max:999'],
+            'item_buy_price' => ['required', 'integer', 'min:1'],
+            'item_sell_price' => ['required', 'integer', 'min:1'],
+        ]);
+
         $itemName= $request->item_name;
         $itemDesc=$request->item_desc;
         $category_id=$request->item_category_id;
@@ -25,6 +35,12 @@ class ItemController extends Controller
             ];
             DB::table('item')->insert($dataSave);
         return redirect()->back();
+    }
+
+    public function deleteItem(Request $request){
+        dd($request);
+
+        Item::find($request->id)->delete();
     }
 
     public function getItem(){
