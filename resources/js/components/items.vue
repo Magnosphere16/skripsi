@@ -12,7 +12,7 @@
                             <thead>
                                 <th>Item Name</th>
                                 <th>Item Description</th>
-                                <th>Item Quantity</th>
+                                <th>Item Quantity (pcs)</th>
                                 <th>Item Buy Price</th>
                                 <th>Item Sell Price</th>
                             </thead>
@@ -21,8 +21,8 @@
                                     <td>{{a.item_name}}</td>
                                     <td>{{a.item_desc}}</td>
                                     <td>{{a.item_qty}}</td>
-                                    <td>{{a.item_buy_price}}</td>
-                                    <td>{{a.item_sell_price}}</td>
+                                    <td>Rp {{a.item_buy_price}}</td>
+                                    <td>Rp {{a.item_sell_price}}</td>
                                 </tr>
                             </tbody>
                         </table>

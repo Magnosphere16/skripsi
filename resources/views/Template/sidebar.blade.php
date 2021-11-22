@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="/home" class="brand-link">
+    <a href="/" class="brand-link">
       <i class="fas fa-cubes"></i><span class="brand-text font-weight-light"> StockInFlow</span>
     </a>
 

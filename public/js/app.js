@@ -39093,9 +39093,9 @@ var render = function () {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(a.item_qty))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(a.item_buy_price))]),
+                    _c("td", [_vm._v("Rp " + _vm._s(a.item_buy_price))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(a.item_sell_price))]),
+                    _c("td", [_vm._v("Rp " + _vm._s(a.item_sell_price))]),
                   ])
                 }),
                 0
@@ -39495,7 +39495,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Item Description")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Item Quantity")]),
+      _c("th", [_vm._v("Item Quantity (pcs)")]),
       _vm._v(" "),
       _c("th", [_vm._v("Item Buy Price")]),
       _vm._v(" "),
