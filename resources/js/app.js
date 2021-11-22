@@ -14,6 +14,7 @@ Vue.component(AlertError.name, AlertError);
 
 let Fire =new Vue();
 window.Fire = Fire;
+
 //Import Alert
 import Swal from 'sweetalert2'
 window.Swal = Swal;
@@ -24,6 +25,14 @@ const Toast = Swal.mixin({
     timer: 3000
 });
 window.Toast = Toast;
+
+//Import Progress Bar
+import VueProgressBar from 'vue-progressbar';
+Vue.use(VueProgressBar,{
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '5px'
+});
 
 
 import Vue from 'vue';

@@ -13,7 +13,7 @@ class ItemController extends Controller
         $this->validate($request, [
             'item_name' => ['required', 'string', 'min:3', 'max:255'],
             'item_desc' => ['required', 'string', 'min:3', 'max:255'],
-            'item_category_id' => ['required'],
+            'item_category_id' => ['required', 'integer'],
             'item_qty' => ['required', 'integer', 'min:3', 'max:999'],
             'item_buy_price' => ['required', 'integer', 'min:1'],
             'item_sell_price' => ['required', 'integer', 'min:1'],

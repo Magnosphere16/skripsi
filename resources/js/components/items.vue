@@ -4,7 +4,7 @@
         <div class="col-md-8">
             <div class="card mt-5">
                 <div class="card-header" style="position:relative;"><strong>Items</strong>
-                    <button style="position: absolute; right: 10px; bottom:8px;" type="button" id="add_item_cat" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#addItemFCatForm">+</button>
+                    <button style="position: absolute; right: 10px; bottom:8px;" @click="showModalAdd()" type="button" id="add_item" class="btn btn-secondary btn-sm">+</button>
                 </div>
                 <div class="card-body">
                         <!-- item list -->
@@ -24,12 +24,12 @@
                                     <td>{{a.item_qty}}</td>
                                     <td>Rp {{a.item_buy_price}}</td>
                                     <td>Rp {{a.item_sell_price}}</td>
-                                    <td><a href="">Edit</a>|<a href="">Delete</a></td>
+                                    <td><a href="#" @click="showModalEdit(a)">Edit</a>|<a href="">Delete</a></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <!-- modal -->
-                        <div class="modal fade" id="addItemFCatForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <!-- Pop Up Add Item-->
+                        <div class="modal fade" id="addItemForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content" >
                                     <div class="modal-header text-center">
@@ -39,7 +39,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form @submit.prevent="postData()" id="addItemForm">
+                                        <form @submit.prevent="modal ? editData() : postData()" id="addItemForm">
                                             <div class="form-group row">
                                                 <label for="name" class="col-md-4 col-form-label text-md-right">Item Name</label>
 
@@ -50,6 +50,7 @@
                                                         class="form-control" 
                                                         :class="{ 'is-invalid' : form.errors.has(item_name) }" 
                                                         name="item_name" 
+                                                        required
                                                         placeholder="Item Name">
                                                         <has-error :form="form" field="item_name"></has-error> 
                                                 </div>
@@ -66,6 +67,7 @@
                                                         class="form-control" 
                                                         :class="{ 'is-invalid' : form.errors.has(item_desc) }" 
                                                         name="item_desc" 
+                                                        required
                                                         placeholder="Item Description">
                                                         
                                                     </textarea>
@@ -81,6 +83,7 @@
                                                         name="category_id" id="category_id" 
                                                         class="form-control input-lg dynamic" 
                                                         :class="{ 'is-invalid' : form.errors.has(item_category_id) }"
+                                                        required
                                                         style="width:inherit;">
                                                             <option value="">Select Category</option>
                                                             <option v-for="item in categories" :key="item.id" :value="item.id">
@@ -100,7 +103,8 @@
                                                         type="number" 
                                                         class="form-control"
                                                         :class="{ 'is-invalid' : form.errors.has(item_qty) }" 
-                                                        name="item_qty"  
+                                                        name="item_qty"
+                                                        required  
                                                         placeholder="1">
                                                     <has-error :form="form" field="item_qty"></has-error>
                                                 </div>
@@ -116,7 +120,7 @@
                                                         class="form-control" 
                                                         :class="{ 'is-invalid' : form.errors.has(item_buy_price) }"
                                                         name="item_buy" 
-                                                        min="0" 
+                                                        required
                                                         placeholder="0">
                                                     <has-error :form="form" field="item_buy_price"></has-error>
                                                 </div>
@@ -132,6 +136,7 @@
                                                         class="form-control"
                                                         :class="{ 'is-invalid' : form.errors.has(item_sell_price) }" 
                                                         name="item_sell" 
+                                                        required
                                                         placeholder="0">
                                                     <has-error :form="form" field="item_sell_price"></has-error>
                                                 </div>
@@ -139,8 +144,9 @@
 
                                             <div class="form-group row mb-0">
                                                 <div class="col-md-6 offset-md-4">
-                                                    <button type="submit" class="btn btn-primary btn-block">
-                                                        Submit
+                                                    <button type="submit" class="btn btn-primary btn-block" :ddisabled="disabled">
+                                                        <i v-show="loading" class="fa fa-spinner fa-spin"></i>
+                                                         Submit
                                                     </button>
                                                 </div>
                                             </div>
@@ -161,6 +167,9 @@
     export default {
         data(){
             return{
+                loading: false,
+                disabled: false,
+                modal: false,
                 categories : {},
                 items : {},
                 deletes :{},
@@ -176,16 +185,36 @@
             }
         },
         methods:{
+            showModalAdd(){
+                this.modal = false;
+                this.form.reset();
+                $("#addItemForm").modal("show");
+            },
+            showModalEdit(a){
+                this.modal = true;
+                this.form.reset();
+                $("#addItemForm").modal("show");
+                this.form.fill(a);
+            },
             loadData(){
-                // untuk call route yang ada di api.php>> bisa call controller 
+                //untuk panggil progress bar
+                this.$Progress.start();
+
+                // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
                 axios
                     .get('api/get_category')
                     .then(({data}) => (this.categories = data));
                 axios
                     .get('api/getItem')
                     .then(({data}) => (this.items = data));
+
+                //untuk mengakhiri progress bar setelah halaman muncul
+                this.$Progress.finish();
             },
             postData(){
+                this.loading = true;
+                this.disabled = true;
+
                 this.form.post('add_item').then(()=>{
                     Fire.$emit("refreshData");
                     $('#addItemFCatForm').modal('hide');
@@ -193,9 +222,18 @@
                         icon: 'success',
                         title: 'Item Saved successfully'
                         });
+                    this.loading = false;
+                    this.disabled = false;
                     })
-                .catch();
+                // else
+                .catch(()=>{
+                    this.loading = false;
+                    this.disabled = false; 
+                });
             },
+            editData(){
+                console.log("edit bang");
+            }
         },
         created(){
             this.loadData();
