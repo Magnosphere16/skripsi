@@ -27,27 +27,25 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                     <a id="link" class="nav-link" href="/manage_items"><strong>Manage Items</strong></a>
-                            </li>
+                            </li> -->
 
-                            <li class="nav-item dropdown">
+                            <!-- <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fas fa-sign-out-alt"></i> Logout
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
-                            </li>
+                            </li> -->
                         @endguest
                     </ul>
                 </div>

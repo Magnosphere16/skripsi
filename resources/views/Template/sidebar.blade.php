@@ -1,8 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <!-- <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
-      <span class="brand-text font-weight-light">StockInFlow</span>
+    <a href="/home" class="brand-link">
+      <i class="fas fa-cubes"></i><span class="brand-text font-weight-light"> StockInFlow</span>
     </a>
 
     <!-- Sidebar -->
@@ -38,17 +37,33 @@
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Starter Pages
+                Management
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <router-link to="items" class="nav-link active">
-                  <!-- <i class="far fa-circle nav-icon"></i> -->
+                <router-link to="items" class="nav-link">
+                  <i class="fas fa-archive blue"></i>
                   <p>Manage Items</p>
                 </router-link>
               </li>
+              <li class="nav-item">
+                <router-link to="transactions" class="nav-link">
+                  <i class="fas fa-file-invoice-dollar green"></i>
+                  <p>Transactions</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                  <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); 
+                      document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt red"></i>
+                        <p>Logout</p>
+                  </a>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                      @csrf
+                  </form>
+                </li>
             </ul>
           </li>
         </ul>

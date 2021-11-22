@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ItemController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// untuk di call axios yang ada di component vue bagian mehod>> bisa call controller 
+Route::get('get_category',[CategoryController::class, 'index']);
+
+Route::post('add_item',[ItemController::class, 'addItem']);
