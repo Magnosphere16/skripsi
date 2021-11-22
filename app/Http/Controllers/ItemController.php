@@ -37,10 +37,9 @@ class ItemController extends Controller
         return redirect()->back();
     }
 
-    public function deleteItem(Request $request){
-        dd($request);
-
-        Item::find($request->id)->delete();
+    public function deleteItem($id){
+        $deleteItem=Item::find($id);
+        $deleteItem->delete();
     }
 
     public function editItem(Request $request, $id){

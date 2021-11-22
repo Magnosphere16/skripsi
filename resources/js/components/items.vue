@@ -24,7 +24,20 @@
                                     <td>{{a.item_qty}}</td>
                                     <td>Rp {{a.item_buy_price}}</td>
                                     <td>Rp {{a.item_sell_price}}</td>
-                                    <td><a href="#" @click="showModalEdit(a)">Edit</a>|<a href="">Delete</a></td>
+                                    <td>
+                                            <a
+                                                href="#"
+                                                @click="showModalEdit(a)"
+                                                ><i class="fas fa-edit blue"></i
+                                            ></a>
+                                            | <a
+                                                href="#"
+                                                @click="deleteData(a.id)"
+                                                ><i
+                                                    class="fas fa-trash-alt red"
+                                                ></i
+                                            ></a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -40,7 +53,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form @submit.prevent="modal ? editData() : postData()" id="addItemForm">
+                                        <form @submit.prevent="modal ? editData() : postData()">
                                             <div class="form-group row">
                                                 <label for="name" class="col-md-4 col-form-label text-md-right">Item Name</label>
 
@@ -217,7 +230,7 @@
                 this.loading = true;
                 this.disabled = true;
 
-                this.form.post('add_item').then(()=>{
+                this.form.post('api/add_item').then(()=>{
                     Fire.$emit("refreshData");
                     $('#addItemForm').modal('hide');
                     Toast.fire({
@@ -241,7 +254,8 @@
                 this.disabled = true;
 
                 this.form
-                    .put('edit_item').then(()=>{
+                    .put('api/edit_item/'+this.form.id)
+                    .then(()=>{
                     Fire.$emit("refreshData");
                     $('#addItemForm').modal('hide');
                     Toast.fire({
@@ -258,6 +272,37 @@
                     this.loading = false;
                     this.disabled = false; 
                 });
+            },
+            deleteData(id){
+                Swal.fire({
+                title: "Do you wanto to delete this item ?",
+                text: "Click cancel to cancel the delete process",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Delete Item"
+            }).then(result => {
+                if (result.value) {
+                    this.form
+                        .delete("api/delete_item/" + id)
+                        .then(() => {
+                            Swal.fire(
+                                "Terhapus",
+                                "Your Item has deleted Successfully",
+                                "success"
+                            );
+                            Fire.$emit("refreshData");
+                        })
+                        .catch(() => {
+                            Swal.fire(
+                                "Gagal",
+                                "Delete Item Failed",
+                                "warning"
+                            );
+                        });
+                }
+            });
             }
         },
         created(){

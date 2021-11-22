@@ -2282,6 +2282,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2337,7 +2350,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.start();
       this.loading = true;
       this.disabled = true;
-      this.form.post('add_item').then(function () {
+      this.form.post('api/add_item').then(function () {
         Fire.$emit("refreshData");
         $('#addItemForm').modal('hide');
         Toast.fire({
@@ -2363,7 +2376,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.start();
       this.loading = true;
       this.disabled = true;
-      this.form.put('edit_item').then(function () {
+      this.form.put('api/edit_item/' + this.form.id).then(function () {
         Fire.$emit("refreshData");
         $('#addItemForm').modal('hide');
         Toast.fire({
@@ -2382,14 +2395,36 @@ __webpack_require__.r(__webpack_exports__);
         _this3.loading = false;
         _this3.disabled = false;
       });
+    },
+    deleteData: function deleteData(id) {
+      var _this4 = this;
+
+      Swal.fire({
+        title: "Do you wanto to delete this item ?",
+        text: "Click cancel to cancel the delete process",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Delete Item"
+      }).then(function (result) {
+        if (result.value) {
+          _this4.form["delete"]("api/delete_item/" + id).then(function () {
+            Swal.fire("Terhapus", "Your Item has deleted Successfully", "success");
+            Fire.$emit("refreshData");
+          })["catch"](function () {
+            Swal.fire("Gagal", "Delete Item Failed", "warning");
+          });
+        }
+      });
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.loadData();
     Fire.$on('refreshData', function () {
-      _this4.loadData();
+      _this5.loadData();
     });
   }
 });
@@ -42496,10 +42531,23 @@ var render = function () {
                             },
                           },
                         },
-                        [_vm._v("Edit")]
+                        [_c("i", { staticClass: "fas fa-edit blue" })]
                       ),
-                      _vm._v("|"),
-                      _c("a", { attrs: { href: "" } }, [_vm._v("Delete")]),
+                      _vm._v(
+                        "\r\n                                            | "
+                      ),
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.deleteData(a.id)
+                            },
+                          },
+                        },
+                        [_c("i", { staticClass: "fas fa-trash-alt red" })]
+                      ),
                     ]),
                   ])
                 }),
@@ -42570,7 +42618,6 @@ var render = function () {
                         _c(
                           "form",
                           {
-                            attrs: { id: "addItemForm" },
                             on: {
                               submit: function ($event) {
                                 $event.preventDefault()
