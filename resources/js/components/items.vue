@@ -58,11 +58,14 @@
                                                 <label for="name" class="col-md-4 col-form-label text-md-right">Item Name</label>
 
                                                 <div class="col-md-6">
-                                                    <input v-model="form.item_name" 
+                                                    <input
+                                                        class="form-control"
                                                         id="item_name" 
                                                         type="text" 
-                                                        class="form-control" 
-                                                        :class="{ 'is-invalid' : form.errors.has(item_name) }" 
+                                                        v-model="form.item_name"
+                                                        :class="{ 
+                                                            'is-invalid' : form.errors.has(item_name) 
+                                                            }" 
                                                         name="item_name" 
                                                         required
                                                         placeholder="Item Name">
@@ -70,7 +73,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
+                                            <!-- <div class="form-group row">
                                                 <label for="item_desc" class="col-md-4 col-form-label text-md-right">Item Description</label>
 
                                                 <div class="col-md-6">
@@ -154,7 +157,7 @@
                                                         placeholder="0">
                                                     <has-error :form="form" field="item_sell_price"></has-error>
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                             <div class="form-group row mb-0">
                                                 <div class="col-md-6 offset-md-4">
@@ -194,7 +197,7 @@
                     item_qty:"",
                     item_category_id:"",
                     item_buy_price:"",
-                    item_sell_price:""
+                    item_sell_price:"",
                 }),
             }
         },
@@ -311,5 +314,6 @@
                 this.loadData();
             })
         }
+
     }
 </script>

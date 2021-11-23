@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,22 +18,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route:: get('/{any}',[HomeController::class,'index'])->where('any','.*');
+Route:: get('/{any}',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// //sent to Page
+// Route::get('/manage_items', 'App\Http\Controllers\PageController@itemPage');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-//sent to Page
-Route::get('/manage_items', 'App\Http\Controllers\PageController@itemPage');
-
-//item management
-Route::post('/add_item', 'App\Http\Controllers\ItemController@addItem');
+// //item management
+// Route::post('/add_item', 'App\Http\Controllers\ItemController@addItem');

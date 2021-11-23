@@ -33,10 +33,6 @@
                     <h1 class="display-4">StockInFlow</h1>
                     <h3 class="display-6">MEMPERMUDAH MANAJEMEN INVENTORI DAN KEUANGANMU</h3>
 
-                    <div class="app">       
-                        <example-component></example-component>
-                    </div>
-
                     <div class="row">
                         <a class="display-6" href="{{ route('register') }}">Sign Up &#8594</a>    
                     </div>

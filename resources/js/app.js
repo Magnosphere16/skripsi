@@ -5,7 +5,6 @@ window.Vue = require('vue').default;
 // Axios
 import {Form} from 'vform';
 import {HasError, AlertError} from 'vform/src/components/bootstrap4'
-
 // buat cek inputan
 window.Form = Form;
 Vue.component(HasError.name, HasError);
@@ -14,7 +13,6 @@ Vue.component(AlertError.name, AlertError);
 
 let Fire =new Vue();
 window.Fire = Fire;
-
 //Import Alert
 import Swal from 'sweetalert2'
 window.Swal = Swal;
@@ -47,9 +45,10 @@ let routes =[
 
 
 //per component fragment untuk di put ke dalam blade
-Vue.component('new-component', require('./components/ExampleComponent.vue').default);
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-const router = new VueRouter ({
+const router = new VueRouter({
+    mode: 'history',
     routes
 })
 
