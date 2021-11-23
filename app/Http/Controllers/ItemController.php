@@ -42,7 +42,7 @@ class ItemController extends Controller
         $deleteItem->delete();
     }
 
-    public function editItem(Request $request, $id){
+    public function editItem(Request $request){
         $this->validate($request, [
             'item_name' => ['required', 'string', 'min:3', 'max:255'],
             'item_desc' => ['required', 'string', 'min:3', 'max:255'],

@@ -26,5 +26,5 @@ Route::get('get_category',[CategoryController::class, 'index']);
 
 Route::get('getItem',[ItemController::class, 'getItem']);
 Route::post('add_item',[ItemController::class, 'addItem']);
-Route::put('edit_item',[ItemController::class, 'editItem']);
-Route::post('delete_item',[ItemController::class, 'deleteItem']);
+Route::post('edit_item/{id}',[ItemController::class, 'editItem']);
+Route::post('delete_item/{id}',[ItemController::class, 'deleteItem']);

@@ -2379,7 +2379,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.start();
       this.loading = true;
       this.disabled = true;
-      this.form.put('api/edit_item/' + this.form.id).then(function () {
+      this.form.post('api/edit_item/' + this.form.id).then(function () {
         Fire.$emit("refreshData");
         $('#addItemForm').modal('hide');
         Toast.fire({
@@ -2412,7 +2412,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: "Delete Item"
       }).then(function (result) {
         if (result.value) {
-          _this4.form["delete"]("api/delete_item/" + id).then(function () {
+          _this4.form.post("api/delete_item/" + id).then(function () {
             Swal.fire("Terhapus", "Your Item has deleted Successfully", "success");
             Fire.$emit("refreshData");
           })["catch"](function () {
@@ -42686,6 +42686,365 @@ var render = function () {
                                     attrs: {
                                       form: _vm.form,
                                       field: "item_name",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "col-md-4 col-form-label text-md-right",
+                                  attrs: { for: "item_desc" },
+                                },
+                                [_vm._v("Item Description")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("textarea", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.item_desc,
+                                        expression: "form.item_desc",
+                                      },
+                                    ],
+                                    staticClass: "form-control",
+                                    class: {
+                                      "is-invalid": _vm.form.errors.has(
+                                        _vm.item_desc
+                                      ),
+                                    },
+                                    attrs: {
+                                      id: "item_desc",
+                                      rows: "4",
+                                      cols: "50",
+                                      name: "item_desc",
+                                      required: "",
+                                      placeholder: "Item Description",
+                                    },
+                                    domProps: { value: _vm.form.item_desc },
+                                    on: {
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "item_desc",
+                                          $event.target.value
+                                        )
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("has-error", {
+                                    attrs: {
+                                      form: _vm.form,
+                                      field: "item_desc",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "col-md-4 col-form-label text-md-right",
+                                  attrs: { for: "item_desc" },
+                                },
+                                [_vm._v("Item Category")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.item_category_id,
+                                          expression: "form.item_category_id",
+                                        },
+                                      ],
+                                      staticClass:
+                                        "form-control input-lg dynamic",
+                                      class: {
+                                        "is-invalid": _vm.form.errors.has(
+                                          _vm.item_category_id
+                                        ),
+                                      },
+                                      staticStyle: { width: "inherit" },
+                                      attrs: {
+                                        name: "category_id",
+                                        id: "category_id",
+                                        required: "",
+                                      },
+                                      on: {
+                                        change: function ($event) {
+                                          var $$selectedVal =
+                                            Array.prototype.filter
+                                              .call(
+                                                $event.target.options,
+                                                function (o) {
+                                                  return o.selected
+                                                }
+                                              )
+                                              .map(function (o) {
+                                                var val =
+                                                  "_value" in o
+                                                    ? o._value
+                                                    : o.value
+                                                return val
+                                              })
+                                          _vm.$set(
+                                            _vm.form,
+                                            "item_category_id",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        },
+                                      },
+                                    },
+                                    [
+                                      _c("option", { attrs: { value: "" } }, [
+                                        _vm._v("Select Category"),
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm._l(_vm.categories, function (item) {
+                                        return _c(
+                                          "option",
+                                          {
+                                            key: item.id,
+                                            domProps: { value: item.id },
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\r\n                                                                " +
+                                                _vm._s(item.category_name) +
+                                                "\r\n                                                            "
+                                            ),
+                                          ]
+                                        )
+                                      }),
+                                    ],
+                                    2
+                                  ),
+                                  _vm._v(" "),
+                                  _c("has-error", {
+                                    attrs: {
+                                      form: _vm.form,
+                                      field: "item_category_id",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "col-md-4 col-form-label text-md-right",
+                                  attrs: { for: "qty" },
+                                },
+                                [_vm._v("Item Quantity")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.item_qty,
+                                        expression: "form.item_qty",
+                                      },
+                                    ],
+                                    staticClass: "form-control",
+                                    class: {
+                                      "is-invalid": _vm.form.errors.has(
+                                        _vm.item_qty
+                                      ),
+                                    },
+                                    attrs: {
+                                      id: "item_qty",
+                                      type: "number",
+                                      name: "item_qty",
+                                      required: "",
+                                      placeholder: "1",
+                                    },
+                                    domProps: { value: _vm.form.item_qty },
+                                    on: {
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "item_qty",
+                                          $event.target.value
+                                        )
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("has-error", {
+                                    attrs: {
+                                      form: _vm.form,
+                                      field: "item_qty",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "col-md-4 col-form-label text-md-right",
+                                  attrs: { for: "buy" },
+                                },
+                                [_vm._v("Item Buy Price")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.item_buy_price,
+                                        expression: "form.item_buy_price",
+                                      },
+                                    ],
+                                    staticClass: "form-control",
+                                    class: {
+                                      "is-invalid": _vm.form.errors.has(
+                                        _vm.item_buy_price
+                                      ),
+                                    },
+                                    attrs: {
+                                      id: "item_buy",
+                                      type: "number",
+                                      name: "item_buy",
+                                      required: "",
+                                      placeholder: "0",
+                                    },
+                                    domProps: {
+                                      value: _vm.form.item_buy_price,
+                                    },
+                                    on: {
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "item_buy_price",
+                                          $event.target.value
+                                        )
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("has-error", {
+                                    attrs: {
+                                      form: _vm.form,
+                                      field: "item_buy_price",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "col-md-4 col-form-label text-md-right",
+                                  attrs: { for: "sell" },
+                                },
+                                [_vm._v("Item Sell Price")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.item_sell_price,
+                                        expression: "form.item_sell_price",
+                                      },
+                                    ],
+                                    staticClass: "form-control",
+                                    class: {
+                                      "is-invalid": _vm.form.errors.has(
+                                        _vm.item_sell_price
+                                      ),
+                                    },
+                                    attrs: {
+                                      id: "item_sell",
+                                      type: "number",
+                                      name: "item_sell",
+                                      required: "",
+                                      placeholder: "0",
+                                    },
+                                    domProps: {
+                                      value: _vm.form.item_sell_price,
+                                    },
+                                    on: {
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "item_sell_price",
+                                          $event.target.value
+                                        )
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("has-error", {
+                                    attrs: {
+                                      form: _vm.form,
+                                      field: "item_sell_price",
                                     },
                                   }),
                                 ],

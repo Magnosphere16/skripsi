@@ -73,7 +73,7 @@
                                                 </div>
                                             </div>
 
-                                            <!-- <div class="form-group row">
+                                            <div class="form-group row">
                                                 <label for="item_desc" class="col-md-4 col-form-label text-md-right">Item Description</label>
 
                                                 <div class="col-md-6">
@@ -157,7 +157,7 @@
                                                         placeholder="0">
                                                     <has-error :form="form" field="item_sell_price"></has-error>
                                                 </div>
-                                            </div> -->
+                                            </div>
 
                                             <div class="form-group row mb-0">
                                                 <div class="col-md-6 offset-md-4">
@@ -257,7 +257,7 @@
                 this.disabled = true;
 
                 this.form
-                    .put('api/edit_item/'+this.form.id)
+                    .post('api/edit_item/'+this.form.id)
                     .then(()=>{
                     Fire.$emit("refreshData");
                     $('#addItemForm').modal('hide');
@@ -288,7 +288,7 @@
             }).then(result => {
                 if (result.value) {
                     this.form
-                        .delete("api/delete_item/" + id)
+                        .post("api/delete_item/" + id)
                         .then(() => {
                             Swal.fire(
                                 "Terhapus",
