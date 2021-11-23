@@ -42955,7 +42955,7 @@ var render = function () {
                                     attrs: {
                                       id: "item_buy",
                                       type: "number",
-                                      name: "item_buy",
+                                      name: "item_buy_price",
                                       required: "",
                                       placeholder: "0",
                                     },
@@ -43020,7 +43020,7 @@ var render = function () {
                                     attrs: {
                                       id: "item_sell",
                                       type: "number",
-                                      name: "item_sell",
+                                      name: "item_sell_price",
                                       required: "",
                                       placeholder: "0",
                                     },
