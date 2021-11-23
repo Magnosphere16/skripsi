@@ -136,7 +136,7 @@
                                                         type="number" 
                                                         class="form-control" 
                                                         :class="{ 'is-invalid' : form.errors.has(item_buy_price) }"
-                                                        name="item_buy" 
+                                                        name="item_buy_price" 
                                                         required
                                                         placeholder="0">
                                                     <has-error :form="form" field="item_buy_price"></has-error>
@@ -152,7 +152,7 @@
                                                         type="number" 
                                                         class="form-control"
                                                         :class="{ 'is-invalid' : form.errors.has(item_sell_price) }" 
-                                                        name="item_sell" 
+                                                        name="item_sell_price" 
                                                         required
                                                         placeholder="0">
                                                     <has-error :form="form" field="item_sell_price"></has-error>
