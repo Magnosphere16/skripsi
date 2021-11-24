@@ -2404,7 +2404,7 @@ __webpack_require__.r(__webpack_exports__);
 
       Swal.fire({
         title: "Do you wanto to delete this item ?",
-        text: "Click cancel to cancel the delete process",
+        text: "Click cancel button to cancel the delete process",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -2413,10 +2413,10 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.value) {
           _this4.form.post("api/delete_item/" + id).then(function () {
-            Swal.fire("Terhapus", "Your Item has deleted Successfully", "success");
+            Swal.fire("Deleted", "Your Item has deleted Successfully", "success");
             Fire.$emit("refreshData");
           })["catch"](function () {
-            Swal.fire("Gagal", "Delete Item Failed", "warning");
+            Swal.fire("Failed", "Delete Item Failed", "warning");
           });
         }
       });
@@ -2571,10 +2571,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]); // Axios
+window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]); // Import Axios
 
 
- // buat cek inputan
+ // Import cek inputan
 
 window.Form = vform__WEBPACK_IMPORTED_MODULE_0__.Form;
 vue__WEBPACK_IMPORTED_MODULE_2__["default"].component(vform_src_components_bootstrap4__WEBPACK_IMPORTED_MODULE_1__.HasError.name, vform_src_components_bootstrap4__WEBPACK_IMPORTED_MODULE_1__.HasError);

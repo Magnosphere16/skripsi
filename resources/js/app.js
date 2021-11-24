@@ -2,10 +2,11 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 
-// Axios
+// Import Axios
 import {Form} from 'vform';
 import {HasError, AlertError} from 'vform/src/components/bootstrap4'
-// buat cek inputan
+
+// Import cek inputan
 window.Form = Form;
 Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);

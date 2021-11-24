@@ -279,7 +279,7 @@
             deleteData(id){
                 Swal.fire({
                 title: "Do you wanto to delete this item ?",
-                text: "Click cancel to cancel the delete process",
+                text: "Click cancel button to cancel the delete process",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -291,7 +291,7 @@
                         .post("api/delete_item/" + id)
                         .then(() => {
                             Swal.fire(
-                                "Terhapus",
+                                "Deleted",
                                 "Your Item has deleted Successfully",
                                 "success"
                             );
@@ -299,7 +299,7 @@
                         })
                         .catch(() => {
                             Swal.fire(
-                                "Gagal",
+                                "Failed",
                                 "Delete Item Failed",
                                 "warning"
                             );
