@@ -8,8 +8,8 @@
           <div class="card-img-left d-none d-md-flex">
           </div>
           <div class="card-body p-4 p-sm-5">
-              <div>
-                <h5 class="fw-light fs-5">Register</h5>
+              <div class="mb-5">
+                <h5 class="fw-light fs-5"><strong>Register</strong></h5>
               </div>
             <form>
               <div class="form-floating mb-3">
