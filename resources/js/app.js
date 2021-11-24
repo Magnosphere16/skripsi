@@ -43,7 +43,6 @@ let routes =[
     {path: '/transactions', component:require('./components/transactions.vue').default}
 ]
 
-
 //per component fragment untuk di put ke dalam blade
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 

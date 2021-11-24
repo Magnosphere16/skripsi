@@ -18,9 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route:: get('/{any}',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
+Route:: get('/items',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 
 Auth::routes();
+
+Route:: get('/home',[App\Http\Controllers\HomeController::class,'index']);
 
 // //sent to Page
 // Route::get('/manage_items', 'App\Http\Controllers\PageController@itemPage');
