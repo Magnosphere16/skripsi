@@ -19,7 +19,7 @@
             <div class="masthead-content">
                 <div class="container px-5">
                     <h1 class="masthead-heading mb-0">StockInFlow</h1>
-                    <h2 class="masthead-subheading mb-0">Inventory Management will be easier</h2>
+                    <h2 class="masthead-subheading mb-0">Inventory Management will be easier!</h2>
                     <a class="btn btn-primary btn-xl rounded-pill mt-5" href="#scroll">Learn More</a>
                 </div>
             </div>
