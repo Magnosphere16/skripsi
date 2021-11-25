@@ -190,7 +190,7 @@
                 categories : {},
                 items : {},
                 deletes :{},
-                form: new Form({
+                form: new Form({    
                     id:"",
                     item_name:"",
                     item_desc:"",
