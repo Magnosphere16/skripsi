@@ -41,7 +41,8 @@ Vue.use(VueRouter);
 //direct ke page component, path adalah nama url yang digunakan untuk mengakses component konsep sama sprt web.php
 let routes =[
     {path: '/items', component:require('./components/items.vue').default},
-    {path: '/transactions', component:require('./components/transactions.vue').default}
+    {path: '/transactions', component:require('./components/transactions.vue').default},
+    {path: '/profile', component:require('./components/profile.vue').default}
 ]
 
 //per component fragment untuk di put ke dalam blade

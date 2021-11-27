@@ -12,7 +12,7 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div> -->
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+          <router-link to="profile" hashid="{{Auth::user()->id}}" class="d-block">{{ Auth::user()->name }}</router-link>
         </div>
       </div>
 
