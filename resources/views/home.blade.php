@@ -23,7 +23,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     
     <!-- Main content -->
     <div class="content">
-         <router-view :user-info="{{ Auth::user()}}"></router-view>
+         <router-view :user-info="{{Auth::user()}}"></router-view>
          <vue-progress-bar></vue-progress-bar>
     </div>
     <!-- /.content -->

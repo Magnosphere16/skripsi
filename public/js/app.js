@@ -2467,6 +2467,227 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   mounted: function mounted() {
@@ -43274,51 +43495,761 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "main_profile" }, [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("div", { staticClass: "card_section" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { attrs: { id: "basic_content" } }, [
+                  _c(
+                    "form",
+                    {
+                      attrs: {
+                        enctype: "multipart/form-data",
+                        id: "update_basic_data",
+                      },
+                    },
+                    [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col" }, [
+                          _c("strong", [_vm._v("Username")]),
+                          _vm._v(" "),
+                          _c("p", [_vm._v(_vm._s(this.userInfo.name))]),
+                          _vm._v(" "),
+                          _c("span", { attrs: { id: "error_name" } }),
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(2),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col" }, [
+                          _c("strong", [_vm._v("Email")]),
+                          _vm._v(" "),
+                          _c("p", [_vm._v(_vm._s(this.userInfo.email))]),
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(3),
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(4),
+                      _vm._v(" "),
+                      _vm._m(5),
+                      _vm._v(" "),
+                      _vm._m(6),
+                    ]
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _vm._m(7),
+                _vm._v(" "),
+                _vm._m(8),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _vm._m(9),
+                _vm._v(" "),
+                _vm._m(10),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]),
+    ]),
+  ])
 }
 var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
+    return _c(
+      "div",
+      {
+        staticClass: "Background",
+        staticStyle: { "background-color": "#33E2FF", left: "0" },
+      },
+      [
+        _c(
+          "form",
+          {
+            attrs: {
+              enctype: "multipart/form-data",
+              id: "update_profile_photo",
+            },
+          },
+          [
+            _c("div", { staticClass: "row justify-content-center" }, [
+              _c("img", {
+                staticClass: "photo-img mt-5",
+                staticStyle: {
+                  width: "150px",
+                  height: "150px",
+                  "border-radius": "100%",
+                },
+                attrs: {
+                  id: "image-user",
+                  src: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2021/05/18/1067981407.jpg",
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row justify-content-center mb-5" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "change_photo",
+                  staticStyle: { color: "white" },
+                  attrs: { for: "img_upload_id", id: "submitPhoto" },
+                },
+                [_vm._v("Change Photo")]
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row justify-content-center" }, [
+              _c(
+                "p",
+                {
+                  staticStyle: { display: "none" },
+                  attrs: { id: "photoSubmit" },
+                },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button", id: "uploadBtn" },
+                    },
+                    [
+                      _vm._v(
+                        "\r\n                                    Submit photo\r\n                                "
+                      ),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button", id: "photoCancel" },
+                    },
+                    [
+                      _vm._v(
+                        "\r\n                                    Cancel\r\n                                "
+                      ),
+                    ]
+                  ),
+                ]
+              ),
+            ]),
+          ]
+        ),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h2", [
+      _vm._v("Basic Profiles "),
+      _c("a", { attrs: { id: "basic_btn" } }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [
+      _c("strong", [_vm._v("Gender:")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [
+      _c("strong", [_vm._v("Birthdate")]),
+      _vm._v(" "),
+      _c("span", { attrs: { id: "error_birthdate" } }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [_c("strong", [_vm._v("Age")])]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "row",
+        staticStyle: { display: "none" },
+        attrs: { id: "submitBtn" },
+      },
+      [
         _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card mt-5" }, [
-            _c(
-              "div",
-              {
-                staticClass: "card-header",
-                staticStyle: { position: "relative" },
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                id: "editBasic",
+                "data-target": "#basicConfirmation",
               },
-              [
-                _c("strong", [_vm._v("Michael Liong Jonathan")]),
+            },
+            [
+              _vm._v(
+                "\r\n                                                            Submit\r\n                                                    "
+              ),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              attrs: { type: "button", id: "basicCancel" },
+            },
+            [
+              _vm._v(
+                "\r\n                                                            Cancel\r\n                                                    "
+              ),
+            ]
+          ),
+        ]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "basicConfirmation",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalCenterTitle",
+          "aria-hidden": "true",
+        },
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" },
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header text-center" }, [
+                _c(
+                  "h4",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "exampleModalLongTitle" },
+                  },
+                  [_vm._v("Change Basic Information")]
+                ),
                 _vm._v(" "),
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-secondary btn-sm",
-                    staticStyle: {
-                      position: "absolute",
-                      right: "10px",
-                      bottom: "8px",
-                    },
+                    staticClass: "close",
                     attrs: {
                       type: "button",
-                      id: "add_item_cat",
-                      "data-toggle": "modal",
-                      "data-target": "#addItemFCatForm",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close",
                     },
                   },
-                  [_vm._v("+")]
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×"),
+                    ]),
+                  ]
                 ),
-              ]
-            ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("p", [
+                  _vm._v(
+                    "Are you sure you want to change your basic information?"
+                  ),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: {
+                      id: "basicEditBtn",
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close",
+                    },
+                  },
+                  [
+                    _vm._v(
+                      "\r\n                                                                Submit\r\n                                                            "
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close",
+                    },
+                  },
+                  [
+                    _vm._v(
+                      "\r\n                                                                Cancel\r\n                                                            "
+                    ),
+                  ]
+                ),
+              ]),
+            ]),
+          ]
+        ),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h2", [
+      _vm._v("Addresses"),
+      _c("a", { attrs: { id: "address_btn" } }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "address_content" } }, [
+      _c(
+        "form",
+        {
+          attrs: { enctype: "multipart/form-data", id: "update_address_data" },
+        },
+        [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col" }, [
+              _c("strong", [_vm._v("Address")]),
+              _vm._v(" "),
+              _c("span", { attrs: { id: "error_address" } }),
+            ]),
             _vm._v(" "),
-            _c("div", { staticClass: "card-body" }),
+            _c("div", { staticClass: "col" }, [
+              _c("strong", [_vm._v("Province")]),
+              _vm._v(" "),
+              _c("select", {
+                staticClass:
+                  "form-control input-lg dynamic @error('province_id') is-invalid @enderror",
+                staticStyle: { width: "inherit", display: "none" },
+                attrs: { name: "province_id", id: "province_id" },
+              }),
+              _vm._v(" "),
+              _c("span", { attrs: { id: "error_province" } }),
+            ]),
           ]),
-        ]),
-      ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col" }, [
+              _c("strong", [_vm._v("District")]),
+              _vm._v(" "),
+              _c("select", {
+                staticClass:
+                  "form-control input-lg dynamic @error('district_id') is-invalid @enderror",
+                staticStyle: { width: "inherit", display: "none" },
+                attrs: { name: "district_id", id: "district_id" },
+              }),
+              _vm._v(" "),
+              _c("span", { attrs: { id: "error_district" } }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col" }, [
+              _c("strong", [_vm._v("Sub-District")]),
+              _vm._v(" "),
+              _c("select", {
+                staticClass:
+                  "form-control dynamic @error('sub_district_id') is-invalid @enderror",
+                staticStyle: { width: "inherit", display: "none" },
+                attrs: { name: "sub_district_id", id: "sub_district_id" },
+              }),
+              _vm._v(" "),
+              _c("span", { attrs: { id: "error_sub_district" } }),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "row",
+              staticStyle: { display: "none" },
+              attrs: { id: "submit_btn" },
+            },
+            [
+              _c("div", { staticClass: "col-md-8" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: {
+                      type: "button",
+                      id: "editAddress",
+                      "data-toggle": "modal",
+                      "data-target": "#addressConfirmation",
+                    },
+                  },
+                  [
+                    _vm._v(
+                      "\r\n                                                            Submit\r\n                                                    "
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { type: "button", id: "addressCancel" },
+                  },
+                  [
+                    _vm._v(
+                      "\r\n                                                            Cancel\r\n                                                    "
+                    ),
+                  ]
+                ),
+              ]),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "modal fade",
+              attrs: {
+                id: "addressConfirmation",
+                tabindex: "-1",
+                role: "dialog",
+                "aria-labelledby": "exampleModalCenterTitle",
+                "aria-hidden": "true",
+              },
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "modal-dialog modal-dialog-centered",
+                  attrs: { role: "document" },
+                },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _c("div", { staticClass: "modal-header text-center" }, [
+                      _c(
+                        "h4",
+                        {
+                          staticClass: "modal-title",
+                          attrs: { id: "exampleModalLongTitle" },
+                        },
+                        [_vm._v("Change Address Information")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "close",
+                          attrs: {
+                            type: "button",
+                            "data-dismiss": "modal",
+                            "aria-label": "Close",
+                          },
+                        },
+                        [
+                          _c("span", { attrs: { "aria-hidden": "true" } }, [
+                            _vm._v("×"),
+                          ]),
+                        ]
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("p", [
+                        _vm._v(
+                          "Are you sure you want to change your address information?"
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: {
+                            id: "addressEditBtn",
+                            type: "button",
+                            "data-dismiss": "modal",
+                            "aria-label": "Close",
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                                                                Submit\r\n                                                        "
+                          ),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          attrs: {
+                            type: "button",
+                            "data-dismiss": "modal",
+                            "aria-label": "Close",
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                                                                Cancel\r\n                                                        "
+                          ),
+                        ]
+                      ),
+                    ]),
+                  ]),
+                ]
+              ),
+            ]
+          ),
+        ]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h2", [
+      _vm._v("Business "),
+      _c("a", { attrs: { id: "education_btn" } }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "education_content" } }, [
+      _c(
+        "form",
+        {
+          attrs: {
+            enctype: "multipart/form-data",
+            id: "update_education_data",
+          },
+        },
+        [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col" }, [
+              _c("strong", [_vm._v("Business Name")]),
+              _vm._v(" "),
+              _c("select", {
+                staticClass:
+                  "form-control @error('educ_level_id') is-invalid @enderror",
+                staticStyle: { width: "inherit", display: "none" },
+                attrs: { name: "educ_level_id", id: "educ_level_id" },
+              }),
+              _vm._v(" "),
+              _c("span", { attrs: { id: "error_educ_level" } }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col" }, [
+              _c("strong", [_vm._v("Business Category")]),
+              _vm._v(" "),
+              _c("select", {
+                staticClass:
+                  "form-control @error('grade_id') is-invalid @enderror",
+                staticStyle: { width: "inherit", display: "none" },
+                attrs: { name: "grade_id", id: "grade_id" },
+              }),
+              _vm._v(" "),
+              _c("span", { attrs: { id: "error_grade" } }),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col" }, [
+              _c("strong", [_vm._v("Warehouse Capacity")]),
+              _vm._v(" "),
+              _c("span", { attrs: { id: "error_school" } }),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "row",
+              staticStyle: { display: "none" },
+              attrs: { id: "btn_submit" },
+            },
+            [
+              _c("div", { staticClass: "col-md-8" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: {
+                      type: "button",
+                      "data-toggle": "modal",
+                      id: "editEduc",
+                      "data-target": "#educationConfirmation",
+                    },
+                  },
+                  [
+                    _vm._v(
+                      "\r\n                                                            Submit\r\n                                                    "
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { type: "button", id: "educationCancel" },
+                  },
+                  [
+                    _vm._v(
+                      "\r\n                                                            Cancel\r\n                                                    "
+                    ),
+                  ]
+                ),
+              ]),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "modal fade",
+              attrs: {
+                id: "educationConfirmation",
+                tabindex: "-1",
+                role: "dialog",
+                "aria-labelledby": "exampleModalCenterTitle",
+                "aria-hidden": "true",
+              },
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "modal-dialog modal-dialog-centered",
+                  attrs: { role: "document" },
+                },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _c("div", { staticClass: "modal-header text-center" }, [
+                      _c(
+                        "h4",
+                        {
+                          staticClass: "modal-title",
+                          attrs: { id: "exampleModalLongTitle" },
+                        },
+                        [_vm._v("Change Business Information")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "close",
+                          attrs: {
+                            type: "button",
+                            "data-dismiss": "modal",
+                            "aria-label": "Close",
+                          },
+                        },
+                        [
+                          _c("span", { attrs: { "aria-hidden": "true" } }, [
+                            _vm._v("×"),
+                          ]),
+                        ]
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("p", [
+                        _vm._v(
+                          "Are you sure you want to change your Business information?"
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: {
+                            id: "educEditBtn",
+                            type: "button",
+                            "data-dismiss": "modal",
+                            "aria-label": "Close",
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                                                            Submit\r\n                                                        "
+                          ),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          attrs: {
+                            type: "button",
+                            "data-dismiss": "modal",
+                            "aria-label": "Close",
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                                                            Cancel\r\n                                                        "
+                          ),
+                        ]
+                      ),
+                    ]),
+                  ]),
+                ]
+              ),
+            ]
+          ),
+        ]
+      ),
     ])
   },
 ]
