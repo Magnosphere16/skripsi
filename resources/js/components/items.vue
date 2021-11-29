@@ -100,13 +100,24 @@
                                                         name="category_id" id="category_id" 
                                                         class="form-control input-lg dynamic" 
                                                         :class="{ 'is-invalid' : form.errors.has(item_category_id) }"
-                                                        required
-                                                        style="width:inherit;">
+                                                        style="width:inherit;"
+                                                       @change="onChange($event)">
                                                             <option value="">Select Category</option>
                                                             <option v-for="item in categories" :key="item.id" :value="item.id">
                                                                 {{item.category_name}}
                                                             </option>
+                                                            <option value="create new category">Others</option>
                                                     </select>
+                                                    <input
+                                                        class="form-control"
+                                                        id="category_id_others" 
+                                                        type="text" 
+                                                        v-model="form.item_category_id"
+                                                        :class="{ 
+                                                            'is-invalid' : form.errors.has(item_category_id) 
+                                                            }" 
+                                                        name="item_category_id" 
+                                                        placeholder="create new category" style="display:none;">
                                                     <has-error :form="form" field="item_category_id"></has-error>
                                                 </div>
                                             </div>
@@ -202,6 +213,13 @@
             }
         },
         methods:{
+            onChange(event){
+                if(event.target.value=="create new category"){
+                    document.getElementById("category_id_others").style.display="block";
+                }else{
+                    document.getElementById("category_id_others").style.display="none";
+                }
+            },
             showModalAdd(){
                 this.modal = false;
                 this.form.reset();

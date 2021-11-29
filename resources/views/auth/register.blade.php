@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
       <div class="col-lg-10 col-xl-9 mx-auto mt-5">
-        <div class="card flex-row my-7 border-0 shadow rounded-3 overflow-hidden">
+        <div class="card flex-row my-7 border-0 shadow rounded-3 overflow-hidden" style="border-radius:1.5%">
           <div class="card-img-left d-none d-md-flex" style="width: 40%; background:url('https://kjpp-frr.co.id/assets/images/layanan/20190331203706.jpg')">
           </div>
           <div class="card-body p-4 p-sm-5">

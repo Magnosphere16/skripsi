@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Category;
+
 use DB;
 
 class ItemController extends Controller
@@ -13,15 +15,25 @@ class ItemController extends Controller
         $this->validate($request, [
             'item_name' => ['required', 'string', 'min:3', 'max:255'],
             'item_desc' => ['required', 'string', 'min:3', 'max:255'],
-            'item_category_id' => ['required', 'integer'],
+            'item_category_id' => ['required'],
             'item_qty' => ['required', 'integer', 'min:3', 'max:999'],
             'item_buy_price' => ['required', 'integer', 'min:1'],
             'item_sell_price' => ['required', 'integer', 'min:1'],
         ]);
-
+        $findCategory=Category::where('id',$request->item_category_id)->first();
+        if($findCategory==NULL){
+            $dataSave=[
+                'category_name'=>$request->item_category_id,
+                'category_desc'=>$request->item_category_id
+            ];
+            DB::table('category')->insert($dataSave);
+            $currCategory=Category::where('category_name',$request->item_category_id)->first();
+        }else{
+            $currCategory=Category::where('id',$request->item_category_id)->first();
+        }
         $itemName= $request->item_name;
         $itemDesc=$request->item_desc;
-        $category_id=$request->item_category_id;
+        $category_id=$currCategory->id;
         $itemQty=$request->item_qty;
         $itemBuy=$request->item_buy_price;
         $itemSell=$request->item_sell_price;
