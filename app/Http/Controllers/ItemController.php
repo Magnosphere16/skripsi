@@ -11,8 +11,9 @@ use DB;
 class ItemController extends Controller
 {
 
-    public function addItem(Request $request){
-        $this->validate($request, [
+    public function addItem(Request $request, $id){
+        //Validate Data
+        $this->validate($request,[
             'item_name' => ['required', 'string', 'min:3', 'max:255'],
             'item_desc' => ['required', 'string', 'min:3', 'max:255'],
             'item_category_id' => ['required'],
@@ -20,6 +21,8 @@ class ItemController extends Controller
             'item_buy_price' => ['required', 'integer', 'min:1'],
             'item_sell_price' => ['required', 'integer', 'min:1'],
         ]);
+
+        //Find Existing Item Category
         $findCategory=Category::where('id',$request->item_category_id)->first();
         if($findCategory==NULL){
             $dataSave=[
@@ -31,12 +34,15 @@ class ItemController extends Controller
         }else{
             $currCategory=Category::where('id',$request->item_category_id)->first();
         }
+
+        //Insert new Item data
         $itemName= $request->item_name;
         $itemDesc=$request->item_desc;
         $category_id=$currCategory->id;
         $itemQty=$request->item_qty;
         $itemBuy=$request->item_buy_price;
         $itemSell=$request->item_sell_price;
+        $userId = $id;
             $dataSave=[
                 'item_name'=>$itemName,
                 'item_desc'=>$itemDesc,
@@ -44,6 +50,7 @@ class ItemController extends Controller
                 'item_qty'=>$itemQty,
                 'item_buy_price'=>$itemBuy,
                 'item_sell_price'=>$itemSell,
+                'user_id'=>$userId,
             ];
             DB::table('item')->insert($dataSave);
         return redirect()->back();

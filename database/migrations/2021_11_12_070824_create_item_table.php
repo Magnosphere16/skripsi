@@ -16,9 +16,11 @@ class CreateItemTable extends Migration
         Schema::create('item', function (Blueprint $table) {
             $table->id();
             $table->string('item_name');
-            $table->string('item_image');
+            $table->string('item_image')->nullable();
             $table->string('item_desc');
             $table->integer('item_qty');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('item_category_id');
             $table->foreign('item_category_id')->references('id')->on('category')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('item_buy_price');

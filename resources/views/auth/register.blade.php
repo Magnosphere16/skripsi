@@ -1,111 +1,131 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="background: #007bff;
-  background: linear-gradient(to right, #0062E6, #33AEFF);">
-<div class="container">
-    <div class="row">
-      <div class="col-lg-10 col-xl-9 mx-auto mt-5">
-        <div class="card flex-row my-7 border-0 shadow rounded-3 overflow-hidden" style="border-radius:1.5%">
-          <div class="card-img-left d-none d-md-flex" style="width: 40%; background:url('https://kjpp-frr.co.id/assets/images/layanan/20190331203706.jpg')">
-          </div>
-          <div class="card-body p-4 p-sm-5">
-              <div class="mb-5 text-center">
-                <h5 class="fw-light fs-5"><strong>Register</strong></h5>
-              </div>
-            <form method="POST" name="register" action="{{ route('register') }}">
-              @csrf
-              <div class="form-floating mb-3">
-                <label for="floatingInputUsername">Full Name</label>
-                <input id="userName" type="text" class="form-control" name="userName" required autocomplete="userName" autofocus>         
-                <span id="error_name"></span>  
-              </div>
-
-              <div class="form-floating mb-3">
-                <label for="floatingInputEmail">Email address</label>
-                <input id="userEmail" type="email" class="form-control" name="userEmail" required autocomplete="userEmail">
-                <span id="error_email"></span>
-              </div>
-
-              <div class="form-floating mb-3">
-                <label for="floatingInputBirthdate">Birthdate</label>
-                <input id="userBirthdate" type="date" class="form-control" name="userBirthdate" required autocomplete="userBirthdate" autofocus>
-                <span id="error_birthdate"></span>         
-              </div>
-
-              <div class="form-floating mb-3">
-                <label for="floatingInputAddress">Address</label>
-                <input id="userAddress" type="text" class="form-control" name="userAddress" required autocomplete="userAddress" autofocus>
-                    <span id="error_address"></span>          
-              </div>
-
-              <div class="form-floating mb-3">
-                <label for="floatingInputPhone">Phone Number</label>
-                <input id="userPhone" type="tel" class="form-control" name="userPhone" required autocomplete="userPhone" autofocus>          
-                <span id="error_phone"></span>
-              </div>
-
-              <div class="form-floating mb-3">
-                <label for="floatingInputBusinessName">Business Name</label>
-                <input id="userBusinessName" type="text" class="form-control" name="userBusinessName" required autocomplete="userBusinessName" autofocus>
-                <span id="error_business_name"></span>             
-              </div>
-
-              <div class="form-floating mb-3">
-                <label for="floatingInputBusinessCategory">Business Category</label>
-                <input id="userBusinessCategory" type="text" class="form-control" name="userBusinessCategory" required autocomplete="userBusinessCategory" autofocus>
-                <span id="error_business_category"></span>
-              </div>
-
-              <hr>
-
-              <div class="form-floating mb-3">
-                <label for="floatingPassword">Password</label>
-                <input id="userPassword" type="password" class="form-control" name="userPassword" required autocomplete="userPassword">
-                <span id="error_password"></span>
-              </div>
-
-              <div class="form-floating mb-3">
-                <label for="floatingPasswordConfirm">Confirm Password</label>
-                <input id="userPasswordConfirm" type="password" class="form-control" name="password_confirmation" required autocomplete="userPasswordConfirm">
-                <span id="error_password_confirm"></span>
-              </div>
-
-
-              <div class="d-grid mb-2">
-                <button type="submit" class="btn btn-primary btn-block" id="register" style="disabled:false;">
-                    {{ __('Sign Up') }}
-                </button>
-              </div>
-
-              <a class="d-block text-center mt-2" href="{{ route('login') }}">Have an account? Sign In</a>
-
-              <!-- <hr class="my-4">
-
-              <div class="d-grid mb-2">
-                <button class="btn btn-lg btn-google btn-login fw-bold text-uppercase" type="submit">
-                  <i class="fab fa-google me-2"></i> Sign up with Google
-                </button>
-              </div>
-
-              <div class="d-grid">
-                <button class="btn btn-lg btn-facebook btn-login fw-bold text-uppercase" type="submit">
-                  <i class="fab fa-facebook-f me-2"></i> Sign up with Facebook
-                </button>
-              </div> -->
-
-            </form>
-          </div>
+<div class="container-fluid ps-md-0">
+    <div class="row g-0">
+        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image">
+            <img class="img-fluid" src="" alt="">
         </div>
-      </div>
+        <div class="col-md-8 col-lg-6">
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-8 mx-auto">
+                            <h3 class="login-heading mb-4 text-center">Sign Up</h3>
+
+                            <!-- Sign In Form -->
+                            <form method="POST" action="/registerUser">
+                                @csrf
+                                <div class="personal_sect">
+                                    <div class="form-group">
+                                      <strong>Fullname</strong>
+                                      <input id="userName" type="text" class="form-control" name="userName" autocomplete="userName" autofocus>         
+                                      <span id="error_name"></span>  
+                                  </div>
+
+                                  <div class="form-group">
+                                      <strong>Email Address</strong>
+                                      <input id="userEmail" type="email" class="form-control" name="userEmail" autocomplete="userEmail">
+                                      <span id="error_email"></span>  
+                                  </div>
+
+                                    <div class="form-group">
+                                      <strong>Birthdate</strong>
+                                      <input id="userBirthdate" type="date" class="form-control" name="userBirthdate" autocomplete="userBirthdate" autofocus>
+                                      <span id="error_birthdate"></span>         
+                                    </div>
+
+                                    <div class="form-group">
+                                    <strong>Address</strong>
+                                      <input id="userAddress" type="text" class="form-control" name="userAddress" autocomplete="userAddress" autofocus>
+                                          <span id="error_address"></span>          
+                                    </div>
+
+                                    <div class="form-group">
+                                    <strong>Phone Number</strong>
+                                      <input id="userPhone" type="tel" class="form-control" name="userPhone" autocomplete="userPhone" autofocus>          
+                                      <span id="error_phone"></span>
+                                    </div>
+
+                                    <button class="btn btn-primary" type="button" id="next_1_btn">Next</button>
+                                </div>
+
+                                <div class="business_sect" style="display:none;">
+                                    <div class="form-group">
+                                    <strong>Business Name</strong>
+                                      <input id="userBusinessName" type="text" class="form-control" name="userBusinessName" autocomplete="userBusinessName" autofocus>
+                                      <span id="error_business_name"></span>             
+                                    </div>
+
+                                    <div class="form-group">
+                                    <strong>Business Category</strong>
+                                      <input id="userBusinessCategory" type="text" class="form-control" name="userBusinessCategory" autocomplete="userBusinessCategory" autofocus>
+                                      <span id="error_business_category"></span>
+                                    </div>
+
+                                    <button class="btn btn-secondary" type="button" id="back_2_btn">Back</button>
+                                    <button class="btn btn-primary" type="button" id="next_2_btn">Next</button>
+                                </div>
+
+                                <div class="password_sect" style="display:none;">
+                                    <div class="form-group">
+                                    <strong>Password</strong>
+                                      <input id="userPassword" type="password" class="form-control" name="userPassword" autocomplete="userPassword">
+                                      <span id="error_password"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                    <strong>Confirm Password</strong>
+                                      <input id="userPasswordConfirm" type="password" class="form-control" name="password_confirmation" autocomplete="userPasswordConfirm">
+                                      <span id="error_password_confirm"></span>
+                                    </div>
+
+                                    <button class="btn btn-secondary" type="button" id="back_3_btn">Back</button>
+
+                                    <div class="form-group">
+                                        <div class="col-md-4 offset-md-4">
+                                          <button type="submit" class="btn btn-primary btn-lg btn-block" id="register">
+                                            Sign Up
+                                        </button>
+                                      </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- java script -->
 <script src="http://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
+
     $(document).ready(function(){
+      //Change register section
+          $('#next_1_btn').click(function(){
+              $(".personal_sect").hide();
+              $(".business_sect").show();
+          });
+
+          $('#back_2_btn').click(function(){
+              $(".personal_sect").show();
+              $(".business_sect").hide();
+          });
+
+          $('#next_2_btn').click(function(){
+              $(".business_sect").hide();
+              $(".password_sect").show();
+          });
+
+          $('#back_3_btn').click(function(){
+              $(".business_sect").show();
+              $(".password_sect").hide();
+          });
+
+
           //check email availability, formats, and existence
                 $('#userEmail').blur(function() {
                     var error_email='';

@@ -153,6 +153,7 @@
                                                     <has-error :form="form" field="item_buy_price"></has-error>
                                                 </div>
                                             </div>
+    
 
                                             <div class="form-group row">
                                                 <label for="sell" class="col-md-4 col-form-label text-md-right">Item Sell Price</label>
@@ -193,6 +194,7 @@
 
 <script>
     export default {
+        props: ['userInfo'],
         data(){
             return{
                 loading: false,
@@ -247,11 +249,14 @@
                 this.$Progress.finish();
             },
             postData(){
+                console.log(this.userInfo.id);
                 this.$Progress.start();
                 this.loading = true;
                 this.disabled = true;
 
-                this.form.post('api/add_item').then(()=>{
+                this.form
+                    .post('api/add_item/'+this.userInfo.id)
+                    .then(()=>{
                     Fire.$emit("refreshData");
                     $('#addItemForm').modal('hide');
                     Toast.fire({

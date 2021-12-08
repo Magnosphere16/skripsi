@@ -38,11 +38,13 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <strong>Username</strong>
-                                                    <p>{{this.userInfo.name}}</p>
+                                                    <p>{{this.userInfo.userName}}</p>
                                                     <span id="error_name"></span>
                                                 </div>
                                                 <div class="col">
-                                                    <strong>Gender:</strong>
+                                                    <strong>Birthdate</strong>
+                                                    <p>{{this.userInfo.userBirthdate}}</p>
+                                                    <span id="error_birthdate"></span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -51,13 +53,9 @@
                                                     <p>{{this.userInfo.email}}</p>
                                                 </div>
                                                 <div class="col">
-                                                    <strong>Birthdate</strong>
-                                                    <span id="error_birthdate"></span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <strong>Age</strong>
+                                                    <strong>Address</strong>
+                                                    <span id="error_address"></span>
+                                                    <p>{{this.userInfo.userAddress}}</p>
                                                 </div>
                                             </div>
                                             <div class="row" id="submitBtn" style="display:none;">
@@ -96,77 +94,6 @@
 
                                     <br>
 
-                                <h2>Addresses<a id="address_btn">
-                                            <!-- <img src="/images/edit.png" alt="edit_button" style="max-width:2.5%;"> -->
-                                        </a></h2>
-                                           
-                                <div id="address_content">
-                                    <form enctype="multipart/form-data" id="update_address_data">
-                                         <!-- @csrf -->
-                                        <div class="row">
-                                            <div class="col">
-                                                <strong>Address</strong>
-                                                <span id="error_address"></span>
-                                            </div>
-                                            <div class="col">
-                                                <strong>Province</strong>
-
-                                                <select name="province_id" id="province_id" class="form-control input-lg dynamic @error('province_id') is-invalid @enderror" style="width:inherit; display:none;">
-
-                                                </select>
-                                                <span id="error_province"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <strong>District</strong>
-                                                <select name="district_id" id="district_id" class="form-control input-lg dynamic @error('district_id') is-invalid @enderror" style="width:inherit; display:none;">
-                                                </select>
-                                                <span id="error_district"></span>
-                                            </div>
-                                            <div class="col">
-                                                <strong>Sub-District</strong>
-                                                <select name="sub_district_id" id="sub_district_id" class="form-control dynamic @error('sub_district_id') is-invalid @enderror" style="width:inherit; display:none;">
-                                                </select>
-                                                <span id="error_sub_district"></span>
-                                            </div>
-                                        </div> 
-                                        <div class="row" id="submit_btn" style="display:none;">
-                                            <div class="col-md-8">
-                                            <button type="button" class="btn btn-primary" id="editAddress" data-toggle="modal" data-target="#addressConfirmation">
-                                                            Submit
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger" id="addressCancel">
-                                                            Cancel
-                                                    </button>
-                                            </div>
-                                        </div>
-                                        <div class="modal fade" id="addressConfirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header text-center">
-                                                    <h4 class="modal-title" id="exampleModalLongTitle">Change Address Information</h4>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                        <p>Are you sure you want to change your address information?</p>
-                                                        <button id="addressEditBtn" type="button"  class="btn btn-primary" data-dismiss="modal" aria-label="Close">
-                                                                Submit
-                                                        </button>
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
-                                                                Cancel
-                                                        </button>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                    <br>
-
                                     <h2>Business <a id="education_btn">
                                             <!-- <img src="/images/edit.png" alt="educ_btn" style="max-width:2.5%;"> -->
                                         </a>
@@ -177,20 +104,19 @@
                                         <div class="row">
                                             <div class="col">
                                                 <strong>Business Name</strong>
-                                                <select name="educ_level_id" id="educ_level_id" class="form-control @error('educ_level_id') is-invalid @enderror" style="width:inherit; display:none;" >
-                                                </select>
+                                                <p>{{this.userInfo.userBusinessName}}</p>
                                                 <span id="error_educ_level"></span>
                                             </div>
                                             <div class="col">
                                                 <strong>Business Category</strong>
-                                                <select name="grade_id" id="grade_id" class="form-control @error('grade_id') is-invalid @enderror" style="width:inherit; display:none;" >
-                                                </select>
+                                                <p>{{this.userInfo.userBusinessCategory}}</p>
                                                 <span id="error_grade"></span>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
                                                 <strong>Warehouse Capacity</strong>
+                                                <p>0</p>
                                                 <span id="error_school"></span>
                                             </div>
                                         </div>

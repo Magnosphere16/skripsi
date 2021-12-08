@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -62,18 +62,18 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(Request $data)
     {
-
-        return User::create([
-            'userName' => $data['userName'],
-            'userEmail' => $data['userEmail'],
-            'userAddress'=> $data['userAddress'],
-            'userPhone'=> $data['userPhone'],
-            'userBirthdate'=> $data['userBirthdate'],
-            'userBusinessName'=> $data['userBusinessName'],
-            'userBusinessCategory'=> $data['userBusinessCategory'],
-            'userPassword' => Hash::make($data['userPassword']),
+        $createUser=User::create([
+            'userName' => $data->userName,
+            'email' => $data->userEmail,
+            'userAddress'=> $data->userAddress,
+            'userPhone'=> $data->userPhone,
+            'userBirthdate'=> $data->userBirthdate,
+            'userBusinessName'=> $data->userBusinessName,
+            'userBusinessCategory'=> $data->userBusinessCategory,
+            'password' => Hash::make($data->userPassword),
         ]);
+        return view('/auth/login');
     }
 }

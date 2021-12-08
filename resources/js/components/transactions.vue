@@ -4,8 +4,41 @@
         <div class="col-md-8">
             <div class="card mt-5">
                 <div class="card-header" style="position:relative;"><strong>Transaction Lists</strong>
-                    <button style="position: absolute; right: 10px; bottom:8px;" type="button" id="add_item_cat" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#addItemFCatForm">+</button>
+                    <button style="display:inline-block; float:right; right: 0; bottom:8px;" type="button" id="sell_item_btn" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#addItemFCatForm">Sell Items</button>
+                    <button style="display:inline-block; float:right; right: 0; bottom:8px;" type="button" id="buy_item_btn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addItemFCatForm">Buy Items</button>
                 </div>
+                <table class="table table-striped">
+                    <thead>
+                        <th>Item Name</th>
+                        <th>Item Quantity (pcs)</th>
+                        <th>Item Price</th>
+                        <th>Transaction Type</th>
+                        <th>Total Price</th>
+                    </thead>
+                    <tbody>
+                        <!-- <tr v-for="a in items" :key="a.id" :value="a.id">
+                            <td>{{a.item_name}}</td>
+                            <td>{{a.item_desc}}</td>
+                            <td>{{a.item_qty}}</td>
+                            <td>Rp {{a.item_buy_price}}</td>
+                            <td>Rp {{a.item_sell_price}}</td>
+                            <td>
+                                    <a
+                                        href="#"
+                                        @click="showModalEdit(a)"
+                                        ><i class="fas fa-edit blue"></i
+                                    ></a>
+                                    | <a
+                                        href="#"
+                                        @click="deleteData(a.id)"
+                                        ><i
+                                            class="fas fa-trash-alt red"
+                                        ></i
+                                    ></a>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
                 <div class="card-body">
                         <div class="modal fade" id="addItemFCatForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -18,7 +51,6 @@
                                     </div>
                                     <div class="modal-body">
                                         <form method="POST" action="/add_item" id="addItemForm">
-                                            @csrf
                                             <div class="form-group row">
                                                 <label for="name" class="col-md-4 col-form-label text-md-right">Item Name</label>
 
