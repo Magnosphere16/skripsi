@@ -44120,27 +44120,7 @@ var staticRenderFns = [
                       "data-target": "#addItemFCatForm",
                     },
                   },
-                  [_vm._v("Sell Items")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-success btn-sm",
-                    staticStyle: {
-                      display: "inline-block",
-                      float: "right",
-                      right: "0",
-                      bottom: "8px",
-                    },
-                    attrs: {
-                      type: "button",
-                      id: "buy_item_btn",
-                      "data-toggle": "modal",
-                      "data-target": "#addItemFCatForm",
-                    },
-                  },
-                  [_vm._v("Buy Items")]
+                  [_vm._v("+ New Sale Transactions")]
                 ),
               ]
             ),

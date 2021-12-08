@@ -26,8 +26,9 @@ Auth::routes();
 
 Route:: get('/home',[App\Http\Controllers\HomeController::class,'index']);
 Route:: post('/CheckEmail',[App\Http\Controllers\UserController::class,'checkEmail']);
-Route:: post('/registerUser',[App\Http\Controllers\Auth\RegisterController::class,'create']);
+// Route:: post('/registerUser',[App\Http\Controllers\Auth\RegisterController::class,'create']);
 
+Auth::routes(['verify' => true]);
 
 // //sent to Page
 // Route::get('/manage_items', 'App\Http\Controllers\PageController@itemPage');

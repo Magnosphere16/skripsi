@@ -16,18 +16,6 @@
         </div>
       </div>
 
-      <!-- SidebarSearch Form
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div> -->
-
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -47,10 +35,16 @@
                   <p>Manage Items</p>
                 </router-link>
               </li>
-              <li class="nav-item">
+              <li class="nav-item menu-open">
                 <router-link to="transactions" class="nav-link">
                   <i class="fas fa-file-invoice-dollar green"></i>
-                  <p>Transactions</p>
+                  <p>Purchase Transactions</p>
+                </router-link>
+              </li>
+              <li class="nav-item menu-open">
+                <router-link to="transactions" class="nav-link">
+                  <i class="fas fa-file-invoice-dollar green"></i>
+                  <p>Sale Transactions</p>
                 </router-link>
               </li>
               <li class="nav-item">

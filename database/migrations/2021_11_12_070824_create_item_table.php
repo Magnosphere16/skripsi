@@ -19,6 +19,8 @@ class CreateItemTable extends Migration
             $table->string('item_image')->nullable();
             $table->string('item_desc');
             $table->integer('item_qty');
+            $table->unsignedBigInteger('unit_type_id');
+            $table->foreign('unit_type_id')->references('id')->on('unit_type')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('item_category_id');

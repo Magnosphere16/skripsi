@@ -14,7 +14,7 @@
                             <h3 class="login-heading mb-4 text-center">Sign Up</h3>
 
                             <!-- Sign In Form -->
-                            <form method="POST" action="/registerUser">
+                            <form method="POST" name="register" action="">
                                 @csrf
                                 <div class="personal_sect">
                                     <div class="form-group">
