@@ -12,7 +12,8 @@
                             <thead>
                                 <th>Item Name</th>
                                 <th>Item Description</th>
-                                <th>Item Quantity (pcs)</th>
+                                <th>Item Quantity</th>
+                                <th>Item Unit Type</th>
                                 <th>Item Buy Price</th>
                                 <th>Item Sell Price</th>
                                 <th>Action</th>
@@ -22,6 +23,9 @@
                                     <td>{{a.item_name}}</td>
                                     <td>{{a.item_desc}}</td>
                                     <td>{{a.item_qty}}</td>
+                                    <div v-for="unit in unitTypes" :key="unit.id" :value="unit.id">
+                                       <td v-if="a.unit_type_id === unit.id">{{unit.unit_type_name}}</td>
+                                    </div>
                                     <td>Rp {{a.item_buy_price}}</td>
                                     <td>Rp {{a.item_sell_price}}</td>
                                     <td>
@@ -139,6 +143,25 @@
                                             </div>
 
                                             <div class="form-group row">
+                                                <label for="item_desc" class="col-md-4 col-form-label text-md-right">Unit Type</label>
+
+                                                <div class="col-md-6">
+                                                    <select v-model="form.unit_type_id" 
+                                                        name="unit_type_id" id="unit_type_id" 
+                                                        class="form-control input-lg dynamic" 
+                                                        :class="{ 'is-invalid' : form.errors.has(unit_type_id) }"
+                                                        style="width:inherit;"
+                                                       @change="onChange($event)">
+                                                            <option value="">Select Unit Type</option>
+                                                            <option v-for="item in unitTypes" :key="item.id" :value="item.id">
+                                                                {{item.unit_type_name}}
+                                                            </option>
+                                                            <!-- <option value="create new category">Others</option> -->
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
                                                 <label for="buy" class="col-md-4 col-form-label text-md-right">Item Buy Price</label>
 
                                                 <div class="col-md-6">
@@ -202,6 +225,7 @@
                 modal: false,
                 categories : {},
                 items : {},
+                unitTypes: {},
                 deletes :{},
                 form: new Form({    
                     id:"",
@@ -209,6 +233,7 @@
                     item_desc:"",
                     item_qty:"",
                     item_category_id:"",
+                    unit_type_id:"",
                     item_buy_price:"",
                     item_sell_price:"",
                 }),
@@ -244,6 +269,9 @@
                 axios
                     .get('api/getItem')
                     .then(({data}) => (this.items = data));
+                axios
+                    .get('api/getUnitType')
+                    .then(({data}) => (this.unitTypes = data));
 
                 //untuk mengakhiri progress bar setelah halaman muncul
                 this.$Progress.finish();

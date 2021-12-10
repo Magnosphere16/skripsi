@@ -10,6 +10,9 @@ use DB;
 
 class ItemController extends Controller
 {
+    public function index(){
+
+    }
 
     public function addItem(Request $request, $id){
         //Validate Data
@@ -17,6 +20,7 @@ class ItemController extends Controller
             'item_name' => ['required', 'string', 'min:3', 'max:255'],
             'item_desc' => ['required', 'string', 'min:3', 'max:255'],
             'item_category_id' => ['required'],
+            'unit_type_id' => ['required'],
             'item_qty' => ['required', 'integer', 'min:3', 'max:999'],
             'item_buy_price' => ['required', 'integer', 'min:1'],
             'item_sell_price' => ['required', 'integer', 'min:1'],
@@ -42,6 +46,7 @@ class ItemController extends Controller
         $itemQty=$request->item_qty;
         $itemBuy=$request->item_buy_price;
         $itemSell=$request->item_sell_price;
+        $unit_type_id=$request->unit_type_id;
         $userId = $id;
             $dataSave=[
                 'item_name'=>$itemName,
@@ -51,6 +56,7 @@ class ItemController extends Controller
                 'item_buy_price'=>$itemBuy,
                 'item_sell_price'=>$itemSell,
                 'user_id'=>$userId,
+                'unit_type_id'=>$unit_type_id,
             ];
             DB::table('item')->insert($dataSave);
         return redirect()->back();
@@ -62,7 +68,6 @@ class ItemController extends Controller
     }
 
     public function editItem(Request $request, $id){
-
         // $this->validate($request, [
         //     'item_name' => ['required', 'string', 'min:3', 'max:255'],
         //     'item_desc' => ['required', 'string', 'min:3', 'max:255'],
@@ -72,10 +77,11 @@ class ItemController extends Controller
         //     'item_sell_price' => ['required', 'integer', 'min:1'],
         // ]);
 
-        $updtItem = Item::find($id)->update([
+        $updtItem = Item::where('id',$id)->update([
                 'item_name'=>$request->item_name,
                 'item_desc'=>$request->item_desc,
                 'item_category_id'=>$request->item_category_id,
+                'unit_type_id'=>$request->unit_type_id,
                 'item_qty'=>$request->item_qty,
                 'item_buy_price'=>$request->item_buy_price,
                 'item_sell_price'=>$request->item_sell_price,

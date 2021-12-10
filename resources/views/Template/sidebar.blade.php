@@ -35,14 +35,14 @@
                   <p>Manage Items</p>
                 </router-link>
               </li>
-              <li class="nav-item menu-open">
+              <!-- <li class="nav-item menu-open">
                 <router-link to="transactions" class="nav-link">
                   <i class="fas fa-file-invoice-dollar green"></i>
                   <p>Purchase Transactions</p>
                 </router-link>
-              </li>
+              </li> -->
               <li class="nav-item menu-open">
-                <router-link to="transactions" class="nav-link">
+                <router-link to="sale_transactions" class="nav-link">
                   <i class="fas fa-file-invoice-dollar green"></i>
                   <p>Sale Transactions</p>
                 </router-link>
