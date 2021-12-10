@@ -3,8 +3,8 @@
     <div class="row justify-content-center">
         <div class="col-xl">
             <div class="card mt-5">
-                <div class="card-header" style="position:relative;"><strong>Sale Transaction Lists</strong>
-                        <router-link to="newSale" class="btn btn-danger btn-sm" style="float:right; right:0;" tag="button">+ New Sale Transaction</router-link>
+                <div class="card-header" style="position:relative;"><strong>Purchase Transaction Lists</strong>
+                        <router-link to="newPurchase" class="btn btn-success btn-sm" style="float:right; right:0;" tag="button">+ New Purchase Transaction</router-link>
                     <!-- <router-link to="newSale" style="display:inline-block; float:right; right: 0; bottom:8px;" type="button" id="sell_item_btn" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#addItemFCatForm">+ New Sale Transactions</router> -->
                     <!-- <button style="display:inline-block; float:right; right: 0; bottom:8px;" type="button" id="buy_item_btn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addItemFCatForm">Buy Items</button> -->
                 </div>

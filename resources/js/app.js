@@ -42,8 +42,10 @@ Vue.use(VueRouter);
 let routes =[
     {path: '/items', component:require('./components/items.vue').default},
     {path: '/sale_transactions', component:require('./components/sale_transactions.vue').default},
+    {path: '/purchase_transactions', component:require('./components/purchase_transactions.vue').default},
     {path: '/profile', component:require('./components/profile.vue').default},
-    {path: '/newSale', component:require('./components/newSale.vue').default}
+    {path: '/newSale', component:require('./components/newSale.vue').default},
+    {path: '/newPurchase', component:require('./components/newPurchase.vue').default}
 ]
 
 //per component fragment untuk di put ke dalam blade

@@ -1,7 +1,7 @@
 <template>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-xl">
             <div class="card mt-5">
                 <div class="card-header" style="position:relative;"><strong>Items</strong>
                     <button style="position: absolute; right: 10px; bottom:8px;" @click="showModalAdd()" type="button" id="add_item" class="btn btn-secondary btn-sm">+</button>
@@ -47,7 +47,7 @@
                         </table>
                         <!-- Pop Up Add Item-->
                         <div class="modal fade" id="addItemForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                 <div class="modal-content" >
                                     <div class="modal-header text-center">
                                         <h4 class="modal-title" id="exampleModalLongTitle" v-show="!modal">New Item</h4>
@@ -66,10 +66,7 @@
                                                         class="form-control"
                                                         id="item_name" 
                                                         type="text" 
-                                                        v-model="form.item_name"
-                                                        :class="{ 
-                                                            'is-invalid' : form.errors.has(item_name) 
-                                                            }" 
+                                                        v-model="form.item_name" 
                                                         name="item_name" 
                                                         required
                                                         placeholder="Item Name">
@@ -86,7 +83,6 @@
                                                         rows="4" 
                                                         cols="50" 
                                                         class="form-control" 
-                                                        :class="{ 'is-invalid' : form.errors.has(item_desc) }" 
                                                         name="item_desc" 
                                                         required
                                                         placeholder="Item Description">
@@ -103,7 +99,6 @@
                                                     <select v-model="form.item_category_id" 
                                                         name="category_id" id="category_id" 
                                                         class="form-control input-lg dynamic" 
-                                                        :class="{ 'is-invalid' : form.errors.has(item_category_id) }"
                                                         style="width:inherit;"
                                                        @change="onChange($event)">
                                                             <option value="">Select Category</option>
@@ -134,7 +129,6 @@
                                                         id="item_qty" 
                                                         type="number" 
                                                         class="form-control"
-                                                        :class="{ 'is-invalid' : form.errors.has(item_qty) }" 
                                                         name="item_qty"
                                                         required  
                                                         placeholder="1">
@@ -143,13 +137,12 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="item_desc" class="col-md-4 col-form-label text-md-right">Unit Type</label>
+                                                <label for="item_unit_type" class="col-md-4 col-form-label text-md-right">Unit Type</label>
 
                                                 <div class="col-md-6">
                                                     <select v-model="form.unit_type_id" 
                                                         name="unit_type_id" id="unit_type_id" 
                                                         class="form-control input-lg dynamic" 
-                                                        :class="{ 'is-invalid' : form.errors.has(unit_type_id) }"
                                                         style="width:inherit;"
                                                        @change="onChange($event)">
                                                             <option value="">Select Unit Type</option>
@@ -169,7 +162,6 @@
                                                         id="item_buy" 
                                                         type="number" 
                                                         class="form-control" 
-                                                        :class="{ 'is-invalid' : form.errors.has(item_buy_price) }"
                                                         name="item_buy_price" 
                                                         required
                                                         placeholder="0">
@@ -186,7 +178,6 @@
                                                         id="item_sell" 
                                                         type="number" 
                                                         class="form-control"
-                                                        :class="{ 'is-invalid' : form.errors.has(item_sell_price) }" 
                                                         name="item_sell_price" 
                                                         required
                                                         placeholder="0">

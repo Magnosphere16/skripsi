@@ -20,9 +20,10 @@ Route::get('/', function () {
 
 Route:: get('/items',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 Route:: get('/sale_transactions',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
+Route:: get('/purchase_transactions',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 Route:: get('/profile',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 Route:: get('/newSale',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
-
+Route:: get('/newPurchase',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 
 Auth::routes();
 

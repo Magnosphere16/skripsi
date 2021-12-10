@@ -35,22 +35,22 @@
                   <p>Manage Items</p>
                 </router-link>
               </li>
-              <!-- <li class="nav-item menu-open">
-                <router-link to="transactions" class="nav-link">
-                  <i class="fas fa-file-invoice-dollar green"></i>
+              <li class="nav-item menu-open">
+                <router-link to="purchase_transactions" class="nav-link">
+                  <i class="fas fa-shopping-cart green"></i>
                   <p>Purchase Transactions</p>
                 </router-link>
-              </li> -->
+              </li>
               <li class="nav-item menu-open">
                 <router-link to="sale_transactions" class="nav-link">
-                  <i class="fas fa-file-invoice-dollar green"></i>
+                  <i class="fas fa-cart-arrow-down red"></i>
                   <p>Sale Transactions</p>
                 </router-link>
               </li>
               <li class="nav-item">
                   <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); 
                       document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt red"></i>
+                        <i class="fas fa-sign-out-alt grey"></i>
                         <p>Logout</p>
                   </a>
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

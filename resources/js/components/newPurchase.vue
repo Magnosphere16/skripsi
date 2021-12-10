@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1 class="mt-5">New Sale Transaction</h1>
+        <h1 class="mt-5">New Purchase Transaction</h1>
         <form method="POST" action="/addSaleTrans" enctype="multipart/form-data" id="addSaleTransForm">
             <label for="tr_transaction_date">Transaction Date</label>
             <input  v-model="form.tr_transaction_date"
@@ -20,10 +20,18 @@
                             <th scope="col">Total Price</th>
                         </tr>
                     </thead>
-                    <tbody class="add_sale_transaction">
+                    <tbody class="add_purchase_transaction">
                         <tr>
                             <td>
-                                <select v-model="form.tr_item_id" 
+                                <input  class="form-control"
+                                        id="item_name" 
+                                        type="text" 
+                                        v-model="form.tr_item_name" 
+                                        name="item_name" 
+                                        required
+                                        placeholder="Item Name">
+                                        <has-error :form="form" field="item_name"></has-error> 
+                                <!-- <select v-model="form.tr_item_id" 
                                     name="tr_item_id" id="tr_item_id" 
                                     class="form-control input-lg dynamic" 
                                     style="width:inherit;"
@@ -32,7 +40,7 @@
                                         <option v-for="item in items" :key="item.id" :value="item.id">
                                             {{item.item_name}}
                                         </option>
-                                </select>
+                                </select> -->
                             </td>
                             <td>
                                 <input v-model="form.tr_item_qty"
@@ -41,23 +49,34 @@
                                         class="form-control"
                                         name="tr_item_qty"
                                         placeholder="min. 1"
-                                        @change="calcPrice(form.tr_item_qty,item_price)"
+                                        @change="calcPrice(form.tr_item_qty,form.tr_item_price)"
                                         >
                             </td>
-                            <div v-for="item in items" :key="item.id" :value="item.id">
-                                <div v-if="item.id == form.tr_item_id">
-                                    <div v-for="unit in unitTypes" :key="unit.id" :value="unit.id">
-                                        <td v-if="unit.id == item.unit_type_id">{{unit.unit_type_name}}</td>
-                                    </div>
-                                </div>
-                            </div>
                             <td>
-                                <div v-for="item in items" :key="item.id" :value="item.id">
-                                    <div v-if="item.id == form.tr_item_id">
-                                        <p>{{item.item_sell_price}}</p>
-                                        <input style="display:none;" :value="getPrice(item.item_sell_price)">
-                                    </div>
-                                </div>
+                                <select v-model="form.tr_unit_type_id" 
+                                    name="unit_type_id" id="unit_type_id" 
+                                    class="form-control input-lg dynamic" 
+                                    style="width:inherit;"
+                                    >
+                                        <option value="">Select Unit Type</option>
+                                        <option v-for="item in unitTypes" :key="item.id" :value="item.id">
+                                            {{item.unit_type_name}}
+                                        </option>
+                                        <!-- <option value="create new category">Others</option> -->
+                                </select>
+                            </td>
+                            <td>
+                                <input v-model="form.tr_item_price" 
+                                    id="item_buy" 
+                                    type="number" 
+                                    class="form-control" 
+                                    name="tr_item_price" 
+                                    value="0"
+                                    required
+                                    placeholder="0"
+                                    @change="calcPrice(form.tr_item_qty,form.tr_item_price)"
+                                    >
+                                <has-error :form="form" field="tr_item_price"></has-error>
                             </td>
                             <td id="result_price">
                                 0
@@ -75,7 +94,7 @@
             </div>
             <div id="total_price" style="float:right; right:0;">
                 <h5>Total:</h5>
-                <h3>60,000</h3>
+                <h3>100,000</h3>
             </div>
         </form>
     </div>
@@ -94,9 +113,10 @@
                 unitTypes: {},
                 form: new Form({    
                     id:"",
-                    tr_item_id:"",
+                    tr_item_name:"",
                     tr_item_qty:"",
                     tr_item_price:"",
+                    tr_unit_type_id:"",
                     tr_transaction_date:"",
                     total_price:"",
                 }),
@@ -120,31 +140,17 @@
             },
             addItemRow(){
                 var addItem = "<tr class='newEntry'>"
-                addItem+="<td><select @change='change_item_info($event)' name='tr_item_id' id='tr_item_id_add' class='form-control input-lg dynamic' style='width:inherit;'><option value=1>Select Item</option>";
-                for (var item of this.items) {
-                    addItem+=`<option value=${item.id}>${item.item_name}</option>`;
+                addItem+="<td><input  class='form-control' id='item_name' type='text' v-model='form.tr_item_name' name='item_name' placeholder='Item Name'></td>"
+                addItem+="<td><input v-model='form.tr_item_qty' id='tr_item_qty' type='number' class='form-control' name='tr_item_qty' placeholder='min. 1' @change='calcPrice(form.tr_item_qty,form.tr_item_price)'></td>"
+                addItem+="<td><select name='tr_unit_type_id' id='tr_unit_type_id' class='form-control input-lg dynamic' style='width:inherit;'><option value=1>Select Unit Type</option>";
+                for (var unit of this.unitTypes) {
+                    addItem+=`<option value=${unit.id}>${unit.unit_type_name}</option>`;
                 }
                 addItem+="</select></td>"
-        //Archived Methods        
-                // var e = document.getElementById("tr_item_id_add");
-                // e.options[e.selectedIndex].value=1;
-                // console.log($('#tr_item_id_add').find(":selected").text());
-                // if(e.options[e.selectedIndex].value){
-                //     for (var item of this.items) {
-                //         if(item.id==e.options[e.selectedIndex].value){
-                //             addItem+=`<td>${item.unit_type_id}</td>`
-                //         }
-                //     }
-                // }
-                // var item_value=e.options[e.selectedIndex].value;// get selected option value
-                // console.log(item_value);
-        //Archived Methods
-                addItem+="<td><input id='tr_item_qty_add' type='number' class='form-control' name='tr_item_qty' placeholder='min. 1' @change='calcPrice(form.tr_item_qty,item_price)'></td>";
-                addItem+="<td id='unit_type_id_add'></td>"
-                addItem+="<td id='item_price_add'></td>"
+                addItem+="<td><input v-model='form.tr_item_price' id='tr_item_price' type='number' class='form-control' name='tr_item_price' value='0' placeholder='0' @change='calcPrice(form.tr_item_qty,form.tr_item_price)'</td>"
                 addItem+="<td id='total_price_add'>0</td>"
                 addItem+="<tr>"
-                $("table .add_sale_transaction").append(addItem);
+                $("table .add_purchase_transaction").append(addItem);
             },
             itemChange(event){
                 this.form.tr_item_qty=
