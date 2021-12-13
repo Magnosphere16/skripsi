@@ -31,3 +31,5 @@ Route::get('getItem',[ItemController::class, 'getItem']);
 Route::post('add_item/{id}',[ItemController::class, 'addItem']);
 Route::post('edit_item/{id}',[ItemController::class, 'editItem']);
 Route::post('delete_item/{id}',[ItemController::class, 'deleteItem']);
+
+Route::post('addPurchaseData/{id}/{transType_id}/{trans_date}/{trans_total}',[TransactionController::class, 'addPurchaseTransaction']);
