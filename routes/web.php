@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransactionController;
 
 
 /*
@@ -31,6 +32,7 @@ Route:: get('/home',[App\Http\Controllers\HomeController::class,'index']);
 Route:: post('/CheckEmail',[App\Http\Controllers\UserController::class,'checkEmail']);
 Route:: post('/registerUser',[App\Http\Controllers\Auth\RegisterController::class,'create']);
 
+Route::post('/addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);
 
 // //sent to Page
 // Route::get('/manage_items', 'App\Http\Controllers\PageController@itemPage');

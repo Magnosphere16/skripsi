@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UnitTypeController;
+use App\Http\Controllers\TransactionController;
 
 
 /*
@@ -32,4 +33,4 @@ Route::post('add_item/{id}',[ItemController::class, 'addItem']);
 Route::post('edit_item/{id}',[ItemController::class, 'editItem']);
 Route::post('delete_item/{id}',[ItemController::class, 'deleteItem']);
 
-Route::post('addPurchaseData/{id}/{transType_id}/{trans_date}/{trans_total}',[TransactionController::class, 'addPurchaseTransaction']);
+Route::post('addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);

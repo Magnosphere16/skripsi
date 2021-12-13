@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\TransactionHeader;
+use App\Models\TransactionDetail;
+use DB;
 
 class TransactionController extends Controller
 {
@@ -11,9 +14,17 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function addPurchaseTransaction(Request $request,$id,$trans_type,$trans_date,$trans_total)
+    public function addPurchaseTransaction(Request $request)
     {
-        return dd($request->all());
+        dd($request);
+        //     $dataSave=[
+        //         'tr_user_id'=>$request->user_id,
+        //         'tr_transaction_type_id'=>$request->tr_transaction_type,
+        //         'tr_transaction_date'=>$request->tr_transaction_date,
+        //         'tr_total_price'=>0,
+        //     ];
+        //     DB::table('transaction_header')->insert($dataSave);
+        // return DB::table('transaction_header')->all();
     }
 
     /**

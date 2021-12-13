@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h1 class="mt-5">New Purchase Transaction</h1>
-        <form @submit="postData()">
+        <form @submit.prevent="postData()">
             <label for="tr_transaction_date">Transaction Date</label>
             <input  v-model="tr_transaction_date"
                     id="tr_transaction_date" 
@@ -13,6 +13,7 @@
                 <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                         <tr>
+                            <th scope="col">#</th>
                             <th scope="col">Item Name</th>
                             <th scope="col">Item Quantity</th>
                             <th scope="col">Unit Type</th>
@@ -23,16 +24,19 @@
                     <tbody class="add_purchase_transaction">
                         <tr v-for="(form, a) in forms" :key="a">
                             <td>
+                                <i class="fas fa-trash-alt red" @click="deleteRow(a, form)"></i>
+                            </td>
+                            <td>
                                 <input  class="form-control"
                                         id="tr_item_name" 
                                         type="text" 
-                                        v-model="form.tr_item_name" 
+                                        v-model="form.tr_item_name[a]" 
                                         name="item_name" 
                                         placeholder="Item Name">
                                         <!-- <has-error :form="form" field="item_name"></has-error>  -->
                             </td>
                             <td>
-                                <input v-model="form.tr_item_qty"
+                                <input v-model="form.tr_item_qty[a]"
                                         id="tr_item_qty" 
                                         type="number" 
                                         class="form-control"
@@ -42,7 +46,7 @@
                                         >
                             </td>
                             <td>
-                                <select v-model="form.tr_unit_type_id" 
+                                <select v-model="form.tr_unit_type_id[a]" 
                                     name="tr_unit_type_id" id="tr_unit_type_id" 
                                     class="form-control input-lg dynamic" 
                                     style="width:inherit;"
@@ -55,7 +59,7 @@
                                 </select>
                             </td>
                             <td>
-                                <input v-model="form.tr_item_price" 
+                                <input v-model="form.tr_item_price[a]" 
                                     id="tr_item_price" 
                                     type="number" 
                                     class="form-control" 
@@ -67,7 +71,7 @@
                                 <!-- <has-error :form="form" field="tr_item_price"></has-error> -->
                             </td>
                             <td>    
-                                <input v-model="form.line_total" 
+                                <input v-model="form.line_total[a]" 
                                     id="line_total" 
                                     type="number" 
                                     class="form-control" 
@@ -111,28 +115,39 @@
                 item_info :{},
                 item_price :{},
                 unitTypes: {},
-                tr_transaction_date:{},
                 final_total:0,
-                forms:[{    
-                    id:"",
-                    tr_item_name:"",
-                    tr_item_qty:"",
-                    tr_item_price:"",
-                    tr_unit_type_id:"",
-                    line_total:0,
-                }],
+                forms:new Form({    
+                    tr_user_id:this.userInfo.id,
+                    tr_transaction_date:[],
+                    tr_transaction_type:1,
+                    tr_item_name:[],
+                    tr_item_qty:[],
+                    tr_item_price:[],
+                    tr_unit_type_id:[],
+                    line_total:[],
+                }),
             }
         },
         methods:{
             addItemRow(){
                 this.forms.push({
-                    id:"",
+                    user_id:this.userInfo.id,
+                    tr_transaction_date:"",
+                    tr_transaction_type:1,
                     tr_item_name:"",
                     tr_item_qty:"",
                     tr_item_price:"",
                     tr_unit_type_id:"",
                     line_total:0,
                 });
+            },
+            deleteRow(index, form) {
+                var idx = this.forms.indexOf(form);
+                console.log(idx, index);
+                if (idx > -1) {
+                    this.forms.splice(idx, 1);
+                }
+                this.calcPriceTotal();
             },
             itemChange(event){
                 this.form.tr_item_qty=
@@ -174,15 +189,12 @@
                 this.$Progress.finish();
             },
             postData(){
-                // this.$Progress.start();
-                // this.loading = true;
-                // this.disabled = true;
+                this.$Progress.start();
+                this.loading = true;
+                this.disabled = true;
 
-                // addPurchaseData/{id}/{transType_id}/{trans_total}
-                console.log("belum post");
                 this.forms
-                    .post('api/addPurchaseData/'+this.userInfo.id+'/'+1+'/'+this.tr_transaction_date+'/'+this.final_total)
-                console.log("udh post");
+                    .post('api/addPurchaseData');
                     // .then(()=>{
                     // Fire.$emit("refreshData");
                     // Toast.fire({

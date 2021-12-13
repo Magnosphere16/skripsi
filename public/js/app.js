@@ -2587,6 +2587,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
@@ -2597,28 +2601,41 @@ __webpack_require__.r(__webpack_exports__);
       item_info: {},
       item_price: {},
       unitTypes: {},
-      tr_transaction_date: {},
       final_total: 0,
-      forms: [{
-        id: "",
-        tr_item_name: "",
-        tr_item_qty: "",
-        tr_item_price: "",
-        tr_unit_type_id: "",
-        line_total: 0
-      }]
+      forms: new Form({
+        tr_user_id: this.userInfo.id,
+        tr_transaction_date: [],
+        tr_transaction_type: 1,
+        tr_item_name: [],
+        tr_item_qty: [],
+        tr_item_price: [],
+        tr_unit_type_id: [],
+        line_total: []
+      })
     };
   },
   methods: {
     addItemRow: function addItemRow() {
       this.forms.push({
-        id: "",
+        user_id: this.userInfo.id,
+        tr_transaction_date: "",
+        tr_transaction_type: 1,
         tr_item_name: "",
         tr_item_qty: "",
         tr_item_price: "",
         tr_unit_type_id: "",
         line_total: 0
       });
+    },
+    deleteRow: function deleteRow(index, form) {
+      var idx = this.forms.indexOf(form);
+      console.log(idx, index);
+
+      if (idx > -1) {
+        this.forms.splice(idx, 1);
+      }
+
+      this.calcPriceTotal();
     },
     itemChange: function itemChange(event) {
       this.form.tr_item_qty = document.getElementById("result_price").innerHTML = 0;
@@ -2662,13 +2679,10 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.finish();
     },
     postData: function postData() {
-      // this.$Progress.start();
-      // this.loading = true;
-      // this.disabled = true;
-      // addPurchaseData/{id}/{transType_id}/{trans_total}
-      console.log("belum post");
-      this.forms.post('api/addPurchaseData/' + this.userInfo.id + '/' + 1 + '/' + this.tr_transaction_date + '/' + this.final_total);
-      console.log("udh post"); // .then(()=>{
+      this.$Progress.start();
+      this.loading = true;
+      this.disabled = true;
+      this.forms.post('api/addPurchaseData'); // .then(()=>{
       // Fire.$emit("refreshData");
       // Toast.fire({
       //     icon: 'success',
@@ -44343,6 +44357,7 @@ var render = function () {
       {
         on: {
           submit: function ($event) {
+            $event.preventDefault()
             return _vm.postData()
           },
         },
@@ -44389,29 +44404,11 @@ var render = function () {
               _vm._l(_vm.forms, function (form, a) {
                 return _c("tr", { key: a }, [
                   _c("td", [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: form.tr_item_name,
-                          expression: "form.tr_item_name",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        id: "tr_item_name",
-                        type: "text",
-                        name: "item_name",
-                        placeholder: "Item Name",
-                      },
-                      domProps: { value: form.tr_item_name },
+                    _c("i", {
+                      staticClass: "fas fa-trash-alt red",
                       on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(form, "tr_item_name", $event.target.value)
+                        click: function ($event) {
+                          return _vm.deleteRow(a, form)
                         },
                       },
                     }),
@@ -44423,8 +44420,37 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: form.tr_item_qty,
-                          expression: "form.tr_item_qty",
+                          value: form.tr_item_name[a],
+                          expression: "form.tr_item_name[a]",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        id: "tr_item_name",
+                        type: "text",
+                        name: "item_name",
+                        placeholder: "Item Name",
+                      },
+                      domProps: { value: form.tr_item_name[a] },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(form.tr_item_name, a, $event.target.value)
+                        },
+                      },
+                    }),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: form.tr_item_qty[a],
+                          expression: "form.tr_item_qty[a]",
                         },
                       ],
                       staticClass: "form-control",
@@ -44434,7 +44460,7 @@ var render = function () {
                         name: "tr_item_qty",
                         placeholder: "min. 1",
                       },
-                      domProps: { value: form.tr_item_qty },
+                      domProps: { value: form.tr_item_qty[a] },
                       on: {
                         change: function ($event) {
                           return _vm.calcPrice(form)
@@ -44443,7 +44469,7 @@ var render = function () {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(form, "tr_item_qty", $event.target.value)
+                          _vm.$set(form.tr_item_qty, a, $event.target.value)
                         },
                       },
                     }),
@@ -44457,8 +44483,8 @@ var render = function () {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: form.tr_unit_type_id,
-                            expression: "form.tr_unit_type_id",
+                            value: form.tr_unit_type_id[a],
+                            expression: "form.tr_unit_type_id[a]",
                           },
                         ],
                         staticClass: "form-control input-lg dynamic",
@@ -44478,8 +44504,8 @@ var render = function () {
                                 return val
                               })
                             _vm.$set(
-                              form,
-                              "tr_unit_type_id",
+                              form.tr_unit_type_id,
+                              a,
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
@@ -44516,8 +44542,8 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: form.tr_item_price,
-                          expression: "form.tr_item_price",
+                          value: form.tr_item_price[a],
+                          expression: "form.tr_item_price[a]",
                         },
                       ],
                       staticClass: "form-control",
@@ -44528,7 +44554,7 @@ var render = function () {
                         value: "0",
                         placeholder: "0",
                       },
-                      domProps: { value: form.tr_item_price },
+                      domProps: { value: form.tr_item_price[a] },
                       on: {
                         change: function ($event) {
                           return _vm.calcPrice(form)
@@ -44537,7 +44563,7 @@ var render = function () {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(form, "tr_item_price", $event.target.value)
+                          _vm.$set(form.tr_item_price, a, $event.target.value)
                         },
                       },
                     }),
@@ -44549,8 +44575,8 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: form.line_total,
-                          expression: "form.line_total",
+                          value: form.line_total[a],
+                          expression: "form.line_total[a]",
                         },
                       ],
                       staticClass: "form-control",
@@ -44560,13 +44586,13 @@ var render = function () {
                         name: "line_total",
                         placeholder: "0",
                       },
-                      domProps: { value: form.line_total },
+                      domProps: { value: form.line_total[a] },
                       on: {
                         input: function ($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(form, "line_total", $event.target.value)
+                          _vm.$set(form.line_total, a, $event.target.value)
                         },
                       },
                     }),
@@ -44644,6 +44670,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-dark" }, [
       _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Name")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Quantity")]),
