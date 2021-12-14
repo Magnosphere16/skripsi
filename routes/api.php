@@ -35,3 +35,4 @@ Route::post('delete_item/{id}',[ItemController::class, 'deleteItem']);
 
 Route::get('getPurchaseTransactions',[TransactionController::class, 'getPurchaseTransactions']);
 Route::post('addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);
+Route::get('getTransactionType',[TransactionController::class, 'getTransactionType']);

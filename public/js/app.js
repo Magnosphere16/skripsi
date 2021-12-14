@@ -2591,6 +2591,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
@@ -2689,9 +2690,8 @@ __webpack_require__.r(__webpack_exports__);
         total_price: this.final_total
       }).then(function () {
         Fire.$emit("refreshData");
-        Toast.fire({
-          icon: 'success',
-          title: 'Transaction Saved successfully'
+        Swal.fire('Success!', 'Purchase Transaction Saved Successfully!', 'success').then(function () {
+          window.location = "/home";
         });
 
         _this2.$Progress.finish();
@@ -2700,6 +2700,12 @@ __webpack_require__.r(__webpack_exports__);
         _this2.disabled = false;
       }) // else
       ["catch"](function () {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "Don't Forget to Fill the required Inputs!"
+        });
+
         _this2.$Progress.fail();
 
         _this2.loading = false;
@@ -3225,6 +3231,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
@@ -3232,7 +3240,11 @@ __webpack_require__.r(__webpack_exports__);
       loading: false,
       disabled: false,
       transactionsHeader: {},
-      transactionsDetail: {}
+      transactionsDetail: {},
+      transactionType: {},
+      categories: {},
+      items: {},
+      unitTypes: {}
     };
   },
   methods: {
@@ -3245,6 +3257,22 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('api/getPurchaseTransactions').then(function (_ref) {
         var data = _ref.data;
         return _this.transactionsHeader = data;
+      });
+      axios.get('api/getTransactionType').then(function (_ref2) {
+        var data = _ref2.data;
+        return _this.transactionType = data;
+      });
+      axios.get('api/get_category').then(function (_ref3) {
+        var data = _ref3.data;
+        return _this.categories = data;
+      });
+      axios.get('api/getItem').then(function (_ref4) {
+        var data = _ref4.data;
+        return _this.items = data;
+      });
+      axios.get('api/getUnitType').then(function (_ref5) {
+        var data = _ref5.data;
+        return _this.unitTypes = data;
       }); //untuk mengakhiri progress bar setelah halaman muncul
 
       this.$Progress.finish();
@@ -44389,7 +44417,7 @@ var render = function () {
       },
       [
         _c("label", { attrs: { for: "tr_transaction_date" } }, [
-          _vm._v("Transaction Date"),
+          _vm._v("Transaction Date *"),
         ]),
         _vm._v(" "),
         _c("input", {
@@ -44609,6 +44637,7 @@ var render = function () {
                         id: "tr_line_total",
                         type: "number",
                         name: "tr_line_total",
+                        disabled: "",
                         placeholder: "0",
                       },
                       domProps: { value: form.tr_line_total },
@@ -44697,13 +44726,13 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Name")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Name*")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Quantity")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Quantity*")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Unit Type")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Unit Type*")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Price")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Price*")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Total Price")]),
       ]),
@@ -45613,15 +45642,32 @@ var render = function () {
               _c(
                 "tbody",
                 _vm._l(_vm.transactionsHeader, function (a) {
-                  return _c("tr", { key: a.id, attrs: { value: a.id } }, [
-                    _c("td", [_vm._v(_vm._s(a.id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(a.tr_transaction_date))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(a.tr_transaction_type_id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("Rp " + _vm._s(a.tr_total_price))]),
-                  ])
+                  return _c(
+                    "tr",
+                    { key: a.id, attrs: { value: a.id } },
+                    [
+                      _c("td", [_vm._v(_vm._s(a.id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(a.tr_transaction_date))]),
+                      _vm._v(" "),
+                      _vm._l(_vm.transactionType, function (type) {
+                        return _c(
+                          "div",
+                          { key: type.id, attrs: { value: type.id } },
+                          [
+                            a.tr_transaction_type_id === type.id
+                              ? _c("td", { staticStyle: { color: "green" } }, [
+                                  _vm._v(_vm._s(type.transaction_type_name)),
+                                ])
+                              : _vm._e(),
+                          ]
+                        )
+                      }),
+                      _vm._v(" "),
+                      _c("td", [_vm._v("Rp " + _vm._s(a.tr_total_price))]),
+                    ],
+                    2
+                  )
                 }),
                 0
               ),

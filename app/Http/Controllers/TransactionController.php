@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TransactionHeader;
+use App\Models\TransactionType;
 use App\Models\TransactionDetail;
 use App\Models\Item;
 use DB;
@@ -31,7 +32,7 @@ class TransactionController extends Controller
                     'tr_total_price'=>$transaction_total,
                 ];
         $trans_id=DB::table('transaction_header')->insertGetId($headerSave);
-        
+
         $item_id=0;
         $item=Item::all();
         foreach($transaction as $arrTrans){
@@ -46,8 +47,11 @@ class TransactionController extends Controller
                 }else{
                     $itemSave=[
                         'item_name'=>$arrTrans['tr_item_name'],
+                        'item_desc'=>"New Item",
                         'item_qty'=>$arrTrans['tr_item_qty'],
                         'item_buy_price'=>$arrTrans['tr_item_price'],
+                        'item_sell_price'=>0,
+                        'item_category_id'=>1,
                         'user_id'=>$transaction_user,
                         'unit_type_id'=>$arrTrans['tr_unit_type_id'],
                     ];
@@ -62,9 +66,8 @@ class TransactionController extends Controller
                 'td_item_price' =>$arrTrans['tr_item_price'],
                 'td_sub_total_price' =>$arrTrans['tr_line_total'],
             ]);
-
-            return view('home');
         }
+        return back();
     }
 
     public function getPurchaseTransactions()
@@ -78,9 +81,9 @@ class TransactionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function getTransactionType()
     {
-        //
+        return TransactionType::all();
     }
 
     /**

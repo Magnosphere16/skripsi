@@ -2,7 +2,7 @@
     <div class="container">
         <h1 class="mt-5">New Purchase Transaction</h1>
         <form @submit.prevent="postData()">
-            <label for="tr_transaction_date">Transaction Date</label>
+            <label for="tr_transaction_date">Transaction Date *</label>
             <input  v-model="tr_transaction_date"
                     id="tr_transaction_date" 
                     class="form-control"
@@ -14,10 +14,10 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Item Name</th>
-                            <th scope="col">Item Quantity</th>
-                            <th scope="col">Unit Type</th>
-                            <th scope="col">Item Price</th>
+                            <th scope="col">Item Name*</th>
+                            <th scope="col">Item Quantity*</th>
+                            <th scope="col">Unit Type*</th>
+                            <th scope="col">Item Price*</th>
                             <th scope="col">Total Price</th>
                         </tr>
                     </thead>
@@ -75,7 +75,8 @@
                                     id="tr_line_total" 
                                     type="number" 
                                     class="form-control" 
-                                    name="tr_line_total" 
+                                    name="tr_line_total"
+                                    disabled 
                                     placeholder="0"
                                     >
                             </td>
@@ -199,16 +200,24 @@
                         total_price:this.final_total
                     }).then(()=>{
                     Fire.$emit("refreshData");
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Transaction Saved successfully'
-                        });
+                    Swal.fire(
+                        'Success!',
+                        'Purchase Transaction Saved Successfully!',
+                        'success'
+                        ).then(function() {
+                        window.location = "/home";
+                    });
                     this.$Progress.finish();
                     this.loading = false;
                     this.disabled = false;
                     })
                 // else
                     .catch(()=>{
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: "Don't Forget to Fill the required Inputs!",
+                        })
                         this.$Progress.fail();
                         this.loading = false;
                         this.disabled = false; 

@@ -20,7 +20,9 @@
                             <tr v-for="a in transactionsHeader" :key="a.id" :value="a.id">
                                 <td>{{a.id}}</td>
                                 <td>{{a.tr_transaction_date}}</td>
-                                <td>{{a.tr_transaction_type_id}}</td>
+                                <div v-for="type in transactionType" :key="type.id" :value="type.id">
+                                    <td v-if="a.tr_transaction_type_id === type.id" style="color:green">{{type.transaction_type_name}}</td>
+                                </div>
                                 <td>Rp {{a.tr_total_price}}</td>
                             </tr>
                         </tbody>
@@ -49,6 +51,10 @@
                 disabled: false,
                 transactionsHeader : {},
                 transactionsDetail : {},
+                transactionType : {},
+                categories : {},
+                items : {},
+                unitTypes : {},
             }
         },
         methods:{
@@ -60,7 +66,20 @@
                 axios
                     .get('api/getPurchaseTransactions')
                     .then(({data}) => (this.transactionsHeader = data));
+                
+                axios
+                    .get('api/getTransactionType')
+                    .then(({data}) => (this.transactionType = data));
 
+                axios
+                    .get('api/get_category')
+                    .then(({data}) => (this.categories = data));
+                axios
+                    .get('api/getItem')
+                    .then(({data}) => (this.items = data));
+                axios
+                    .get('api/getUnitType')
+                    .then(({data}) => (this.unitTypes = data));
                 //untuk mengakhiri progress bar setelah halaman muncul
                 this.$Progress.finish();
             },

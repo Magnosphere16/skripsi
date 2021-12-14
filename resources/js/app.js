@@ -25,6 +25,8 @@ const Toast = Swal.mixin({
 });
 window.Toast = Toast;
 
+
+
 //Import Progress Bar
 import VueProgressBar from 'vue-progressbar';
 Vue.use(VueProgressBar,{
