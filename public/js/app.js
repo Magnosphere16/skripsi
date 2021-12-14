@@ -2601,30 +2601,27 @@ __webpack_require__.r(__webpack_exports__);
       item_info: {},
       item_price: {},
       unitTypes: {},
+      tr_user_id: this.userInfo.id,
+      tr_transaction_type: 1,
+      tr_transaction_date: {},
       final_total: 0,
-      forms: new Form({
-        tr_user_id: this.userInfo.id,
-        tr_transaction_date: [],
-        tr_transaction_type: 1,
-        tr_item_name: [],
-        tr_item_qty: [],
-        tr_item_price: [],
-        tr_unit_type_id: [],
-        line_total: []
-      })
+      forms: [{
+        tr_item_name: "",
+        tr_item_qty: "",
+        tr_item_price: "",
+        tr_unit_type_id: "",
+        tr_line_total: 0
+      }]
     };
   },
   methods: {
     addItemRow: function addItemRow() {
       this.forms.push({
-        user_id: this.userInfo.id,
-        tr_transaction_date: "",
-        tr_transaction_type: 1,
         tr_item_name: "",
         tr_item_qty: "",
         tr_item_price: "",
         tr_unit_type_id: "",
-        line_total: 0
+        tr_line_total: 0
       });
     },
     deleteRow: function deleteRow(index, form) {
@@ -2642,13 +2639,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     calcPrice: function calcPrice(form) {
       var total = parseFloat(form.tr_item_qty) * parseFloat(form.tr_item_price);
-      form.line_total = total.toFixed(2);
+      form.tr_line_total = total.toFixed(2);
       this.calcPriceTotal();
     },
     calcPriceTotal: function calcPriceTotal() {
       var total;
       total = this.forms.reduce(function (sum, product) {
-        var lineTotal = parseFloat(product.line_total);
+        var lineTotal = parseFloat(product.tr_line_total);
 
         if (!isNaN(lineTotal)) {
           return sum + lineTotal;
@@ -2679,31 +2676,44 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.finish();
     },
     postData: function postData() {
+      var _this2 = this;
+
       this.$Progress.start();
       this.loading = true;
       this.disabled = true;
-      this.forms.post('api/addPurchaseData'); // .then(()=>{
-      // Fire.$emit("refreshData");
-      // Toast.fire({
-      //     icon: 'success',
-      //     title: 'Transaction Saved successfully'
-      //     });
-      // this.$Progress.finish();
-      // this.loading = false;
-      // this.disabled = false;
-      // })
-      // else
-      // .catch(()=>{
-      //     this.$Progress.fail();
-      //     this.loading = false;
-      //     this.disabled = false; 
-      // });
+      axios.post("api/addPurchaseData", {
+        myArray: this.forms,
+        transactionDate: this.tr_transaction_date,
+        transactionType: 1,
+        userId: this.tr_user_id,
+        total_price: this.final_total
+      }).then(function () {
+        Fire.$emit("refreshData");
+        Toast.fire({
+          icon: 'success',
+          title: 'Transaction Saved successfully'
+        });
+
+        _this2.$Progress.finish();
+
+        _this2.loading = false;
+        _this2.disabled = false;
+      }) // else
+      ["catch"](function () {
+        _this2.$Progress.fail();
+
+        _this2.loading = false;
+        _this2.disabled = false;
+      });
     }
   },
   created: function created() {
-    this.loadData(); // Fire.$on('refreshData',() => {
-    //     this.loadData();
-    // })
+    var _this3 = this;
+
+    this.loadData();
+    Fire.$on('refreshData', function () {
+      _this3.loadData();
+    });
   }
 });
 
@@ -3215,24 +3225,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mounted: function mounted() {}
+  props: ['userInfo'],
+  data: function data() {
+    return {
+      loading: false,
+      disabled: false,
+      transactionsHeader: {},
+      transactionsDetail: {}
+    };
+  },
+  methods: {
+    loadData: function loadData() {
+      var _this = this;
+
+      //untuk panggil progress bar
+      this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+
+      axios.get('api/getPurchaseTransactions').then(function (_ref) {
+        var data = _ref.data;
+        return _this.transactionsHeader = data;
+      }); //untuk mengakhiri progress bar setelah halaman muncul
+
+      this.$Progress.finish();
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+
+    this.loadData();
+    Fire.$on('refreshData', function () {
+      _this2.loadData();
+    });
+  }
 });
 
 /***/ }),
@@ -44420,8 +44445,8 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: form.tr_item_name[a],
-                          expression: "form.tr_item_name[a]",
+                          value: form.tr_item_name,
+                          expression: "form.tr_item_name",
                         },
                       ],
                       staticClass: "form-control",
@@ -44431,13 +44456,13 @@ var render = function () {
                         name: "item_name",
                         placeholder: "Item Name",
                       },
-                      domProps: { value: form.tr_item_name[a] },
+                      domProps: { value: form.tr_item_name },
                       on: {
                         input: function ($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(form.tr_item_name, a, $event.target.value)
+                          _vm.$set(form, "tr_item_name", $event.target.value)
                         },
                       },
                     }),
@@ -44449,8 +44474,8 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: form.tr_item_qty[a],
-                          expression: "form.tr_item_qty[a]",
+                          value: form.tr_item_qty,
+                          expression: "form.tr_item_qty",
                         },
                       ],
                       staticClass: "form-control",
@@ -44460,7 +44485,7 @@ var render = function () {
                         name: "tr_item_qty",
                         placeholder: "min. 1",
                       },
-                      domProps: { value: form.tr_item_qty[a] },
+                      domProps: { value: form.tr_item_qty },
                       on: {
                         change: function ($event) {
                           return _vm.calcPrice(form)
@@ -44469,7 +44494,7 @@ var render = function () {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(form.tr_item_qty, a, $event.target.value)
+                          _vm.$set(form, "tr_item_qty", $event.target.value)
                         },
                       },
                     }),
@@ -44483,8 +44508,8 @@ var render = function () {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: form.tr_unit_type_id[a],
-                            expression: "form.tr_unit_type_id[a]",
+                            value: form.tr_unit_type_id,
+                            expression: "form.tr_unit_type_id",
                           },
                         ],
                         staticClass: "form-control input-lg dynamic",
@@ -44504,8 +44529,8 @@ var render = function () {
                                 return val
                               })
                             _vm.$set(
-                              form.tr_unit_type_id,
-                              a,
+                              form,
+                              "tr_unit_type_id",
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
@@ -44542,8 +44567,8 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: form.tr_item_price[a],
-                          expression: "form.tr_item_price[a]",
+                          value: form.tr_item_price,
+                          expression: "form.tr_item_price",
                         },
                       ],
                       staticClass: "form-control",
@@ -44554,7 +44579,7 @@ var render = function () {
                         value: "0",
                         placeholder: "0",
                       },
-                      domProps: { value: form.tr_item_price[a] },
+                      domProps: { value: form.tr_item_price },
                       on: {
                         change: function ($event) {
                           return _vm.calcPrice(form)
@@ -44563,7 +44588,7 @@ var render = function () {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(form.tr_item_price, a, $event.target.value)
+                          _vm.$set(form, "tr_item_price", $event.target.value)
                         },
                       },
                     }),
@@ -44575,24 +44600,24 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: form.line_total[a],
-                          expression: "form.line_total[a]",
+                          value: form.tr_line_total,
+                          expression: "form.tr_line_total",
                         },
                       ],
                       staticClass: "form-control",
                       attrs: {
-                        id: "line_total",
+                        id: "tr_line_total",
                         type: "number",
-                        name: "line_total",
+                        name: "tr_line_total",
                         placeholder: "0",
                       },
-                      domProps: { value: form.line_total[a] },
+                      domProps: { value: form.tr_line_total },
                       on: {
                         input: function ($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(form.line_total, a, $event.target.value)
+                          _vm.$set(form, "tr_line_total", $event.target.value)
                         },
                       },
                     }),
@@ -45581,7 +45606,27 @@ var render = function () {
             1
           ),
           _vm._v(" "),
-          _vm._m(0),
+          _c("div", { staticClass: "card-body" }, [
+            _c("table", { staticClass: "table table-striped" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.transactionsHeader, function (a) {
+                  return _c("tr", { key: a.id, attrs: { value: a.id } }, [
+                    _c("td", [_vm._v(_vm._s(a.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(a.tr_transaction_date))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(a.tr_transaction_type_id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("Rp " + _vm._s(a.tr_total_price))]),
+                  ])
+                }),
+                0
+              ),
+            ]),
+          ]),
         ]),
       ]),
     ]),
@@ -45592,22 +45637,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body" }, [
-      _c("table", { staticClass: "table table-striped" }, [
-        _c("thead", [
-          _c("th", [_vm._v("Item Name")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Item Quantity (pcs)")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Item Price")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Transaction Type")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Total Price")]),
-        ]),
-        _vm._v(" "),
-        _c("tbody"),
-      ]),
+    return _c("thead", [
+      _c("th", [_vm._v("Transaction ID")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Transaction Date")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Transaction Type")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Total Price")]),
     ])
   },
 ]

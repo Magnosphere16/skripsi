@@ -11,34 +11,18 @@
                 <div class="card-body">
                     <table class="table table-striped">
                         <thead>
-                            <th>Item Name</th>
-                            <th>Item Quantity (pcs)</th>
-                            <th>Item Price</th>
+                            <th>Transaction ID</th>
+                            <th>Transaction Date</th>
                             <th>Transaction Type</th>
                             <th>Total Price</th>
                         </thead>
                         <tbody>
-                            <!-- <tr v-for="a in items" :key="a.id" :value="a.id">
-                                <td>{{a.item_name}}</td>
-                                <td>{{a.item_desc}}</td>
-                                <td>{{a.item_qty}}</td>
-                                <td>Rp {{a.item_buy_price}}</td>
-                                <td>Rp {{a.item_sell_price}}</td>
-                                <td>
-                                        <a
-                                            href="#"
-                                            @click="showModalEdit(a)"
-                                            ><i class="fas fa-edit blue"></i
-                                        ></a>
-                                        | <a
-                                            href="#"
-                                            @click="deleteData(a.id)"
-                                            ><i
-                                                class="fas fa-trash-alt red"
-                                            ></i
-                                        ></a>
-                                </td>
-                            </tr> -->
+                            <tr v-for="a in transactionsHeader" :key="a.id" :value="a.id">
+                                <td>{{a.id}}</td>
+                                <td>{{a.tr_transaction_date}}</td>
+                                <td>{{a.tr_transaction_type_id}}</td>
+                                <td>Rp {{a.tr_total_price}}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -57,8 +41,36 @@
 </script>
 
 <script>
-    export default {
-        mounted() {
+     export default {
+        props: ['userInfo'],
+        data(){
+            return{
+                loading: false,
+                disabled: false,
+                transactionsHeader : {},
+                transactionsDetail : {},
+            }
+        },
+        methods:{
+            loadData(){
+                //untuk panggil progress bar
+                this.$Progress.start();
+
+                // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+                axios
+                    .get('api/getPurchaseTransactions')
+                    .then(({data}) => (this.transactionsHeader = data));
+
+                //untuk mengakhiri progress bar setelah halaman muncul
+                this.$Progress.finish();
+            },
+        },
+        created(){
+            this.loadData();
+            Fire.$on('refreshData',() => {
+                this.loadData();
+            })
         }
+
     }
 </script>

@@ -30,13 +30,13 @@
                                 <input  class="form-control"
                                         id="tr_item_name" 
                                         type="text" 
-                                        v-model="form.tr_item_name[a]" 
+                                        v-model="form.tr_item_name" 
                                         name="item_name" 
                                         placeholder="Item Name">
                                         <!-- <has-error :form="form" field="item_name"></has-error>  -->
                             </td>
                             <td>
-                                <input v-model="form.tr_item_qty[a]"
+                                <input v-model="form.tr_item_qty"
                                         id="tr_item_qty" 
                                         type="number" 
                                         class="form-control"
@@ -46,7 +46,7 @@
                                         >
                             </td>
                             <td>
-                                <select v-model="form.tr_unit_type_id[a]" 
+                                <select v-model="form.tr_unit_type_id" 
                                     name="tr_unit_type_id" id="tr_unit_type_id" 
                                     class="form-control input-lg dynamic" 
                                     style="width:inherit;"
@@ -59,7 +59,7 @@
                                 </select>
                             </td>
                             <td>
-                                <input v-model="form.tr_item_price[a]" 
+                                <input v-model="form.tr_item_price" 
                                     id="tr_item_price" 
                                     type="number" 
                                     class="form-control" 
@@ -71,11 +71,11 @@
                                 <!-- <has-error :form="form" field="tr_item_price"></has-error> -->
                             </td>
                             <td>    
-                                <input v-model="form.line_total[a]" 
-                                    id="line_total" 
+                                <input v-model="form.tr_line_total" 
+                                    id="tr_line_total" 
                                     type="number" 
                                     class="form-control" 
-                                    name="line_total" 
+                                    name="tr_line_total" 
                                     placeholder="0"
                                     >
                             </td>
@@ -111,34 +111,32 @@
             return{
                 loading: false,
                 disabled: false,
-                items : {},
+                items: {},
                 item_info :{},
                 item_price :{},
                 unitTypes: {},
+                
+                tr_user_id:this.userInfo.id,
+                tr_transaction_type:1,
+                tr_transaction_date:{},
                 final_total:0,
-                forms:new Form({    
-                    tr_user_id:this.userInfo.id,
-                    tr_transaction_date:[],
-                    tr_transaction_type:1,
-                    tr_item_name:[],
-                    tr_item_qty:[],
-                    tr_item_price:[],
-                    tr_unit_type_id:[],
-                    line_total:[],
-                }),
+                forms:[{  
+                    tr_item_name:"",
+                    tr_item_qty:"",
+                    tr_item_price:"",
+                    tr_unit_type_id:"",
+                    tr_line_total:0,
+                }],
             }
         },
         methods:{
             addItemRow(){
                 this.forms.push({
-                    user_id:this.userInfo.id,
-                    tr_transaction_date:"",
-                    tr_transaction_type:1,
                     tr_item_name:"",
                     tr_item_qty:"",
                     tr_item_price:"",
                     tr_unit_type_id:"",
-                    line_total:0,
+                    tr_line_total:0,
                 });
             },
             deleteRow(index, form) {
@@ -155,14 +153,14 @@
             },
             calcPrice(form){
                 var total=parseFloat(form.tr_item_qty) * parseFloat(form.tr_item_price);
-                    form.line_total=total.toFixed(2);
+                    form.tr_line_total=total.toFixed(2);
 
                 this.calcPriceTotal();
             },
             calcPriceTotal(){
                 var total;
                 total = this.forms.reduce(function(sum, product){
-                    var lineTotal = parseFloat(product.line_total);
+                    var lineTotal = parseFloat(product.tr_line_total);
                     if (!isNaN(lineTotal)){
                         return sum + lineTotal;
                     };
@@ -192,32 +190,36 @@
                 this.$Progress.start();
                 this.loading = true;
                 this.disabled = true;
-
-                this.forms
-                    .post('api/addPurchaseData');
-                    // .then(()=>{
-                    // Fire.$emit("refreshData");
-                    // Toast.fire({
-                    //     icon: 'success',
-                    //     title: 'Transaction Saved successfully'
-                    //     });
-                    // this.$Progress.finish();
-                    // this.loading = false;
-                    // this.disabled = false;
-                    // })
+                axios
+                    .post("api/addPurchaseData", {
+                        myArray: this.forms,
+                        transactionDate :this.tr_transaction_date,
+                        transactionType:1,
+                        userId:this.tr_user_id,
+                        total_price:this.final_total
+                    }).then(()=>{
+                    Fire.$emit("refreshData");
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Transaction Saved successfully'
+                        });
+                    this.$Progress.finish();
+                    this.loading = false;
+                    this.disabled = false;
+                    })
                 // else
-                // .catch(()=>{
-                //     this.$Progress.fail();
-                //     this.loading = false;
-                //     this.disabled = false; 
-                // });
+                    .catch(()=>{
+                        this.$Progress.fail();
+                        this.loading = false;
+                        this.disabled = false; 
+                    });
             }
         },
         created(){
             this.loadData();
-            // Fire.$on('refreshData',() => {
-            //     this.loadData();
-            // })
+            Fire.$on('refreshData',() => {
+                this.loadData();
+            })
         }
 
     }
