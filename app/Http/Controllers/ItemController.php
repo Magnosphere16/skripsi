@@ -10,8 +10,9 @@ use DB;
 
 class ItemController extends Controller
 {
-    public function index(){
-
+    public function getUnitTypeId($id){
+        $item=Item::where('id',$id)->first();
+        return $item->id;
     }
 
     public function addItem(Request $request, $id){
@@ -89,6 +90,7 @@ class ItemController extends Controller
     }
 
     public function getItem(){
-        return Item::all();
+        // Eager loading
+        return Item::with('unitType')->get();
     }
 }

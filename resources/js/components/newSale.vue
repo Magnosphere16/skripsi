@@ -3,7 +3,7 @@
         <h1 class="mt-5">New Sale Transaction</h1>
         <form method="POST" action="/addSaleTrans" enctype="multipart/form-data" id="addSaleTransForm">
             <label for="tr_transaction_date">Transaction Date</label>
-            <input  v-model="form.tr_transaction_date"
+            <input  v-model="tr_transaction_date"
                     id="tr_transaction_date" 
                     class="form-control"
                     name="tr_transaction_date" 
@@ -13,6 +13,7 @@
                 <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                         <tr>
+                            <th scope="col">#</th>
                             <th scope="col">Item Name</th>
                             <th scope="col">Item Quantity</th>
                             <th scope="col">Unit Type</th>
@@ -21,7 +22,64 @@
                         </tr>
                     </thead>
                     <tbody class="add_sale_transaction">
-                        <tr>
+                        <tr v-for="(form, a) in forms" :key="a">
+                            <td>
+                                <i class="fas fa-trash-alt red" @click="deleteRow(a, form)"></i>
+                            </td>
+                            <td>
+                                <select v-model="form.tr_item_id" 
+                                    name="tr_item_id" id="tr_item_id" 
+                                    class="form-control input-lg dynamic" 
+                                    style="width:inherit;"
+                                    @change="itemChange($event, a)">
+                                        <option value="">Select Item</option>
+                                        <option v-for="item in items" :key="item.id" :value="item.id">
+                                            {{item.item_name}}
+                                        </option>
+                                </select>
+                            </td>
+                            <td>
+                                <input v-model="form.tr_item_qty"
+                                        id="tr_item_qty" 
+                                        type="number" 
+                                        class="form-control"
+                                        name="tr_item_qty"
+                                        placeholder="min. 1"
+                                        @change="calcPrice(form)"
+                                        >
+                            </td>
+                            <td>
+                                <input v-model="form.tr_unit_type_id" style="display:none;" >
+                                {{!items.find((item) => {
+                                    return item.id === form.tr_item_id
+                                }) ? '' : items.find((item) => {
+                                    return item.id === form.tr_item_id
+                                }).unit_type.unit_type_name}}
+                            </td>
+                            <td>
+                                <input v-model="form.tr_item_price" 
+                                    id="tr_item_price" 
+                                    type="number" 
+                                    class="form-control" 
+                                    name="tr_item_price" 
+                                    value="0"
+                                    placeholder="0"
+                                    @change="calcPrice(form)"
+                                    >
+                                <!-- <has-error :form="form" field="tr_item_price"></has-error> -->
+                            </td>
+                            <td>    
+                                <input v-model="form.tr_line_total" 
+                                    id="tr_line_total" 
+                                    type="number" 
+                                    class="form-control" 
+                                    name="tr_line_total"
+                                    disabled 
+                                    placeholder="0"
+                                    >
+                            </td>
+                        </tr>
+                        <!-- <tr>
                             <td>
                                 <select v-model="form.tr_item_id" 
                                     name="tr_item_id" id="tr_item_id" 
@@ -62,7 +120,7 @@
                             <td id="result_price">
                                 0
                             </td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                     <tfoot>
                         <tr>
@@ -73,9 +131,9 @@
                     </tfoot>
                 </table>
             </div>
-            <div id="total_price" style="float:right; right:0;">
-                <h5>Total:</h5>
-                <h3>60,000</h3>
+            <div id="final_total" style="float:right; right:0;">
+                    <h5>Total:</h5>
+                    <h3>{{final_total}}</h3>
             </div>
         </form>
     </div>
@@ -88,18 +146,21 @@
             return{
                 loading: false,
                 disabled: false,
-                items : {},
+                items : [],
                 item_info :{},
-                item_price :{},
-                unitTypes: {},
-                form: new Form({    
-                    id:"",
+                unitTypes : [],
+
+                tr_user_id:this.userInfo.id,
+                tr_transaction_type:2,
+                tr_transaction_date:{},
+                final_total:0,
+                forms:[{  
                     tr_item_id:"",
                     tr_item_qty:"",
                     tr_item_price:"",
-                    tr_transaction_date:"",
-                    total_price:"",
-                }),
+                    tr_unit_type_id:"",
+                    tr_line_total:0,
+                }],
             }
         },
         methods:{
@@ -119,39 +180,22 @@
                 }
             },
             addItemRow(){
-                var addItem = "<tr class='newEntry'>"
-                addItem+="<td><select @change='change_item_info($event)' name='tr_item_id' id='tr_item_id_add' class='form-control input-lg dynamic' style='width:inherit;'><option value=1>Select Item</option>";
-                for (var item of this.items) {
-                    addItem+=`<option value=${item.id}>${item.item_name}</option>`;
-                }
-                addItem+="</select></td>"
-        //Archived Methods        
-                // var e = document.getElementById("tr_item_id_add");
-                // e.options[e.selectedIndex].value=1;
-                // console.log($('#tr_item_id_add').find(":selected").text());
-                // if(e.options[e.selectedIndex].value){
-                //     for (var item of this.items) {
-                //         if(item.id==e.options[e.selectedIndex].value){
-                //             addItem+=`<td>${item.unit_type_id}</td>`
-                //         }
-                //     }
-                // }
-                // var item_value=e.options[e.selectedIndex].value;// get selected option value
-                // console.log(item_value);
-        //Archived Methods
-                addItem+="<td><input id='tr_item_qty_add' type='number' class='form-control' name='tr_item_qty' placeholder='min. 1' @change='calcPrice(form.tr_item_qty,item_price)'></td>";
-                addItem+="<td id='unit_type_id_add'></td>"
-                addItem+="<td id='item_price_add'></td>"
-                addItem+="<td id='total_price_add'>0</td>"
-                addItem+="<tr>"
-                $("table .add_sale_transaction").append(addItem);
+                this.forms.push({
+                    tr_item_id:"",
+                    tr_item_qty:"",
+                    tr_item_price:"",
+                    tr_unit_type_id:"",
+                    tr_line_total:0,
+                });
             },
-            itemChange(event){
-                this.form.tr_item_qty=
-                document.getElementById("result_price").innerHTML = 0;
+            itemChange(event, index){
+                // find kalo gaketemu return undefined
+                this.forms[index].tr_unit_type_id = this.items.find((item) => {
+                    return item.id === event.target.value;
+                })?.unit_type_id;
             },
             calcPrice($qty,$price){
-                document.getElementById("result_price").innerHTML = $qty*$price;
+                // document.getElementById("result_price").innerHTML = $qty*$price;
             },
             getPrice($price){
                 this.item_price=$price;

@@ -2825,24 +2825,84 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
     return {
       loading: false,
       disabled: false,
-      items: {},
+      items: [],
       item_info: {},
-      item_price: {},
-      unitTypes: {},
-      form: new Form({
-        id: "",
+      unitTypes: [],
+      tr_user_id: this.userInfo.id,
+      tr_transaction_type: 2,
+      tr_transaction_date: {},
+      final_total: 0,
+      forms: [{
         tr_item_id: "",
         tr_item_qty: "",
         tr_item_price: "",
-        tr_transaction_date: "",
-        total_price: ""
-      })
+        tr_unit_type_id: "",
+        tr_line_total: 0
+      }]
     };
   },
   methods: {
@@ -2884,50 +2944,23 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
     },
     addItemRow: function addItemRow() {
-      var addItem = "<tr class='newEntry'>";
-      addItem += "<td><select @change='change_item_info($event)' name='tr_item_id' id='tr_item_id_add' class='form-control input-lg dynamic' style='width:inherit;'><option value=1>Select Item</option>";
-
-      var _iterator3 = _createForOfIteratorHelper(this.items),
-          _step3;
-
-      try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          var item = _step3.value;
-          addItem += "<option value=".concat(item.id, ">").concat(item.item_name, "</option>");
-        }
-      } catch (err) {
-        _iterator3.e(err);
-      } finally {
-        _iterator3.f();
-      }
-
-      addItem += "</select></td>"; //Archived Methods        
-      // var e = document.getElementById("tr_item_id_add");
-      // e.options[e.selectedIndex].value=1;
-      // console.log($('#tr_item_id_add').find(":selected").text());
-      // if(e.options[e.selectedIndex].value){
-      //     for (var item of this.items) {
-      //         if(item.id==e.options[e.selectedIndex].value){
-      //             addItem+=`<td>${item.unit_type_id}</td>`
-      //         }
-      //     }
-      // }
-      // var item_value=e.options[e.selectedIndex].value;// get selected option value
-      // console.log(item_value);
-      //Archived Methods
-
-      addItem += "<td><input id='tr_item_qty_add' type='number' class='form-control' name='tr_item_qty' placeholder='min. 1' @change='calcPrice(form.tr_item_qty,item_price)'></td>";
-      addItem += "<td id='unit_type_id_add'></td>";
-      addItem += "<td id='item_price_add'></td>";
-      addItem += "<td id='total_price_add'>0</td>";
-      addItem += "<tr>";
-      $("table .add_sale_transaction").append(addItem);
+      this.forms.push({
+        tr_item_id: "",
+        tr_item_qty: "",
+        tr_item_price: "",
+        tr_unit_type_id: "",
+        tr_line_total: 0
+      });
     },
-    itemChange: function itemChange(event) {
-      this.form.tr_item_qty = document.getElementById("result_price").innerHTML = 0;
+    itemChange: function itemChange(event, index) {
+      var _this$items$find;
+
+      // find kalo gaketemu return undefined
+      this.forms[index].tr_unit_type_id = (_this$items$find = this.items.find(function (item) {
+        return item.id === event.target.value;
+      })) === null || _this$items$find === void 0 ? void 0 : _this$items$find.unit_type_id;
     },
-    calcPrice: function calcPrice($qty, $price) {
-      document.getElementById("result_price").innerHTML = $qty * $price;
+    calcPrice: function calcPrice($qty, $price) {// document.getElementById("result_price").innerHTML = $qty*$price;
     },
     getPrice: function getPrice($price) {
       this.item_price = $price;
@@ -44784,8 +44817,8 @@ var render = function () {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.form.tr_transaction_date,
-              expression: "form.tr_transaction_date",
+              value: _vm.tr_transaction_date,
+              expression: "tr_transaction_date",
             },
           ],
           staticClass: "form-control",
@@ -44795,13 +44828,13 @@ var render = function () {
             type: "date",
             placeholder: new Date().toLocaleString(),
           },
-          domProps: { value: _vm.form.tr_transaction_date },
+          domProps: { value: _vm.tr_transaction_date },
           on: {
             input: function ($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.form, "tr_transaction_date", $event.target.value)
+              _vm.tr_transaction_date = $event.target.value
             },
           },
         }),
@@ -44810,10 +44843,22 @@ var render = function () {
           _c("table", { staticClass: "table table-bordered table-striped" }, [
             _vm._m(0),
             _vm._v(" "),
-            _c("tbody", { staticClass: "add_sale_transaction" }, [
-              _c(
-                "tr",
-                [
+            _c(
+              "tbody",
+              { staticClass: "add_sale_transaction" },
+              _vm._l(_vm.forms, function (form, a) {
+                return _c("tr", { key: a }, [
+                  _c("td", [
+                    _c("i", {
+                      staticClass: "fas fa-trash-alt red",
+                      on: {
+                        click: function ($event) {
+                          return _vm.deleteRow(a, form)
+                        },
+                      },
+                    }),
+                  ]),
+                  _vm._v(" "),
                   _c("td", [
                     _c(
                       "select",
@@ -44822,7 +44867,7 @@ var render = function () {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.form.tr_item_id,
+                            value: form.tr_item_id,
                             expression: "form.tr_item_id",
                           },
                         ],
@@ -44841,7 +44886,7 @@ var render = function () {
                                   return val
                                 })
                               _vm.$set(
-                                _vm.form,
+                                form,
                                 "tr_item_id",
                                 $event.target.multiple
                                   ? $$selectedVal
@@ -44849,7 +44894,7 @@ var render = function () {
                               )
                             },
                             function ($event) {
-                              return _vm.itemChange($event)
+                              return _vm.itemChange($event, a)
                             },
                           ],
                         },
@@ -44883,7 +44928,7 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.form.tr_item_qty,
+                          value: form.tr_item_qty,
                           expression: "form.tr_item_qty",
                         },
                       ],
@@ -44894,86 +44939,123 @@ var render = function () {
                         name: "tr_item_qty",
                         placeholder: "min. 1",
                       },
-                      domProps: { value: _vm.form.tr_item_qty },
+                      domProps: { value: form.tr_item_qty },
                       on: {
                         change: function ($event) {
-                          return _vm.calcPrice(
-                            _vm.form.tr_item_qty,
-                            _vm.item_price
-                          )
+                          return _vm.calcPrice(form)
                         },
                         input: function ($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.form, "tr_item_qty", $event.target.value)
+                          _vm.$set(form, "tr_item_qty", $event.target.value)
                         },
                       },
                     }),
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.items, function (item) {
-                    return _c(
-                      "div",
-                      { key: item.id, attrs: { value: item.id } },
-                      [
-                        item.id == _vm.form.tr_item_id
-                          ? _c(
-                              "div",
-                              _vm._l(_vm.unitTypes, function (unit) {
-                                return _c(
-                                  "div",
-                                  { key: unit.id, attrs: { value: unit.id } },
-                                  [
-                                    unit.id == item.unit_type_id
-                                      ? _c("td", [
-                                          _vm._v(_vm._s(unit.unit_type_name)),
-                                        ])
-                                      : _vm._e(),
-                                  ]
-                                )
-                              }),
-                              0
-                            )
-                          : _vm._e(),
-                      ]
-                    )
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "td",
-                    _vm._l(_vm.items, function (item) {
-                      return _c(
-                        "div",
-                        { key: item.id, attrs: { value: item.id } },
-                        [
-                          item.id == _vm.form.tr_item_id
-                            ? _c("div", [
-                                _c("p", [_vm._v(_vm._s(item.item_sell_price))]),
-                                _vm._v(" "),
-                                _c("input", {
-                                  staticStyle: { display: "none" },
-                                  domProps: {
-                                    value: _vm.getPrice(item.item_sell_price),
-                                  },
-                                }),
-                              ])
-                            : _vm._e(),
-                        ]
-                      )
+                  _c("td", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: form.tr_unit_type_id,
+                          expression: "form.tr_unit_type_id",
+                        },
+                      ],
+                      staticStyle: { display: "none" },
+                      domProps: { value: form.tr_unit_type_id },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(form, "tr_unit_type_id", $event.target.value)
+                        },
+                      },
                     }),
-                    0
-                  ),
-                  _vm._v(" "),
-                  _c("td", { attrs: { id: "result_price" } }, [
                     _vm._v(
-                      "\n                            0\n                        "
+                      "\n                            " +
+                        _vm._s(
+                          !_vm.items.find(function (item) {
+                            return item.id === form.tr_item_id
+                          })
+                            ? ""
+                            : _vm.items.find(function (item) {
+                                return item.id === form.tr_item_id
+                              }).unit_type.unit_type_name
+                        ) +
+                        "\n                        "
                     ),
                   ]),
-                ],
-                2
-              ),
-            ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: form.tr_item_price,
+                          expression: "form.tr_item_price",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        id: "tr_item_price",
+                        type: "number",
+                        name: "tr_item_price",
+                        value: "0",
+                        placeholder: "0",
+                      },
+                      domProps: { value: form.tr_item_price },
+                      on: {
+                        change: function ($event) {
+                          return _vm.calcPrice(form)
+                        },
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(form, "tr_item_price", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: form.tr_line_total,
+                          expression: "form.tr_line_total",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        id: "tr_line_total",
+                        type: "number",
+                        name: "tr_line_total",
+                        disabled: "",
+                        placeholder: "0",
+                      },
+                      domProps: { value: form.tr_line_total },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(form, "tr_line_total", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]),
+                ])
+              }),
+              0
+            ),
             _vm._v(" "),
             _c("tfoot", [
               _c("tr", [
@@ -44993,7 +45075,18 @@ var render = function () {
           ]),
         ]),
         _vm._v(" "),
-        _vm._m(1),
+        _c(
+          "div",
+          {
+            staticStyle: { float: "right", right: "0" },
+            attrs: { id: "final_total" },
+          },
+          [
+            _c("h5", [_vm._v("Total:")]),
+            _vm._v(" "),
+            _c("h3", [_vm._v(_vm._s(_vm.final_total))]),
+          ]
+        ),
       ]
     ),
   ])
@@ -45005,6 +45098,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-dark" }, [
       _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Name")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Quantity")]),
@@ -45016,19 +45111,6 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Total Price")]),
       ]),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticStyle: { float: "right", right: "0" },
-        attrs: { id: "total_price" },
-      },
-      [_c("h5", [_vm._v("Total:")]), _vm._v(" "), _c("h3", [_vm._v("60,000")])]
-    )
   },
 ]
 render._withStripped = true

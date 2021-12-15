@@ -28,6 +28,8 @@ Route::get('get_category',[CategoryController::class, 'index']);
 
 Route::get('getUnitType',[UnitTypeController::class, 'index']);
 
+Route::get('getUnitTypeId/{id}',[ItemController::class, 'getUnitTypeId']);
+
 Route::get('getItem',[ItemController::class, 'getItem']);
 Route::post('add_item/{id}',[ItemController::class, 'addItem']);
 Route::post('edit_item/{id}',[ItemController::class, 'editItem']);

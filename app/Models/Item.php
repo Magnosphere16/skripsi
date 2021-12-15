@@ -12,4 +12,8 @@ class Item extends Model
     public $timestamps = false;
 
     protected $fillable = ['item_name', 'item_desc', 'item_qty', 'item_buy_price', 'item_sell_price'];
+
+    public function unitType() {
+        return $this->belongsTo(UnitType::class);
+    }
 }
