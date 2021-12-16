@@ -2656,9 +2656,6 @@ __webpack_require__.r(__webpack_exports__);
       }, 0);
       this.final_total = total.toFixed(2);
     },
-    getPrice: function getPrice($price) {
-      this.item_price = $price;
-    },
     loadData: function loadData() {
       var _this = this;
 
@@ -2736,57 +2733,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+var _methods;
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2890,7 +2840,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       loading: false,
       disabled: false,
       items: [],
-      item_info: {},
       unitTypes: [],
       tr_user_id: this.userInfo.id,
       tr_transaction_type: 2,
@@ -2905,44 +2854,23 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }]
     };
   },
-  methods: {
-    change_item_info: function change_item_info(event) {
-      var e = document.getElementById("tr_item_id_add");
-      var new_value = e.options[e.selectedIndex].value;
-      console.log(new_value); //change unit type info
-
-      var _iterator = _createForOfIteratorHelper(this.items),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var item = _step.value;
-
-          if (item.id == id) {
-            var _iterator2 = _createForOfIteratorHelper(this.unitTypes),
-                _step2;
-
-            try {
-              for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-                var unit = _step2.value;
-
-                if (item.unit_type_id == unit.id) {
-                  document.getElementById("unit_type_id_add").innerHTML = unit.unit_type_name;
-                }
-              }
-            } catch (err) {
-              _iterator2.e(err);
-            } finally {
-              _iterator2.f();
-            }
-          }
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
+  methods: (_methods = {
+    calcPrice: function calcPrice(form) {
+      console.log(form);
+      var total = form.tr_item_qty * form.tr_item_price;
+      form.tr_line_total = total;
+      this.calcPriceTotal();
     },
+    // calcPriceTotal(){
+    //     var total;
+    //     total = this.forms.reduce(function(sum, product){
+    //         var lineTotal = parseFloat(product.tr_line_total);
+    //         if (!isNaN(lineTotal)){
+    //             return sum + lineTotal;
+    //         };
+    //     },0);
+    //     this.final_total = total.toFixed(2);
+    // },
     addItemRow: function addItemRow() {
       this.forms.push({
         tr_item_id: "",
@@ -2955,61 +2883,57 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     itemChange: function itemChange(event, index) {
       var _this$items$find;
 
-      // find kalo gaketemu return undefined
+      // find kalo gaketemu return undefined >> return value handling (?.)
       this.forms[index].tr_unit_type_id = (_this$items$find = this.items.find(function (item) {
         return item.id === event.target.value;
-      })) === null || _this$items$find === void 0 ? void 0 : _this$items$find.unit_type_id;
-    },
-    calcPrice: function calcPrice($qty, $price) {// document.getElementById("result_price").innerHTML = $qty*$price;
-    },
-    getPrice: function getPrice($price) {
-      this.item_price = $price;
-    },
-    loadData: function loadData() {
-      var _this = this;
-
-      //untuk panggil progress bar
-      this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
-
-      axios.get('api/getItem').then(function (_ref) {
-        var data = _ref.data;
-        return _this.items = data;
-      });
-      axios.get('api/getUnitType').then(function (_ref2) {
-        var data = _ref2.data;
-        return _this.unitTypes = data;
-      }); //untuk mengakhiri progress bar setelah halaman muncul
-
-      this.$Progress.finish();
-    },
-    postData: function postData() {
-      var _this2 = this;
-
-      console.log(this.userInfo.id);
-      this.$Progress.start();
-      this.loading = true;
-      this.disabled = true;
-      this.form.post('api/add_item/' + this.userInfo.id).then(function () {
-        Fire.$emit("refreshData");
-        $('#addItemForm').modal('hide');
-        Toast.fire({
-          icon: 'success',
-          title: 'Item Saved successfully'
-        });
-
-        _this2.$Progress.finish();
-
-        _this2.loading = false;
-        _this2.disabled = false;
-      }) // else
-      ["catch"](function () {
-        _this2.$Progress.fail();
-
-        _this2.loading = false;
-        _this2.disabled = false;
-      });
+      })) === null || _this$items$find === void 0 ? void 0 : _this$items$find.unit_type_id; // console.log("itemChange("+event.target.value+")");
     }
-  },
+  }, _defineProperty(_methods, "calcPrice", function calcPrice($qty, $price) {// document.getElementById("result_price").innerHTML = $qty*$price;
+  }), _defineProperty(_methods, "getPrice", function getPrice($price) {
+    this.item_price = $price;
+  }), _defineProperty(_methods, "loadData", function loadData() {
+    var _this = this;
+
+    //untuk panggil progress bar
+    this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+
+    axios.get('api/getItem').then(function (_ref) {
+      var data = _ref.data;
+      return _this.items = data;
+    });
+    axios.get('api/getUnitType').then(function (_ref2) {
+      var data = _ref2.data;
+      return _this.unitTypes = data;
+    }); //untuk mengakhiri progress bar setelah halaman muncul
+
+    this.$Progress.finish();
+  }), _defineProperty(_methods, "postData", function postData() {
+    var _this2 = this;
+
+    console.log(this.userInfo.id);
+    this.$Progress.start();
+    this.loading = true;
+    this.disabled = true;
+    this.form.post('api/add_item/' + this.userInfo.id).then(function () {
+      Fire.$emit("refreshData");
+      $('#addItemForm').modal('hide');
+      Toast.fire({
+        icon: 'success',
+        title: 'Item Saved successfully'
+      });
+
+      _this2.$Progress.finish();
+
+      _this2.loading = false;
+      _this2.disabled = false;
+    }) // else
+    ["catch"](function () {
+      _this2.$Progress.fail();
+
+      _this2.loading = false;
+      _this2.disabled = false;
+    });
+  }), _methods),
   created: function created() {
     var _this3 = this;
 
@@ -44942,7 +44866,7 @@ var render = function () {
                       domProps: { value: form.tr_item_qty },
                       on: {
                         change: function ($event) {
-                          return _vm.calcPrice(form)
+                          return _vm.calcPrice(form[a])
                         },
                         input: function ($event) {
                           if ($event.target.composing) {
@@ -45000,19 +44924,9 @@ var render = function () {
                           expression: "form.tr_item_price",
                         },
                       ],
-                      staticClass: "form-control",
-                      attrs: {
-                        id: "tr_item_price",
-                        type: "number",
-                        name: "tr_item_price",
-                        value: "0",
-                        placeholder: "0",
-                      },
+                      staticStyle: { display: "none" },
                       domProps: { value: form.tr_item_price },
                       on: {
-                        change: function ($event) {
-                          return _vm.calcPrice(form)
-                        },
                         input: function ($event) {
                           if ($event.target.composing) {
                             return
@@ -45021,6 +44935,19 @@ var render = function () {
                         },
                       },
                     }),
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(
+                          !_vm.items.find(function (item) {
+                            return item.id === form.tr_item_id
+                          })
+                            ? ""
+                            : _vm.items.find(function (item) {
+                                return item.id === form.tr_item_id
+                              }).item_sell_price
+                        ) +
+                        "\n                            "
+                    ),
                   ]),
                   _vm._v(" "),
                   _c("td", [

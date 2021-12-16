@@ -45,7 +45,7 @@
                                         class="form-control"
                                         name="tr_item_qty"
                                         placeholder="min. 1"
-                                        @change="calcPrice(form)"
+                                        @change="calcPrice(form[a])"
                                         >
                             </td>
                             <td>
@@ -57,15 +57,12 @@
                                 }).unit_type.unit_type_name}}
                             </td>
                             <td>
-                                <input v-model="form.tr_item_price" 
-                                    id="tr_item_price" 
-                                    type="number" 
-                                    class="form-control" 
-                                    name="tr_item_price" 
-                                    value="0"
-                                    placeholder="0"
-                                    @change="calcPrice(form)"
-                                    >
+                                <input v-model="form.tr_item_price" style="display:none;">
+                                {{!items.find((item) => {
+                                    return item.id === form.tr_item_id
+                                }) ? '' : items.find((item) => {
+                                    return item.id === form.tr_item_id
+                                }).item_sell_price}}
                                 <!-- <has-error :form="form" field="tr_item_price"></has-error> -->
                             </td>
                             <td>    
@@ -79,48 +76,6 @@
                                     >
                             </td>
                         </tr>
-                        <!-- <tr>
-                            <td>
-                                <select v-model="form.tr_item_id" 
-                                    name="tr_item_id" id="tr_item_id" 
-                                    class="form-control input-lg dynamic" 
-                                    style="width:inherit;"
-                                    @change="itemChange($event)">
-                                        <option value="">Select Item</option>
-                                        <option v-for="item in items" :key="item.id" :value="item.id">
-                                            {{item.item_name}}
-                                        </option>
-                                </select>
-                            </td>
-                            <td>
-                                <input v-model="form.tr_item_qty"
-                                        id="tr_item_qty" 
-                                        type="number" 
-                                        class="form-control"
-                                        name="tr_item_qty"
-                                        placeholder="min. 1"
-                                        @change="calcPrice(form.tr_item_qty,item_price)"
-                                        >
-                            </td>
-                            <div v-for="item in items" :key="item.id" :value="item.id">
-                                <div v-if="item.id == form.tr_item_id">
-                                    <div v-for="unit in unitTypes" :key="unit.id" :value="unit.id">
-                                        <td v-if="unit.id == item.unit_type_id">{{unit.unit_type_name}}</td>
-                                    </div>
-                                </div>
-                            </div>
-                            <td>
-                                <div v-for="item in items" :key="item.id" :value="item.id">
-                                    <div v-if="item.id == form.tr_item_id">
-                                        <p>{{item.item_sell_price}}</p>
-                                        <input style="display:none;" :value="getPrice(item.item_sell_price)">
-                                    </div>
-                                </div>
-                            </td>
-                            <td id="result_price">
-                                0
-                            </td>
-                        </tr> -->
                     </tbody>
                     <tfoot>
                         <tr>
@@ -147,7 +102,6 @@
                 loading: false,
                 disabled: false,
                 items : [],
-                item_info :{},
                 unitTypes : [],
 
                 tr_user_id:this.userInfo.id,
@@ -164,21 +118,23 @@
             }
         },
         methods:{
-            change_item_info(event){
-                var e = document.getElementById("tr_item_id_add");
-                var new_value=e.options[e.selectedIndex].value;
-                console.log(new_value);
-                //change unit type info
-                for(var item of this.items){
-                    if(item.id == id){
-                        for(var unit of this.unitTypes){
-                            if(item.unit_type_id == unit.id){
-                                document.getElementById("unit_type_id_add").innerHTML = unit.unit_type_name;
-                            }
-                        }
-                    }
-                }
+            calcPrice(form){
+                console.log(form);
+                var total=form.tr_item_qty * form.tr_item_price;
+                    form.tr_line_total=total;
+
+                this.calcPriceTotal();
             },
+            // calcPriceTotal(){
+            //     var total;
+            //     total = this.forms.reduce(function(sum, product){
+            //         var lineTotal = parseFloat(product.tr_line_total);
+            //         if (!isNaN(lineTotal)){
+            //             return sum + lineTotal;
+            //         };
+            //     },0);
+            //     this.final_total = total.toFixed(2);
+            // },
             addItemRow(){
                 this.forms.push({
                     tr_item_id:"",
@@ -189,10 +145,12 @@
                 });
             },
             itemChange(event, index){
-                // find kalo gaketemu return undefined
+                // find kalo gaketemu return undefined >> return value handling (?.)
                 this.forms[index].tr_unit_type_id = this.items.find((item) => {
                     return item.id === event.target.value;
                 })?.unit_type_id;
+
+                // console.log("itemChange("+event.target.value+")");
             },
             calcPrice($qty,$price){
                 // document.getElementById("result_price").innerHTML = $qty*$price;

@@ -169,9 +169,6 @@
 
                 this.final_total = total.toFixed(2);
             },
-            getPrice($price){
-                this.item_price=$price;
-            },
             loadData(){
                 //untuk panggil progress bar
                 this.$Progress.start();
