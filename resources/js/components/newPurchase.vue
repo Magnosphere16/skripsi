@@ -190,7 +190,7 @@
                 this.disabled = true;
                 axios
                     .post("api/addPurchaseData", {
-                        myArray: this.forms,
+                        purchaseArray: this.forms,
                         transactionDate :this.tr_transaction_date,
                         transactionType:1,
                         userId:this.tr_user_id,

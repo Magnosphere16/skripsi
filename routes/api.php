@@ -36,5 +36,8 @@ Route::post('edit_item/{id}',[ItemController::class, 'editItem']);
 Route::post('delete_item/{id}',[ItemController::class, 'deleteItem']);
 
 Route::get('getPurchaseTransactions',[TransactionController::class, 'getPurchaseTransactions']);
-Route::post('addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);
+Route::get('getSaleTransactions',[TransactionController::class, 'getSaleTransactions']);
 Route::get('getTransactionType',[TransactionController::class, 'getTransactionType']);
+
+Route::post('addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);
+Route::post('addSaleData',[TransactionController::class, 'addSaleTransaction']);

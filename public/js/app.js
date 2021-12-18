@@ -2680,7 +2680,7 @@ __webpack_require__.r(__webpack_exports__);
       this.loading = true;
       this.disabled = true;
       axios.post("api/addPurchaseData", {
-        myArray: this.forms,
+        purchaseArray: this.forms,
         transactionDate: this.tr_transaction_date,
         transactionType: 1,
         userId: this.tr_user_id,
@@ -2733,10 +2733,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-var _methods;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
+//
+//
 //
 //
 //
@@ -2854,23 +2853,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }]
     };
   },
-  methods: (_methods = {
-    calcPrice: function calcPrice(form) {
-      console.log(form);
-      var total = form.tr_item_qty * form.tr_item_price;
-      form.tr_line_total = total;
-      this.calcPriceTotal();
-    },
-    // calcPriceTotal(){
-    //     var total;
-    //     total = this.forms.reduce(function(sum, product){
-    //         var lineTotal = parseFloat(product.tr_line_total);
-    //         if (!isNaN(lineTotal)){
-    //             return sum + lineTotal;
-    //         };
-    //     },0);
-    //     this.final_total = total.toFixed(2);
-    // },
+  methods: {
     addItemRow: function addItemRow() {
       this.forms.push({
         tr_item_id: "",
@@ -2885,55 +2868,81 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       // find kalo gaketemu return undefined >> return value handling (?.)
       this.forms[index].tr_unit_type_id = (_this$items$find = this.items.find(function (item) {
-        return item.id === event.target.value;
+        return item.id == event.target.value;
       })) === null || _this$items$find === void 0 ? void 0 : _this$items$find.unit_type_id; // console.log("itemChange("+event.target.value+")");
-    }
-  }, _defineProperty(_methods, "calcPrice", function calcPrice($qty, $price) {// document.getElementById("result_price").innerHTML = $qty*$price;
-  }), _defineProperty(_methods, "getPrice", function getPrice($price) {
-    this.item_price = $price;
-  }), _defineProperty(_methods, "loadData", function loadData() {
-    var _this = this;
+    },
+    calcPrice: function calcPrice(form, index) {
+      var total = form.tr_item_qty * form.tr_item_price;
+      this.forms[index].tr_line_total = total;
+      this.calcPriceTotal();
+    },
+    calcPriceTotal: function calcPriceTotal() {
+      var total;
+      total = this.forms.reduce(function (sum, product) {
+        var lineTotal = parseFloat(product.tr_line_total);
 
-    //untuk panggil progress bar
-    this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+        if (!isNaN(lineTotal)) {
+          return sum + lineTotal;
+        }
 
-    axios.get('api/getItem').then(function (_ref) {
-      var data = _ref.data;
-      return _this.items = data;
-    });
-    axios.get('api/getUnitType').then(function (_ref2) {
-      var data = _ref2.data;
-      return _this.unitTypes = data;
-    }); //untuk mengakhiri progress bar setelah halaman muncul
+        ;
+      }, 0);
+      this.final_total = total.toFixed(2);
+    },
+    loadData: function loadData() {
+      var _this = this;
 
-    this.$Progress.finish();
-  }), _defineProperty(_methods, "postData", function postData() {
-    var _this2 = this;
+      //untuk panggil progress bar
+      this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
 
-    console.log(this.userInfo.id);
-    this.$Progress.start();
-    this.loading = true;
-    this.disabled = true;
-    this.form.post('api/add_item/' + this.userInfo.id).then(function () {
-      Fire.$emit("refreshData");
-      $('#addItemForm').modal('hide');
-      Toast.fire({
-        icon: 'success',
-        title: 'Item Saved successfully'
+      axios.get('api/getItem').then(function (_ref) {
+        var data = _ref.data;
+        return _this.items = data;
       });
+      axios.get('api/getUnitType').then(function (_ref2) {
+        var data = _ref2.data;
+        return _this.unitTypes = data;
+      }); //untuk mengakhiri progress bar setelah halaman muncul
 
-      _this2.$Progress.finish();
+      this.$Progress.finish();
+    },
+    postData: function postData() {
+      var _this2 = this;
 
-      _this2.loading = false;
-      _this2.disabled = false;
-    }) // else
-    ["catch"](function () {
-      _this2.$Progress.fail();
+      this.$Progress.start();
+      this.loading = true;
+      this.disabled = true;
+      axios.post("api/addSaleData", {
+        saleArray: this.forms,
+        transactionDate: this.tr_transaction_date,
+        transactionType: 2,
+        userId: this.tr_user_id,
+        total_price: this.final_total
+      }).then(function () {
+        Fire.$emit("refreshData");
+        Swal.fire('Success!', 'Sale Transaction Saved Successfully!', 'success').then(function () {
+          window.location = "/home";
+        });
 
-      _this2.loading = false;
-      _this2.disabled = false;
-    });
-  }), _methods),
+        _this2.$Progress.finish();
+
+        _this2.loading = false;
+        _this2.disabled = false;
+      }) // else
+      ["catch"](function () {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "Don't Forget to Fill the required Inputs!"
+        });
+
+        _this2.$Progress.fail();
+
+        _this2.loading = false;
+        _this2.disabled = false;
+      });
+    }
+  },
   created: function created() {
     var _this3 = this;
 
@@ -3302,22 +3311,59 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mounted: function mounted() {}
+  props: ['userInfo'],
+  data: function data() {
+    return {
+      loading: false,
+      disabled: false,
+      transactionsHeader: {},
+      transactionsDetail: {},
+      transactionType: {},
+      categories: {},
+      items: {},
+      unitTypes: {}
+    };
+  },
+  methods: {
+    loadData: function loadData() {
+      var _this = this;
+
+      //untuk panggil progress bar
+      this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+
+      axios.get('api/getSaleTransactions').then(function (_ref) {
+        var data = _ref.data;
+        return _this.transactionsHeader = data;
+      });
+      axios.get('api/getTransactionType').then(function (_ref2) {
+        var data = _ref2.data;
+        return _this.transactionType = data;
+      });
+      axios.get('api/get_category').then(function (_ref3) {
+        var data = _ref3.data;
+        return _this.categories = data;
+      });
+      axios.get('api/getItem').then(function (_ref4) {
+        var data = _ref4.data;
+        return _this.items = data;
+      });
+      axios.get('api/getUnitType').then(function (_ref5) {
+        var data = _ref5.data;
+        return _this.unitTypes = data;
+      }); //untuk mengakhiri progress bar setelah halaman muncul
+
+      this.$Progress.finish();
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+
+    this.loadData();
+    Fire.$on('refreshData', function () {
+      _this2.loadData();
+    });
+  }
 });
 
 /***/ }),
@@ -44724,16 +44770,16 @@ var render = function () {
     _c(
       "form",
       {
-        attrs: {
-          method: "POST",
-          action: "/addSaleTrans",
-          enctype: "multipart/form-data",
-          id: "addSaleTransForm",
+        on: {
+          submit: function ($event) {
+            $event.preventDefault()
+            return _vm.postData()
+          },
         },
       },
       [
         _c("label", { attrs: { for: "tr_transaction_date" } }, [
-          _vm._v("Transaction Date"),
+          _vm._v("Transaction Date*"),
         ]),
         _vm._v(" "),
         _c("input", {
@@ -44865,15 +44911,17 @@ var render = function () {
                       },
                       domProps: { value: form.tr_item_qty },
                       on: {
-                        change: function ($event) {
-                          return _vm.calcPrice(form[a])
-                        },
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(form, "tr_item_qty", $event.target.value)
-                        },
+                        input: [
+                          function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(form, "tr_item_qty", $event.target.value)
+                          },
+                          function ($event) {
+                            return _vm.calcPrice(form, a)
+                          },
+                        ],
                       },
                     }),
                   ]),
@@ -44939,6 +44987,7 @@ var render = function () {
                       "\n                            " +
                         _vm._s(
                           !_vm.items.find(function (item) {
+                            form.tr_item_price = item.item_sell_price
                             return item.id === form.tr_item_id
                           })
                             ? ""
@@ -44950,7 +44999,7 @@ var render = function () {
                     ),
                   ]),
                   _vm._v(" "),
-                  _c("td", [
+                  _c("td", { attrs: { id: "sub_total" } }, [
                     _c("input", {
                       directives: [
                         {
@@ -44960,14 +45009,7 @@ var render = function () {
                           expression: "form.tr_line_total",
                         },
                       ],
-                      staticClass: "form-control",
-                      attrs: {
-                        id: "tr_line_total",
-                        type: "number",
-                        name: "tr_line_total",
-                        disabled: "",
-                        placeholder: "0",
-                      },
+                      staticStyle: { display: "none" },
                       domProps: { value: form.tr_line_total },
                       on: {
                         input: function ($event) {
@@ -44978,6 +45020,11 @@ var render = function () {
                         },
                       },
                     }),
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(form.tr_item_qty * form.tr_item_price) +
+                        "\n                        "
+                    ),
                   ]),
                 ])
               }),
@@ -45014,6 +45061,31 @@ var render = function () {
             _c("h3", [_vm._v(_vm._s(_vm.final_total))]),
           ]
         ),
+        _vm._v(" "),
+        _c("div", [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              staticStyle: { float: "left", left: "0" },
+              attrs: { type: "submit" },
+            },
+            [
+              _c("i", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.loading,
+                    expression: "loading",
+                  },
+                ],
+                staticClass: "fa fa-spinner fa-spin",
+              }),
+              _vm._v("\n                    Submit Transaction\n            "),
+            ]
+          ),
+        ]),
       ]
     ),
   ])
@@ -45027,15 +45099,15 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Name")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Name*")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Quantity")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Quantity*")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Unit Type")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Unit Type*")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Price")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Price*")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Total Price")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Total Price*")]),
       ]),
     ])
   },
@@ -45751,7 +45823,44 @@ var render = function () {
             1
           ),
           _vm._v(" "),
-          _vm._m(0),
+          _c("div", { staticClass: "card-body" }, [
+            _c("table", { staticClass: "table table-striped" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.transactionsHeader, function (a) {
+                  return _c(
+                    "tr",
+                    { key: a.id, attrs: { value: a.id } },
+                    [
+                      _c("td", [_vm._v(_vm._s(a.id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(a.tr_transaction_date))]),
+                      _vm._v(" "),
+                      _vm._l(_vm.transactionType, function (type) {
+                        return _c(
+                          "div",
+                          { key: type.id, attrs: { value: type.id } },
+                          [
+                            a.tr_transaction_type_id === type.id
+                              ? _c("td", { staticStyle: { color: "red" } }, [
+                                  _vm._v(_vm._s(type.transaction_type_name)),
+                                ])
+                              : _vm._e(),
+                          ]
+                        )
+                      }),
+                      _vm._v(" "),
+                      _c("td", [_vm._v("Rp " + _vm._s(a.tr_total_price))]),
+                    ],
+                    2
+                  )
+                }),
+                0
+              ),
+            ]),
+          ]),
         ]),
       ]),
     ]),
@@ -45762,22 +45871,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body" }, [
-      _c("table", { staticClass: "table table-striped" }, [
-        _c("thead", [
-          _c("th", [_vm._v("Item Name")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Item Quantity (pcs)")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Item Price")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Transaction Type")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Total Price")]),
-        ]),
-        _vm._v(" "),
-        _c("tbody"),
-      ]),
+    return _c("thead", [
+      _c("th", [_vm._v("Transaction ID")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Transaction Date")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Transaction Type")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Total Price")]),
     ])
   },
 ]

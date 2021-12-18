@@ -11,34 +11,20 @@
                 <div class="card-body">
                     <table class="table table-striped">
                         <thead>
-                            <th>Item Name</th>
-                            <th>Item Quantity (pcs)</th>
-                            <th>Item Price</th>
+                            <th>Transaction ID</th>
+                            <th>Transaction Date</th>
                             <th>Transaction Type</th>
                             <th>Total Price</th>
                         </thead>
                         <tbody>
-                            <!-- <tr v-for="a in items" :key="a.id" :value="a.id">
-                                <td>{{a.item_name}}</td>
-                                <td>{{a.item_desc}}</td>
-                                <td>{{a.item_qty}}</td>
-                                <td>Rp {{a.item_buy_price}}</td>
-                                <td>Rp {{a.item_sell_price}}</td>
-                                <td>
-                                        <a
-                                            href="#"
-                                            @click="showModalEdit(a)"
-                                            ><i class="fas fa-edit blue"></i
-                                        ></a>
-                                        | <a
-                                            href="#"
-                                            @click="deleteData(a.id)"
-                                            ><i
-                                                class="fas fa-trash-alt red"
-                                            ></i
-                                        ></a>
-                                </td>
-                            </tr> -->
+                            <tr v-for="a in transactionsHeader" :key="a.id" :value="a.id">
+                                <td>{{a.id}}</td>
+                                <td>{{a.tr_transaction_date}}</td>
+                                <div v-for="type in transactionType" :key="type.id" :value="type.id">
+                                    <td v-if="a.tr_transaction_type_id === type.id" style="color:red">{{type.transaction_type_name}}</td>
+                                </div>
+                                <td>Rp {{a.tr_total_price}}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -58,7 +44,52 @@
 
 <script>
     export default {
-        mounted() {
+        props: ['userInfo'],
+        data(){
+            return{
+                loading: false,
+                disabled: false,
+                transactionsHeader : {},
+                transactionsDetail : {},
+                transactionType : {},
+                categories : {},
+                items : {},
+                unitTypes : {},
+            }
+        },
+        methods:{
+            loadData(){
+                //untuk panggil progress bar
+                this.$Progress.start();
+
+                // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+                axios
+                    .get('api/getSaleTransactions')
+                    .then(({data}) => (this.transactionsHeader = data));
+                
+                axios
+                    .get('api/getTransactionType')
+                    .then(({data}) => (this.transactionType = data));
+
+                axios
+                    .get('api/get_category')
+                    .then(({data}) => (this.categories = data));
+                axios
+                    .get('api/getItem')
+                    .then(({data}) => (this.items = data));
+                axios
+                    .get('api/getUnitType')
+                    .then(({data}) => (this.unitTypes = data));
+                //untuk mengakhiri progress bar setelah halaman muncul
+                this.$Progress.finish();
+            },
+        },
+        created(){
+            this.loadData();
+            Fire.$on('refreshData',() => {
+                this.loadData();
+            })
         }
+
     }
 </script>

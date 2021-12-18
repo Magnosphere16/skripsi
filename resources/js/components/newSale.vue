@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <h1 class="mt-5">New Sale Transaction</h1>
-        <form method="POST" action="/addSaleTrans" enctype="multipart/form-data" id="addSaleTransForm">
-            <label for="tr_transaction_date">Transaction Date</label>
+        <form @submit.prevent="postData()">
+            <label for="tr_transaction_date">Transaction Date*</label>
             <input  v-model="tr_transaction_date"
                     id="tr_transaction_date" 
                     class="form-control"
@@ -14,11 +14,11 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Item Name</th>
-                            <th scope="col">Item Quantity</th>
-                            <th scope="col">Unit Type</th>
-                            <th scope="col">Item Price</th>
-                            <th scope="col">Total Price</th>
+                            <th scope="col">Item Name*</th>
+                            <th scope="col">Item Quantity*</th>
+                            <th scope="col">Unit Type*</th>
+                            <th scope="col">Item Price*</th>
+                            <th scope="col">Total Price*</th>
                         </tr>
                     </thead>
                     <tbody class="add_sale_transaction">
@@ -45,7 +45,7 @@
                                         class="form-control"
                                         name="tr_item_qty"
                                         placeholder="min. 1"
-                                        @change="calcPrice(form[a])"
+                                        @input="calcPrice(form,a)"
                                         >
                             </td>
                             <td>
@@ -59,21 +59,18 @@
                             <td>
                                 <input v-model="form.tr_item_price" style="display:none;">
                                 {{!items.find((item) => {
+                                    form.tr_item_price=item.item_sell_price;
                                     return item.id === form.tr_item_id
                                 }) ? '' : items.find((item) => {
                                     return item.id === form.tr_item_id
                                 }).item_sell_price}}
                                 <!-- <has-error :form="form" field="tr_item_price"></has-error> -->
                             </td>
-                            <td>    
-                                <input v-model="form.tr_line_total" 
-                                    id="tr_line_total" 
-                                    type="number" 
-                                    class="form-control" 
-                                    name="tr_line_total"
-                                    disabled 
-                                    placeholder="0"
-                                    >
+                            <td id="sub_total">    
+                                <input v-model="form.tr_line_total" style="display:none">
+                                {{
+                                    form.tr_item_qty * form.tr_item_price 
+                                }}
                             </td>
                         </tr>
                     </tbody>
@@ -89,6 +86,12 @@
             <div id="final_total" style="float:right; right:0;">
                     <h5>Total:</h5>
                     <h3>{{final_total}}</h3>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-danger" style="float:left; left:0;">
+                    <i v-show="loading" class="fa fa-spinner fa-spin"></i>
+                        Submit Transaction
+                </button>
             </div>
         </form>
     </div>
@@ -118,23 +121,6 @@
             }
         },
         methods:{
-            calcPrice(form){
-                console.log(form);
-                var total=form.tr_item_qty * form.tr_item_price;
-                    form.tr_line_total=total;
-
-                this.calcPriceTotal();
-            },
-            // calcPriceTotal(){
-            //     var total;
-            //     total = this.forms.reduce(function(sum, product){
-            //         var lineTotal = parseFloat(product.tr_line_total);
-            //         if (!isNaN(lineTotal)){
-            //             return sum + lineTotal;
-            //         };
-            //     },0);
-            //     this.final_total = total.toFixed(2);
-            // },
             addItemRow(){
                 this.forms.push({
                     tr_item_id:"",
@@ -147,16 +133,26 @@
             itemChange(event, index){
                 // find kalo gaketemu return undefined >> return value handling (?.)
                 this.forms[index].tr_unit_type_id = this.items.find((item) => {
-                    return item.id === event.target.value;
+                    return item.id == event.target.value;
                 })?.unit_type_id;
-
+                
                 // console.log("itemChange("+event.target.value+")");
             },
-            calcPrice($qty,$price){
-                // document.getElementById("result_price").innerHTML = $qty*$price;
+            calcPrice(form,index){
+                var total=form.tr_item_qty * form.tr_item_price;
+                this.forms[index].tr_line_total=total;
+
+                this.calcPriceTotal();
             },
-            getPrice($price){
-                this.item_price=$price;
+            calcPriceTotal(){
+                var total;
+                total = this.forms.reduce(function(sum, product){
+                    var lineTotal = parseFloat(product.tr_line_total);
+                    if (!isNaN(lineTotal)){
+                        return sum + lineTotal;
+                    };
+                },0);
+                this.final_total = total.toFixed(2);
             },
             loadData(){
                 //untuk panggil progress bar
@@ -174,30 +170,40 @@
                 this.$Progress.finish();
             },
             postData(){
-                console.log(this.userInfo.id);
                 this.$Progress.start();
                 this.loading = true;
                 this.disabled = true;
-
-                this.form
-                    .post('api/add_item/'+this.userInfo.id)
-                    .then(()=>{
+                axios
+                    .post("api/addSaleData", {
+                        saleArray: this.forms,
+                        transactionDate :this.tr_transaction_date,
+                        transactionType:2,
+                        userId:this.tr_user_id,
+                        total_price:this.final_total
+                    }).then(()=>{
                     Fire.$emit("refreshData");
-                    $('#addItemForm').modal('hide');
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Item Saved successfully'
-                        });
+                    Swal.fire(
+                        'Success!',
+                        'Sale Transaction Saved Successfully!',
+                        'success'
+                        ).then(function() {
+                        window.location = "/home";
+                    });
                     this.$Progress.finish();
                     this.loading = false;
                     this.disabled = false;
                     })
                 // else
-                .catch(()=>{
-                    this.$Progress.fail();
-                    this.loading = false;
-                    this.disabled = false; 
-                });
+                    .catch(()=>{
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: "Don't Forget to Fill the required Inputs!",
+                        })
+                        this.$Progress.fail();
+                        this.loading = false;
+                        this.disabled = false; 
+                    });
             }
         },
         created(){
