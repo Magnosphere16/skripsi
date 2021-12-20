@@ -47,11 +47,12 @@ let routes =[
     {path: '/purchase_transactions', component:require('./components/purchase_transactions.vue').default},
     {path: '/profile', component:require('./components/profile.vue').default},
     {path: '/newSale', component:require('./components/newSale.vue').default},
-    {path: '/newPurchase', component:require('./components/newPurchase.vue').default}
+    {path: '/newPurchase', component:require('./components/newPurchase.vue').default},
+    {path: '/prediction', component:require('./components/Prediction.vue').default}
 ]
 
 //per component fragment untuk di put ke dalam blade
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 const router = new VueRouter({
     mode: 'history',

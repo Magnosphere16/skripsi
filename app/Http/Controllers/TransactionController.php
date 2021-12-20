@@ -120,6 +120,26 @@ class TransactionController extends Controller
         return TransactionHeader::where('tr_transaction_type_id',2)->get();
     }
 
+    public function getAsset()
+    {
+        $trans_Header=TransactionHeader::where('tr_transaction_type_id',1)->get();
+        $total_price=0;
+        for($i=0;$i<count($trans_Header);$i++){
+            $total_price += $trans_Header[$i]->tr_total_price;
+        }
+        return $total_price;
+    }
+
+    public function getSale()
+    {
+        $trans_Header=TransactionHeader::where('tr_transaction_type_id',2)->get();
+        $total_price=0;
+        for($i=0;$i<count($trans_Header);$i++){
+            $total_price += $trans_Header[$i]->tr_total_price;
+        }
+        return $total_price;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -131,48 +151,4 @@ class TransactionController extends Controller
         return TransactionType::all();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

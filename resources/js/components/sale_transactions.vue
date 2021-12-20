@@ -23,7 +23,7 @@
                                 <div v-for="type in transactionType" :key="type.id" :value="type.id">
                                     <td v-if="a.tr_transaction_type_id === type.id" style="color:red">{{type.transaction_type_name}}</td>
                                 </div>
-                                <td>Rp {{a.tr_total_price}}</td>
+                                <td>Rp {{(a.tr_total_price).toLocaleString('en')}}</td>
                             </tr>
                         </tbody>
                     </table>

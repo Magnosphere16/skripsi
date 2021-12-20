@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="/" class="brand-link">
+    <a href="/home" class="brand-link">
       <i class="fas fa-cubes"></i><span class="brand-text font-weight-light"> StockInFlow</span>
     </a>
 
@@ -29,6 +29,11 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="prediction" class="nav-link">
+                  <p>Profit Prediction</p>
+                </router-link>
+              </li>
               <li class="nav-item">
                 <router-link to="items" class="nav-link">
                   <i class="fas fa-archive blue"></i>

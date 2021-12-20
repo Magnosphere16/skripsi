@@ -267,7 +267,6 @@
                 this.$Progress.finish();
             },
             postData(){
-                console.log(this.userInfo.id);
                 this.$Progress.start();
                 this.loading = true;
                 this.disabled = true;

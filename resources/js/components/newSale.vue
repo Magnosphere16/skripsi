@@ -56,20 +56,20 @@
                                     return item.id === form.tr_item_id
                                 }).unit_type.unit_type_name}}
                             </td>
-                            <td>
+                            <td style="text-align: right;">
                                 <input v-model="form.tr_item_price" style="display:none;">
-                                {{!items.find((item) => {
+                                Rp. {{!items.find((item) => {
                                     form.tr_item_price=item.item_sell_price;
                                     return item.id === form.tr_item_id
-                                }) ? '' : items.find((item) => {
+                                }) ? 0 : items.find((item) => {
                                     return item.id === form.tr_item_id
-                                }).item_sell_price}}
+                                }).item_sell_price.toLocaleString('en') }}
                                 <!-- <has-error :form="form" field="tr_item_price"></has-error> -->
                             </td>
-                            <td id="sub_total">    
+                            <td id="sub_total" style="text-align: right;">    
                                 <input v-model="form.tr_line_total" style="display:none">
-                                {{
-                                    form.tr_item_qty * form.tr_item_price 
+                                Rp. {{
+                                    (form.tr_item_qty * form.tr_item_price).toLocaleString('en')  
                                 }}
                             </td>
                         </tr>
@@ -85,7 +85,7 @@
             </div>
             <div id="final_total" style="float:right; right:0;">
                     <h5>Total:</h5>
-                    <h3>{{final_total}}</h3>
+                    <h3>Rp. {{(final_total).toLocaleString('en')}}</h3>
             </div>
             <div>
                 <button type="submit" class="btn btn-danger" style="float:left; left:0;">
@@ -152,7 +152,7 @@
                         return sum + lineTotal;
                     };
                 },0);
-                this.final_total = total.toFixed(2);
+                this.final_total = total;
             },
             loadData(){
                 //untuk panggil progress bar
@@ -173,7 +173,7 @@
                 this.$Progress.start();
                 this.loading = true;
                 this.disabled = true;
-                axios
+                    axios
                     .post("api/addSaleData", {
                         saleArray: this.forms,
                         transactionDate :this.tr_transaction_date,
@@ -197,8 +197,8 @@
                     .catch(()=>{
                         Swal.fire({
                         icon: 'error',
-                        title: 'Oops...',
-                        text: "Don't Forget to Fill the required Inputs!",
+                        title: 'Transaction Failed',
+                        text: "Please fill the required fields",
                         })
                         this.$Progress.fail();
                         this.loading = false;

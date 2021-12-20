@@ -29,6 +29,7 @@ class ItemController extends Controller
 
         //Find Existing Item Category
         $findCategory=Category::where('id',$request->item_category_id)->first();
+        
         if($findCategory==NULL){
             $dataSave=[
                 'category_name'=>$request->item_category_id,

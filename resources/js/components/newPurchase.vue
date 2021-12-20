@@ -70,15 +70,18 @@
                                     >
                                 <!-- <has-error :form="form" field="tr_item_price"></has-error> -->
                             </td>
-                            <td>    
+                            <td> 
                                 <input v-model="form.tr_line_total" 
                                     id="tr_line_total" 
                                     type="number" 
                                     class="form-control" 
                                     name="tr_line_total"
-                                    disabled 
+                                    style="display:none;" 
                                     placeholder="0"
                                     >
+                                Rp. {{
+                                    (form.tr_item_qty * form.tr_item_price).toLocaleString('en')  
+                                }}
                             </td>
                         </tr>
                     </tbody>
@@ -93,7 +96,7 @@
             </div>
             <div id="final_total" style="float:right; right:0;">
                     <h5>Total:</h5>
-                    <h3>{{final_total}}</h3>
+                    <h3>Rp. {{(final_total).toLocaleString('en')}}</h3>
             </div>
                 <div>
                     <button type="submit" class="btn btn-success" style="float:left; left:0;">
@@ -154,7 +157,7 @@
             },
             calcPrice(form){
                 var total=parseFloat(form.tr_item_qty) * parseFloat(form.tr_item_price);
-                    form.tr_line_total=total.toFixed(2);
+                    form.tr_line_total=total;
 
                 this.calcPriceTotal();
             },
@@ -167,7 +170,7 @@
                     };
                 },0);
 
-                this.final_total = total.toFixed(2);
+                this.final_total = total;
             },
             loadData(){
                 //untuk panggil progress bar
