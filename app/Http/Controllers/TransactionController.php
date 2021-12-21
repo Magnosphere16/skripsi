@@ -123,6 +123,7 @@ class TransactionController extends Controller
     public function getAsset()
     {
         $trans_Header=TransactionHeader::where('tr_transaction_type_id',1)->get();
+    
         $total_price=0;
         for($i=0;$i<count($trans_Header);$i++){
             $total_price += $trans_Header[$i]->tr_total_price;

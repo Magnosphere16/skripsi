@@ -65,7 +65,7 @@
                                                         class="form-control"
                                                         id="item_name" 
                                                         type="text" 
-                                                        v-model="form.item_name" 
+                                                        v-model="form.item_name"
                                                         name="item_name" 
                                                         required
                                                         placeholder="Item Name">
@@ -354,6 +354,5 @@
                 this.loadData();
             })
         }
-
     }
 </script>

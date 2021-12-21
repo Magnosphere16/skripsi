@@ -2103,8 +2103,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
@@ -43643,11 +43641,6 @@ var render = function () {
                 "card-footer d-flex align-items-center justify-content-between",
             },
             [
-              _vm._v(
-                "\n                        Harga Modal : Rp. " +
-                  _vm._s(_vm.harga_modal.toLocaleString("en")) +
-                  "\n                        "
-              ),
               _c(
                 "a",
                 {
@@ -43687,6 +43680,10 @@ var render = function () {
           ),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
+            _vm._v(
+              "\n                    Harga Modal : Rp. " +
+                _vm._s(_vm.harga_modal.toLocaleString("en"))
+            ),
             _c("br"),
             _vm._v(
               "\n                    Total Jual  : Rp. " +
