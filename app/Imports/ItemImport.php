@@ -36,22 +36,22 @@ class ItemImport implements ToCollection, WithHeadingRow
             $unitTypeId=0;
             $itemCategoryId=0;
 
-            $unit_type=UnitType::where('unit_type_name',$row['unit_type_id'])->first();
+            $unit_type=UnitType::where('unit_type_name',$row['unit_type'])->first();
             // if unit type is not in db
             if($unit_type==null){
                 $newUnitType=[
-                    'unit_type_name'=> $row['unit_type_id'],
+                    'unit_type_name'=> $row['unit_type'],
                 ];
                 $unitTypeId=DB::table('unit_type')->insertGetId($newUnitType);
             }else{
                 $unitTypeId=$unit_type->id;
             }
 
-            $item_category=Category::where('category_name',$row['item_category_id'])->first();
+            $item_category=Category::where('category_name',$row['item_category'])->first();
             if($item_category==null){
                 $newItemCategory=[
-                    'category_name'=> $row['item_category_id'],
-                    'category_desc'=> $row['item_category_id'],
+                    'category_name'=> $row['item_category'],
+                    'category_desc'=> $row['item_category'],
                 ];
                 $itemCategoryId=DB::table('category')->insertGetId($newItemCategory);
             }else{
@@ -66,6 +66,7 @@ class ItemImport implements ToCollection, WithHeadingRow
                 'user_id'=>$this->id,
                 'item_category_id'=>$itemCategoryId,
                 'item_buy_price'=>$row['item_buy_price'],
+                'item_sell_price'=>0
             ]);
         }
     }

@@ -2428,6 +2428,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
@@ -2453,6 +2459,20 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    downloadTemplate: function downloadTemplate() {
+      axios({
+        url: "/files/template.xlsx",
+        method: 'GET',
+        responseType: 'blob'
+      }).then(function (response) {
+        var fileUrl = window.URL.createObjectURL(new Blob([response.data]));
+        var fileLink = document.createElement('a');
+        fileLink.href = fileUrl;
+        fileLink.setAttribute('download', 'template.xls');
+        document.body.appendChild(fileLink);
+        fileLink.click();
+      });
+    },
     importData: function importData() {
       var _this = this;
 
@@ -2461,14 +2481,13 @@ __webpack_require__.r(__webpack_exports__);
       this.disabled = true;
       var formData = new FormData();
       formData.append('file', this.file);
-      console.log(this.file);
       axios.post('api/import_item/' + this.userInfo.id, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       }).then(function () {
         Fire.$emit("refreshData");
-        $('#addItemForm').modal('hide');
+        $('#importItemForm').modal('hide');
         Toast.fire({
           icon: 'success',
           title: 'Item Imported successfully'
@@ -2488,6 +2507,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     handleFileUpload: function handleFileUpload(event) {
       this.file = event.target.files[0];
+      document.getElementById("customFile").innerHTML = event.target.files[0].name;
     },
     onChange: function onChange(event) {
       if (event.target.value == "create new category") {
@@ -43931,9 +43951,33 @@ var render = function () {
                       _vm._m(2),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-body" }, [
+                        _c("div", [
+                          _c("p", [
+                            _vm._v(
+                              "You may Download the template with link below:"
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success",
+                              on: {
+                                click: function ($event) {
+                                  return _vm.downloadTemplate()
+                                },
+                              },
+                            },
+                            [_vm._v("Download Template")]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("hr"),
+                        _vm._v(" "),
                         _c("div", { staticClass: "input-group mb-3" }, [
                           _c("div", { staticClass: "custom-file" }, [
                             _c("input", {
+                              staticClass: "custom-file-input",
                               attrs: { type: "file" },
                               on: {
                                 change: function ($event) {
@@ -43941,6 +43985,15 @@ var render = function () {
                                 },
                               },
                             }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "custom-file-label",
+                                attrs: { for: "customFile", id: "customFile" },
+                              },
+                              [_vm._v("Choose File")]
+                            ),
                           ]),
                         ]),
                         _vm._v(" "),

@@ -58,9 +58,15 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
+                                            <div>
+                                                <p>You may Download the template with link below:</p>
+                                                <button class="btn btn-success" @click="downloadTemplate()">Download Template</button>
+                                            </div>
+                                            <hr>
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
-                                                    <input type="file" @change="handleFileUpload($event)">
+                                                     <input type="file" @change="handleFileUpload($event)" class="custom-file-input">
+                                                    <label class="custom-file-label" for="customFile" id="customFile">Choose File</label>
                                                 </div>
                                             </div>
                                             <div>
@@ -256,6 +262,22 @@
             }
         },
         methods:{
+            downloadTemplate(){
+                axios({
+                    url:"/files/template.xlsx",
+                    method:'GET',
+                    responseType:'blob'
+                }).then((response) => {
+                    var fileUrl = window.URL.createObjectURL(new Blob([response.data]));
+                    var fileLink = document.createElement('a');
+                    fileLink.href = fileUrl;
+
+                    fileLink.setAttribute('download','template.xls');
+                    document.body.appendChild(fileLink);
+
+                    fileLink.click();
+                })
+            },
             importData(){
                 this.$Progress.start();
                 this.loading = true;
@@ -263,7 +285,6 @@
 
                 let formData = new FormData();
                 formData.append('file', this.file);
-                console.log(this.file);
                 axios.post('api/import_item/'+this.userInfo.id,
                     formData,
                     {
@@ -273,7 +294,7 @@
                     }
                 ).then(()=>{
                     Fire.$emit("refreshData");
-                    $('#addItemForm').modal('hide');
+                    $('#importItemForm').modal('hide');
                     Toast.fire({
                         icon: 'success',
                         title: 'Item Imported successfully'
@@ -291,6 +312,7 @@
             },
             handleFileUpload(event){
                 this.file = event.target.files[0];
+                document.getElementById("customFile").innerHTML=event.target.files[0].name;
             },
             onChange(event){
                 if(event.target.value=="create new category"){
