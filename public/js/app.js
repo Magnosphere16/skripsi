@@ -2403,10 +2403,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
     return {
+      file: '',
       loading: false,
       disabled: false,
       modal: false,
@@ -2427,6 +2453,42 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    importData: function importData() {
+      var _this = this;
+
+      this.$Progress.start();
+      this.loading = true;
+      this.disabled = true;
+      var formData = new FormData();
+      formData.append('file', this.file);
+      console.log(this.file);
+      axios.post('api/import_item/' + this.userInfo.id, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function () {
+        Fire.$emit("refreshData");
+        $('#addItemForm').modal('hide');
+        Toast.fire({
+          icon: 'success',
+          title: 'Item Imported successfully'
+        });
+
+        _this.$Progress.finish();
+
+        _this.loading = false;
+        _this.disabled = false;
+      }) // else
+      ["catch"](function () {
+        _this.$Progress.fail();
+
+        _this.loading = false;
+        _this.disabled = false;
+      });
+    },
+    handleFileUpload: function handleFileUpload(event) {
+      this.file = event.target.files[0];
+    },
     onChange: function onChange(event) {
       if (event.target.value == "create new category") {
         document.getElementById("category_id_others").style.display = "block";
@@ -2439,6 +2501,9 @@ __webpack_require__.r(__webpack_exports__);
       this.form.reset();
       $("#addItemForm").modal("show");
     },
+    showModalImport: function showModalImport() {
+      $("#importItemForm").modal("show");
+    },
     showModalEdit: function showModalEdit(a) {
       this.modal = true;
       this.form.reset();
@@ -2446,28 +2511,28 @@ __webpack_require__.r(__webpack_exports__);
       this.form.fill(a);
     },
     loadData: function loadData() {
-      var _this = this;
+      var _this2 = this;
 
       //untuk panggil progress bar
       this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
 
       axios.get('api/get_category').then(function (_ref) {
         var data = _ref.data;
-        return _this.categories = data;
+        return _this2.categories = data;
       });
       axios.get('api/getItem').then(function (_ref2) {
         var data = _ref2.data;
-        return _this.items = data;
+        return _this2.items = data;
       });
       axios.get('api/getUnitType').then(function (_ref3) {
         var data = _ref3.data;
-        return _this.unitTypes = data;
+        return _this2.unitTypes = data;
       }); //untuk mengakhiri progress bar setelah halaman muncul
 
       this.$Progress.finish();
     },
     postData: function postData() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$Progress.start();
       this.loading = true;
@@ -2478,32 +2543,6 @@ __webpack_require__.r(__webpack_exports__);
         Toast.fire({
           icon: 'success',
           title: 'Item Saved successfully'
-        });
-
-        _this2.$Progress.finish();
-
-        _this2.loading = false;
-        _this2.disabled = false;
-      }) // else
-      ["catch"](function () {
-        _this2.$Progress.fail();
-
-        _this2.loading = false;
-        _this2.disabled = false;
-      });
-    },
-    editData: function editData() {
-      var _this3 = this;
-
-      this.$Progress.start();
-      this.loading = true;
-      this.disabled = true;
-      this.form.post('api/edit_item/' + this.form.id).then(function () {
-        Fire.$emit("refreshData");
-        $('#addItemForm').modal('hide');
-        Toast.fire({
-          icon: 'success',
-          title: 'Item Edited successfully'
         });
 
         _this3.$Progress.finish();
@@ -2518,8 +2557,34 @@ __webpack_require__.r(__webpack_exports__);
         _this3.disabled = false;
       });
     },
-    deleteData: function deleteData(id) {
+    editData: function editData() {
       var _this4 = this;
+
+      this.$Progress.start();
+      this.loading = true;
+      this.disabled = true;
+      this.form.post('api/edit_item/' + this.form.id).then(function () {
+        Fire.$emit("refreshData");
+        $('#addItemForm').modal('hide');
+        Toast.fire({
+          icon: 'success',
+          title: 'Item Edited successfully'
+        });
+
+        _this4.$Progress.finish();
+
+        _this4.loading = false;
+        _this4.disabled = false;
+      }) // else
+      ["catch"](function () {
+        _this4.$Progress.fail();
+
+        _this4.loading = false;
+        _this4.disabled = false;
+      });
+    },
+    deleteData: function deleteData(id) {
+      var _this5 = this;
 
       Swal.fire({
         title: "Do you wanto to delete this item ?",
@@ -2531,7 +2596,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: "Delete Item"
       }).then(function (result) {
         if (result.value) {
-          _this4.form.post("api/delete_item/" + id).then(function () {
+          _this5.form.post("api/delete_item/" + id).then(function () {
             Swal.fire("Deleted", "Your Item has deleted Successfully", "success");
             Fire.$emit("refreshData");
           })["catch"](function () {
@@ -2542,11 +2607,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this5 = this;
+    var _this6 = this;
 
     this.loadData();
     Fire.$on('refreshData', function () {
-      _this5.loadData();
+      _this6.loadData();
     });
   }
 });
@@ -43721,8 +43786,10 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-xl" }, [
-        _c("div", { staticClass: "card mt-5" }, [
+      _c("div", { staticClass: "col-xl mt-5" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "card mt-3" }, [
           _c(
             "div",
             {
@@ -43730,14 +43797,12 @@ var render = function () {
               staticStyle: { position: "relative" },
             },
             [
-              _c("strong", [_vm._v("Items")]),
-              _vm._v(" "),
               _c(
                 "button",
                 {
                   staticClass: "btn btn-secondary btn-sm",
                   staticStyle: {
-                    position: "absolute",
+                    display: "inline",
                     right: "10px",
                     bottom: "8px",
                   },
@@ -43748,14 +43813,33 @@ var render = function () {
                     },
                   },
                 },
-                [_vm._v("+")]
+                [_vm._v("Add Item")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-sm",
+                  staticStyle: {
+                    display: "inline",
+                    right: "10px",
+                    bottom: "8px",
+                  },
+                  attrs: { id: "swal_upload" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.showModalImport()
+                    },
+                  },
+                },
+                [_vm._v("Import File")]
               ),
             ]
           ),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(0),
+              _vm._m(1),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -43828,6 +43912,79 @@ var render = function () {
               {
                 staticClass: "modal fade",
                 attrs: {
+                  id: "importItemForm",
+                  tabindex: "-1",
+                  role: "dialog",
+                  "aria-labelledby": "exampleModalCenterTitle",
+                  "aria-hidden": "true",
+                },
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "modal-dialog modal-dialog-centered modal-lg",
+                    attrs: { role: "document" },
+                  },
+                  [
+                    _c("div", { staticClass: "modal-content" }, [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "modal-body" }, [
+                        _c("div", { staticClass: "input-group mb-3" }, [
+                          _c("div", { staticClass: "custom-file" }, [
+                            _c("input", {
+                              attrs: { type: "file" },
+                              on: {
+                                change: function ($event) {
+                                  return _vm.handleFileUpload($event)
+                                },
+                              },
+                            }),
+                          ]),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary btn-block",
+                              on: {
+                                click: function ($event) {
+                                  return _vm.importData()
+                                },
+                              },
+                            },
+                            [
+                              _c("i", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.loading,
+                                    expression: "loading",
+                                  },
+                                ],
+                                staticClass: "fa fa-spinner fa-spin",
+                              }),
+                              _vm._v(
+                                "\r\n                                                        Submit\r\n                                                "
+                              ),
+                            ]
+                          ),
+                        ]),
+                      ]),
+                    ]),
+                  ]
+                ),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "modal fade",
+                attrs: {
                   id: "addItemForm",
                   tabindex: "-1",
                   role: "dialog",
@@ -43879,7 +44036,7 @@ var render = function () {
                           [_vm._v("Edit Item")]
                         ),
                         _vm._v(" "),
-                        _vm._m(1),
+                        _vm._m(3),
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-body" }, [
@@ -44022,96 +44179,10 @@ var render = function () {
                                 [_vm._v("Item Category")]
                               ),
                               _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-md-6" },
-                                [
-                                  _c(
-                                    "select",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.form.item_category_id,
-                                          expression: "form.item_category_id",
-                                        },
-                                      ],
-                                      staticClass:
-                                        "form-control input-lg dynamic",
-                                      staticStyle: { width: "inherit" },
-                                      attrs: {
-                                        name: "category_id",
-                                        id: "category_id",
-                                      },
-                                      on: {
-                                        change: [
-                                          function ($event) {
-                                            var $$selectedVal =
-                                              Array.prototype.filter
-                                                .call(
-                                                  $event.target.options,
-                                                  function (o) {
-                                                    return o.selected
-                                                  }
-                                                )
-                                                .map(function (o) {
-                                                  var val =
-                                                    "_value" in o
-                                                      ? o._value
-                                                      : o.value
-                                                  return val
-                                                })
-                                            _vm.$set(
-                                              _vm.form,
-                                              "item_category_id",
-                                              $event.target.multiple
-                                                ? $$selectedVal
-                                                : $$selectedVal[0]
-                                            )
-                                          },
-                                          function ($event) {
-                                            return _vm.onChange($event)
-                                          },
-                                        ],
-                                      },
-                                    },
-                                    [
-                                      _c("option", { attrs: { value: "" } }, [
-                                        _vm._v("Select Category"),
-                                      ]),
-                                      _vm._v(" "),
-                                      _vm._l(_vm.categories, function (item) {
-                                        return _c(
-                                          "option",
-                                          {
-                                            key: item.id,
-                                            domProps: { value: item.id },
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\r\n                                                                " +
-                                                _vm._s(item.category_name) +
-                                                "\r\n                                                            "
-                                            ),
-                                          ]
-                                        )
-                                      }),
-                                      _vm._v(" "),
-                                      _c(
-                                        "option",
-                                        {
-                                          attrs: {
-                                            value: "create new category",
-                                          },
-                                        },
-                                        [_vm._v("Others")]
-                                      ),
-                                    ],
-                                    2
-                                  ),
-                                  _vm._v(" "),
-                                  _c("input", {
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c(
+                                  "select",
+                                  {
                                     directives: [
                                       {
                                         name: "model",
@@ -44120,45 +44191,112 @@ var render = function () {
                                         expression: "form.item_category_id",
                                       },
                                     ],
-                                    staticClass: "form-control",
-                                    class: {
-                                      "is-invalid": _vm.form.errors.has(
-                                        _vm.item_category_id
-                                      ),
-                                    },
-                                    staticStyle: { display: "none" },
+                                    staticClass:
+                                      "form-control input-lg dynamic",
+                                    staticStyle: { width: "inherit" },
                                     attrs: {
-                                      id: "category_id_others",
-                                      type: "text",
-                                      name: "item_category_id",
-                                      placeholder: "create new category",
-                                    },
-                                    domProps: {
-                                      value: _vm.form.item_category_id,
+                                      name: "category_id",
+                                      id: "category_id",
                                     },
                                     on: {
-                                      input: function ($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.form,
-                                          "item_category_id",
-                                          $event.target.value
-                                        )
+                                      change: [
+                                        function ($event) {
+                                          var $$selectedVal =
+                                            Array.prototype.filter
+                                              .call(
+                                                $event.target.options,
+                                                function (o) {
+                                                  return o.selected
+                                                }
+                                              )
+                                              .map(function (o) {
+                                                var val =
+                                                  "_value" in o
+                                                    ? o._value
+                                                    : o.value
+                                                return val
+                                              })
+                                          _vm.$set(
+                                            _vm.form,
+                                            "item_category_id",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        },
+                                        function ($event) {
+                                          return _vm.onChange($event)
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  [
+                                    _c("option", { attrs: { value: "" } }, [
+                                      _vm._v("Select Category"),
+                                    ]),
+                                    _vm._v(" "),
+                                    _vm._l(_vm.categories, function (item) {
+                                      return _c(
+                                        "option",
+                                        {
+                                          key: item.id,
+                                          domProps: { value: item.id },
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\r\n                                                                " +
+                                              _vm._s(item.category_name) +
+                                              "\r\n                                                            "
+                                          ),
+                                        ]
+                                      )
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      {
+                                        attrs: { value: "create new category" },
                                       },
+                                      [_vm._v("Others")]
+                                    ),
+                                  ],
+                                  2
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.item_category_id,
+                                      expression: "form.item_category_id",
                                     },
-                                  }),
-                                  _vm._v(" "),
-                                  _c("has-error", {
-                                    attrs: {
-                                      form: _vm.form,
-                                      field: "item_category_id",
+                                  ],
+                                  staticClass: "form-control",
+                                  staticStyle: { display: "none" },
+                                  attrs: {
+                                    id: "category_id_others",
+                                    type: "text",
+                                    name: "item_category_id",
+                                    placeholder: "create new category",
+                                  },
+                                  domProps: {
+                                    value: _vm.form.item_category_id,
+                                  },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "item_category_id",
+                                        $event.target.value
+                                      )
                                     },
-                                  }),
-                                ],
-                                1
-                              ),
+                                  },
+                                }),
+                              ]),
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group row" }, [
@@ -44481,6 +44619,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("h1", [_c("strong", [_vm._v("Item Lists")])])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("th", [_vm._v("Item Name")]),
       _vm._v(" "),
@@ -44495,6 +44639,31 @@ var staticRenderFns = [
       _c("th", [_vm._v("Item Sell Price")]),
       _vm._v(" "),
       _c("th", [_vm._v("Action")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header text-center" }, [
+      _c(
+        "h4",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
+        [_vm._v("Import New Item")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close",
+          },
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      ),
     ])
   },
   function () {

@@ -37,6 +37,7 @@ Route::get('getSale',[TransactionController::class, 'getSale']);
 Route::get('getItem',[ItemController::class, 'getItem']);
 
 Route::post('add_item/{user_id}',[ItemController::class, 'addItem']);
+Route::post('import_item/{user_id}',[ItemController::class, 'import']);
 
 Route::post('edit_item/{id}',[ItemController::class, 'editItem']);
 Route::post('delete_item/{id}',[ItemController::class, 'deleteItem']);

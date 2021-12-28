@@ -1,10 +1,12 @@
 <template>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-xl">
-            <div class="card mt-5">
-                <div class="card-header" style="position:relative;"><strong>Items</strong>
-                    <button style="position: absolute; right: 10px; bottom:8px;" @click="showModalAdd()" type="button" id="add_item" class="btn btn-secondary btn-sm">+</button>
+        <div class="col-xl mt-5">
+            <h1><strong>Item Lists</strong></h1>
+            <div class="card mt-3">
+                <div class="card-header" style="position:relative;">
+                    <button style="display: inline; right: 10px; bottom:8px;" @click="showModalAdd()" type="button" id="add_item" class="btn btn-secondary btn-sm">Add Item</button>
+                    <button style="display: inline; right: 10px; bottom:8px;" @click="showModalImport()" id="swal_upload" class="btn btn-primary btn-sm">Import File</button>
                 </div>
                 <div class="card-body">
                         <!-- item list -->
@@ -45,6 +47,32 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <!-- Pop Up Import file -->
+                        <div class="modal fade" id="importItemForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content" >
+                                    <div class="modal-header text-center">
+                                        <h4 class="modal-title" id="exampleModalLongTitle">Import New Item</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                            <div class="input-group mb-3">
+                                                <div class="custom-file">
+                                                    <input type="file" @change="handleFileUpload($event)">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button v-on:click="importData()" class="btn btn-primary btn-block">
+                                                    <i v-show="loading" class="fa fa-spinner fa-spin"></i>
+                                                        Submit
+                                                </button>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Pop Up Add Item-->
                         <div class="modal fade" id="addItemForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -111,12 +139,9 @@
                                                         id="category_id_others" 
                                                         type="text" 
                                                         v-model="form.item_category_id"
-                                                        :class="{ 
-                                                            'is-invalid' : form.errors.has(item_category_id) 
-                                                            }" 
                                                         name="item_category_id" 
                                                         placeholder="create new category" style="display:none;">
-                                                    <has-error :form="form" field="item_category_id"></has-error>
+                                                    <!-- <has-error :form="form" field="item_category_id"></has-error> -->
                                                 </div>
                                             </div>
 
@@ -210,6 +235,7 @@
         props: ['userInfo'],
         data(){
             return{
+                file: '',
                 loading: false,
                 disabled: false,
                 modal: false,
@@ -230,6 +256,42 @@
             }
         },
         methods:{
+            importData(){
+                this.$Progress.start();
+                this.loading = true;
+                this.disabled = true;
+
+                let formData = new FormData();
+                formData.append('file', this.file);
+                console.log(this.file);
+                axios.post('api/import_item/'+this.userInfo.id,
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then(()=>{
+                    Fire.$emit("refreshData");
+                    $('#addItemForm').modal('hide');
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Item Imported successfully'
+                        });
+                    this.$Progress.finish();
+                    this.loading = false;
+                    this.disabled = false;
+                    })
+                // else
+                .catch(()=>{
+                    this.$Progress.fail();
+                    this.loading = false;
+                    this.disabled = false; 
+                });
+            },
+            handleFileUpload(event){
+                this.file = event.target.files[0];
+            },
             onChange(event){
                 if(event.target.value=="create new category"){
                     document.getElementById("category_id_others").style.display="block";
@@ -241,6 +303,9 @@
                 this.modal = false;
                 this.form.reset();
                 $("#addItemForm").modal("show");
+            },
+            showModalImport(){
+                $("#importItemForm").modal("show");
             },
             showModalEdit(a){
                 this.modal = true;

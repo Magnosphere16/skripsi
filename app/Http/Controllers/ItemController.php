@@ -5,11 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Category;
-
+use Excel;
+use App\Imports\ItemImport;
 use DB;
 
 class ItemController extends Controller
 {
+    public function import(Request $request,$id){
+         Excel::import(new ItemImport($id),$request->file);
+         return redirect()->back();
+    }
+
     public function getUnitTypeId($id){
         $item=Item::where('id',$id)->first();
         return $item->id;

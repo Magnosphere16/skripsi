@@ -33,9 +33,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- /.content-wrapper -->
 
   <!-- Main Footer -->
+  @include('Template.footer')
 </div>
 <!-- ./wrapper -->
-@include('Template.footer')
+
 
 <!-- REQUIRED SCRIPTS -->
 @include('Template.vueScript')
