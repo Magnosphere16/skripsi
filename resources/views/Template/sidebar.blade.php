@@ -31,7 +31,7 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <router-link to="prediction" class="nav-link">
-                  <p>Profit Prediction</p>
+                  <p>Revenue Targeting</p>
                 </router-link>
               </li>
               <li class="nav-item">

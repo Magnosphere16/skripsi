@@ -2509,6 +2509,9 @@ __webpack_require__.r(__webpack_exports__);
       this.file = event.target.files[0];
       document.getElementById("customFile").innerHTML = event.target.files[0].name;
     },
+    fileUploadDismiss: function fileUploadDismiss() {
+      document.getElementById("customFile").innerHTML = "Choose File";
+    },
     onChange: function onChange(event) {
       if (event.target.value == "create new category") {
         document.getElementById("category_id_others").style.display = "block";
@@ -3606,8 +3609,8 @@ var routes = [{
   path: '/prediction',
   component: (__webpack_require__(/*! ./components/Prediction.vue */ "./resources/js/components/Prediction.vue")["default"])
 }]; //per component fragment untuk di put ke dalam blade
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
+vue__WEBPACK_IMPORTED_MODULE_2__["default"].component('items', (__webpack_require__(/*! ./components/items.vue */ "./resources/js/components/items.vue")["default"]));
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]({
   mode: 'history',
   routes: routes
@@ -43948,13 +43951,44 @@ var render = function () {
                   },
                   [
                     _c("div", { staticClass: "modal-content" }, [
-                      _vm._m(2),
+                      _c("div", { staticClass: "modal-header text-center" }, [
+                        _c(
+                          "h4",
+                          {
+                            staticClass: "modal-title",
+                            attrs: { id: "exampleModalLongTitle" },
+                          },
+                          [_vm._v("Import New Item")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "close",
+                            attrs: {
+                              type: "button",
+                              "data-dismiss": "modal",
+                              "aria-label": "Close",
+                            },
+                            on: {
+                              click: function ($event) {
+                                return _vm.fileUploadDismiss()
+                              },
+                            },
+                          },
+                          [
+                            _c("span", { attrs: { "aria-hidden": "true" } }, [
+                              _vm._v("×"),
+                            ]),
+                          ]
+                        ),
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-body" }, [
                         _c("div", [
                           _c("p", [
                             _vm._v(
-                              "You may Download the template with link below:"
+                              "You may Download the template with the link below:"
                             ),
                           ]),
                           _vm._v(" "),
@@ -44089,7 +44123,7 @@ var render = function () {
                           [_vm._v("Edit Item")]
                         ),
                         _vm._v(" "),
-                        _vm._m(3),
+                        _vm._m(2),
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-body" }, [
@@ -44692,31 +44726,6 @@ var staticRenderFns = [
       _c("th", [_vm._v("Item Sell Price")]),
       _vm._v(" "),
       _c("th", [_vm._v("Action")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header text-center" }, [
-      _c(
-        "h4",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
-        [_vm._v("Import New Item")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close",
-          },
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      ),
     ])
   },
   function () {

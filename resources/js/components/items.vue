@@ -53,13 +53,13 @@
                                 <div class="modal-content" >
                                     <div class="modal-header text-center">
                                         <h4 class="modal-title" id="exampleModalLongTitle">Import New Item</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" class="close" data-dismiss="modal" @click="fileUploadDismiss()" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
                                             <div>
-                                                <p>You may Download the template with link below:</p>
+                                                <p>You may Download the template with the link below:</p>
                                                 <button class="btn btn-success" @click="downloadTemplate()">Download Template</button>
                                             </div>
                                             <hr>
@@ -313,6 +313,9 @@
             handleFileUpload(event){
                 this.file = event.target.files[0];
                 document.getElementById("customFile").innerHTML=event.target.files[0].name;
+            },
+            fileUploadDismiss(){
+                document.getElementById("customFile").innerHTML="Choose File";
             },
             onChange(event){
                 if(event.target.value=="create new category"){

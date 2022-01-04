@@ -52,7 +52,7 @@ let routes =[
 ]
 
 //per component fragment untuk di put ke dalam blade
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('items', require('./components/items.vue').default);
 
 const router = new VueRouter({
     mode: 'history',
