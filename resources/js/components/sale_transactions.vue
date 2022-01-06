@@ -2,6 +2,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-xl">
+            <div class="mt-5">
+                <button class="btn btn-success" @click="downloadTransaction()">Download Transaction Report</button>
+            </div>
             <div class="card mt-5">
                 <div class="card-header" style="position:relative;"><strong>Sale Transaction Lists</strong>
                         <router-link to="newSale" class="btn btn-danger btn-sm" style="float:right; right:0;" tag="button">+ New Sale Transaction</router-link>
@@ -58,6 +61,22 @@
             }
         },
         methods:{
+            downloadTransaction(){
+                axios({
+                    url:"/files/template.xlsx",
+                    method:'GET',
+                    responseType:'blob'
+                }).then((response) => {
+                    var fileUrl = window.URL.createObjectURL(new Blob([response.data]));
+                    var fileLink = document.createElement('a');
+                    fileLink.href = fileUrl;
+
+                    fileLink.setAttribute('download','template.xlsx');
+                    document.body.appendChild(fileLink);
+
+                    fileLink.click();
+                })
+            },
             loadData(){
                 //untuk panggil progress bar
                 this.$Progress.start();

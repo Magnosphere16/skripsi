@@ -128,7 +128,7 @@
                       <td>
                         {{a.item_name}}
                       </td>
-                      <td>Rp. {{ (a.item_buy_price).toLocaleString('en') }}</td>
+                      <td>Rp. {{a.item_buy_price}}</td>
                       <td>
                         <!-- <small class="text-success mr-1">
                           <i class="fas fa-arrow-up"></i>
@@ -196,10 +196,8 @@
               <!-- /.card-header -->
               <div class="card-body p-0">
                 <ul class="products-list product-list-in-card pl-2 pr-2">
-                  <li class="item" v-for="a in items.slice(0, 5)" :key="a.id" :value="a.id">
-                    <div class="product-img">
-                    </div>
-                    <div class="product-info">
+                  <li class="item" v-for="(a,index) in items" :key="a.id" :value="a.id">
+                    <div class="product-info" v-if="index < 5">
                       <a href="javascript:void(0)" class="product-title">{{a.item_name}}
                         <span class="badge badge-success float-right">Rp. {{ (a.item_buy_price).toLocaleString('en') }}</span></a>
                       <span class="product-description">
@@ -240,9 +238,9 @@
                 dates : {},
                 times : {},
                 sold_product : {},
-                best_seller : {},
+                best_seller : [],
                 monthlyRevenue : (this.userInfo.target_revenue/this.userInfo.target_duration),
-            }
+            };  
         },
         methods:{
             date(){
@@ -266,36 +264,39 @@
                   this.times= hour + " : " + minutes + " : " + seconds + " AM" ;
                 }
             },
-            loadData(){
+            async loadData(){
                //Contoh get Data dari Database 
                 //untuk panggil progress bar
                 this.$Progress.start();
 
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
-                axios
+                await axios
                     .get('api/getTransactionData')
                     .then(({data}) => (this.transactions = data));
 
-                axios
+                await axios
                     .get('api/getItem')
                     .then(({data}) => (this.items = data));
                 
-                axios
+                await axios
                     .get('api/getSale')
                     .then(({data}) => (this.omset = data));
                 
-                axios
+                await axios
                     .get('api/getCurrMonthSale')
                     .then(({data}) => (this.curr_omset = data));
 
-                axios
+                await axios
                     .get('api/getSoldProduct')
                     .then(({data}) => (this.sold_product = data));
 
-                axios
-                    .get('api/getBestSeller')
-                    .then(({data}) => (this.best_seller = data))
-                
+                await axios
+                      .get('api/getBestSeller')
+                      .then(({data}) => (this.best_seller = Object.values(data)));
+
+                this.best_seller=this.best_seller.sort((a,b) =>{
+                    return b.total - a.total;
+                } );
                 //untuk mengakhiri progress bar setelah halaman muncul
                 this.$Progress.finish();
             },

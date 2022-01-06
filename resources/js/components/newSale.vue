@@ -47,6 +47,7 @@
                                         placeholder="min. 1"
                                         @input="calcPrice(form,a)"
                                         >
+                                <!-- <p id="warning_qty" class="text-danger" style="display:none;">*The amount of items filled exceeds the quantity of items that have been stored</p> -->
                             </td>
                             <td>
                                 <input v-model="form.tr_unit_type_id" style="display:none;" >
@@ -106,6 +107,7 @@
                 disabled: false,
                 items : [],
                 unitTypes : [],
+                errors: [],
 
                 tr_user_id:this.userInfo.id,
                 tr_transaction_type:2,
@@ -139,10 +141,20 @@
                 // console.log("itemChange("+event.target.value+")");
             },
             calcPrice(form,index){
-                var total=form.tr_item_qty * form.tr_item_price;
-                this.forms[index].tr_line_total=total;
+                var item_qty = this.items.find((item) => {
+                    return item.id == form.tr_item_id
+                })?.item_qty;
 
-                this.calcPriceTotal();
+                // if Inputed item quantity not exceed the item quantity in database
+                if(form.tr_item_qty<item_qty){
+                    this.errors.pop();
+                    var total=form.tr_item_qty * form.tr_item_price;
+                    this.forms[index].tr_line_total=total;
+
+                    this.calcPriceTotal();
+                }else{//if it exceed
+                    this.errors.push('The amount of items stored is not enough');
+                }
             },
             calcPriceTotal(){
                 var total;

@@ -29,7 +29,7 @@ Route:: get('/prediction',[App\Http\Controllers\HomeController::class,'index'])-
 
 Auth::routes();
 
-Route:: get('/home',[App\Http\Controllers\HomeController::class,'index']);
+Route:: get('/home',[App\Http\Controllers\HomeController::class,'index'])->name('home');
 Route:: post('/CheckEmail',[App\Http\Controllers\UserController::class,'checkEmail']);
 Route:: post('/registerUser',[App\Http\Controllers\Auth\RegisterController::class,'create']);
 
