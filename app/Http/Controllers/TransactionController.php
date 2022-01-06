@@ -7,6 +7,7 @@ use App\Models\TransactionHeader;
 use App\Models\TransactionType;
 use App\Models\TransactionDetail;
 use App\Models\Item;
+use Carbon\Carbon;
 use DB;
 
 class TransactionController extends Controller
@@ -16,6 +17,46 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function bestSeller(){
+        // $best = TransactionDetail::orderBy('td_item_qty','desc')->get()->take(5);
+
+        $best=DB::table('transaction_detail')
+                 ->select('transaction_detail.td_item_id', DB::raw('SUM(td_item_qty) as total'), 'item.item_name','item.item_buy_price')
+                 ->join('item','transaction_detail.td_item_id','=','item.id')
+                 ->groupBy('transaction_detail.td_item_id','item.item_name','item.item_buy_price')
+                 ->get();
+        $bestSeller = $best->sortByDesc('total')->take(5);
+
+        return $bestSeller;
+    }
+
+    public function getSoldProduct(){
+        $trans_detail=TransactionDetail::all();
+
+        $total_product=0;
+        for($i=0;$i<count($trans_detail);$i++){
+            $total_product += $trans_detail[$i]->td_item_qty;
+
+        }
+        return $total_product;
+    }
+
+    public function transactionVisualization(){
+        $data = TransactionHeader::select('id','tr_transaction_date','tr_total_price')->get()->groupBy(function($data){
+            return Carbon::parse($data->tr_transaction_date)->format('M');
+        });
+
+        $months=[];
+        $monthCount=[];
+
+        foreach($data as $month =>$values){
+            $months[]=$month;
+            $monthCount[]=count($values);
+        }
+
+        return ['data'=>$data,'months'=>$months,'monthCount'=>$monthCount];
+    }
+
     public function addSaleTransaction(Request $request){
         $transaction_date=$request->get('transactionDate');
         $transaction_type=$request->get('transactionType');
@@ -122,21 +163,34 @@ class TransactionController extends Controller
 
     public function getAsset()
     {
-        $trans_Header=TransactionHeader::where('tr_transaction_type_id',1)->get();
-    
-        $total_price=0;
-        for($i=0;$i<count($trans_Header);$i++){
-            $total_price += $trans_Header[$i]->tr_total_price;
+        $item=Item::all();
+        $total_asset=0;
+        for($i=0;$i<count($item);$i++){
+            $total_asset += ($item[$i]->item_qty*$item[$i]->item_buy_price);
         }
-        return $total_price;
+        return $total_asset;
     }
 
     public function getSale()
     {
         $trans_Header=TransactionHeader::where('tr_transaction_type_id',2)->get();
+
         $total_price=0;
         for($i=0;$i<count($trans_Header);$i++){
             $total_price += $trans_Header[$i]->tr_total_price;
+
+        }
+        return $total_price;
+    }
+
+    public function getRevenueCurrentMonth(){
+        $trans_Header=TransactionHeader::where('tr_transaction_type_id',2)->get();
+
+        $total_price=0;
+        for($i=0;$i<count($trans_Header);$i++){
+            if(date("m",strtotime($trans_Header[$i]->tr_transaction_date))==date('m')){
+                $total_price += $trans_Header[$i]->tr_total_price;
+            }
         }
         return $total_price;
     }

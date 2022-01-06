@@ -1,21 +1,111 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Profit Prediction</div>
-                        <div class="card-body">Primary Card</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="#">View Details</a>
-                            <div class="small text-white"><svg class="svg-inline--fa fa-angle-right fa-w-8" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg><!-- <i class="fas fa-angle-right"></i> Font Awesome fontawesome.com --></div>
-                        </div>
-                                
-                    <div class="card-body">
-                        Harga Modal : Rp. {{ (harga_modal).toLocaleString('en') }}<br>
-                        Total Jual  : Rp. {{ (total_jual).toLocaleString('en') }}
-                    </div>
-                </div>
+    <div class="container mt-5">
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h4>Rp. {{ (userInfo.target_revenue).toLocaleString('en') }}</h4>
+
+                <p>Current Target Revenue</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
             </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h4>Rp. {{ (harga_modal).toLocaleString('en') }}</h4>
+
+                <p>Asset</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h4>Rp. {{ (omset).toLocaleString('en') }}</h4>
+
+                <p>Current Total Revenue</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h4>Rp. {{ (userInfo.target_revenue/userInfo.target_duration).toLocaleString('en') }}</h4>
+
+                <p>Revenue Each Months</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title"><strong>Set Targeting Revenue Value</strong></h4>
+                    </div>
+                    <div class="card-body">
+                        <form @submit.prevent="postData()">
+                                            <div class="form-group row">
+                                                <label for="name" class="col-md-4 col-form-label text-md-right">Target Revenue Value</label>
+                                                <div class="col-md-6">
+                                                    <input
+                                                        v-model="form.target"
+                                                        id="target" 
+                                                        type="number" 
+                                                        class="form-control"
+                                                        name="target"
+                                                        >
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="name" class="col-md-4 col-form-label text-md-right">Duration</label>
+                                                <div class="col-md-4">
+                                                    <input
+                                                        v-model="form.duration"
+                                                        id="duration" 
+                                                        type="number" 
+                                                        class="form-control"
+                                                        name="duration"
+                                                        >
+                                                </div><strong>Month(s)</strong>
+                                            </div>
+
+                                            <div class="form-group row mb-0">
+                                                <div class="col-md-6 offset-md-4">
+                                                    <button type="submit" class="btn btn-primary btn-block" :disabled="disabled">
+                                                        <i v-show="loading" class="fa fa-spinner fa-spin"></i>
+                                                         Submit
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                    </div>
+                <!-- /.card-footer -->
+                </div>
+            <!-- /.card -->
+          </div>
         </div>
     </div>
 </template>
@@ -29,6 +119,12 @@
                 disabled: false,
                 harga_modal : 0,
                 total_jual : 0,
+                omset : {},
+                form: new Form({    
+                    id:"",
+                    target:"",
+                    duration:""
+                }),
             }
         },
         methods:{
@@ -42,7 +138,9 @@
                     .get('api/getAsset')
                     .then(({data}) => (this.harga_modal = data));
 
-                    console.log(this.harga_modal);
+                axios
+                    .get('api/getSale')
+                    .then(({data}) => (this.omset = data));
 
                 axios
                     .get('api/getSale')
@@ -55,22 +153,13 @@
             },
             //Contoh insert ke Database
             postData(){
-                this.$Progress.start();
-                this.loading = true;
-                this.disabled = true;
-                    axios
-                    .post("api/addSaleData", {
-                        saleArray: this.forms,
-                        transactionDate :this.tr_transaction_date,
-                        transactionType:2,
-                        userId:this.tr_user_id,
-                        total_price:this.final_total
-                    }).then(()=>{
-                        //pop up
+                this.form
+                    .post('api/setTarget/'+this.userInfo.id)
+                    .then(()=>{
                     Fire.$emit("refreshData");
                     Swal.fire(
                         'Success!',
-                        'Sale Transaction Saved Successfully!',
+                        'Target Revenue Saved Successfully!',
                         'success'
                         ).then(function() {
                         window.location = "/home";
@@ -80,16 +169,11 @@
                     this.disabled = false;
                     })
                 // else
-                    .catch(()=>{
-                        Swal.fire({
-                        icon: 'error',
-                        title: 'Transaction Failed',
-                        text: "Please fill the required fields",
-                        })
-                        this.$Progress.fail();
-                        this.loading = false;
-                        this.disabled = false; 
-                    });
+                .catch(()=>{
+                    this.$Progress.fail();
+                    this.loading = false;
+                    this.disabled = false; 
+                });
             }
         },
         created(){

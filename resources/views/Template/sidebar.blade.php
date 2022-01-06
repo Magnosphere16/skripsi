@@ -31,6 +31,7 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <router-link to="prediction" class="nav-link">
+                  <i class="fas fa-bullseye red"></i>
                   <p>Revenue Targeting</p>
                 </router-link>
               </li>

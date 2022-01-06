@@ -17,4 +17,11 @@ class UserController extends Controller
             }
         }
     }
+
+    public function setTarget(Request $request, $id){
+        $updtUser = User::where('id',$id)->update([
+            'target_revenue'=>$request->target,
+            'target_duration'=>$request->duration,
+        ]);
+    }
 }

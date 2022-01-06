@@ -3,8 +3,8 @@
 @section('content')
 <div class="container-fluid ps-md-0">
     <div class="row g-0">
-    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image">
-            <img class="img-fluid rounded-circle" src="assets/img/inventory.jpg" alt="">
+    <div class="d-none d-md-flex col-md-4 col-lg-5 ml-auto bg-image">
+            <img class="img-fluid rounded-circle" src="assets/img/register.jpg" alt="">
         </div>
         <div class="col-md-8 col-lg-6">
             <div class="login d-flex align-items-center py-5">
@@ -98,7 +98,9 @@
         </div>
     </div>
 </div>
-
+<footer class="py-5 bg-black">
+            <div class="container px-5"><p class="m-0 text-center text-white small">Copyright &copy; KassaKu 2021</p></div>
+</footer>
 <!-- java script -->
 <script src="http://code.jquery.com/jquery-3.4.1.js"></script>
 <script>

@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UnitTypeController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -32,7 +33,13 @@ Route::get('getUnitTypeId/{id}',[ItemController::class, 'getUnitTypeId']);
 
 Route::get('getAsset',[TransactionController::class, 'getAsset']);
 
+Route::get('getTransactionData',[TransactionController::class, 'transactionVisualization']);
+
 Route::get('getSale',[TransactionController::class, 'getSale']);
+
+Route::get('getCurrMonthSale',[TransactionController::class, 'getRevenueCurrentMonth']);
+Route::get('getSoldProduct',[TransactionController::class, 'getSoldProduct']);
+Route::get('getBestSeller',[TransactionController::class, 'bestSeller']);
 
 Route::get('getItem',[ItemController::class, 'getItem']);
 
@@ -48,3 +55,5 @@ Route::get('getTransactionType',[TransactionController::class, 'getTransactionTy
 
 Route::post('addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);
 Route::post('addSaleData',[TransactionController::class, 'addSaleTransaction']);
+
+Route::post('setTarget/{id}',[UserController::class,'setTarget']);

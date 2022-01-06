@@ -272,7 +272,7 @@
                     var fileLink = document.createElement('a');
                     fileLink.href = fileUrl;
 
-                    fileLink.setAttribute('download','template.xls');
+                    fileLink.setAttribute('download','template.xlsx');
                     document.body.appendChild(fileLink);
 
                     fileLink.click();

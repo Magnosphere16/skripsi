@@ -18,8 +18,8 @@
         <header class="masthead text-center text-white">
             <div class="masthead-content">
                 <div class="container px-5">
-                    <h1 class="masthead-heading mb-0">StockInFlow</h1>
-                    <h2 class="masthead-subheading mb-0">Inventory Management will be easier!</h2>
+                    <h1 class="masthead-heading mb-0">KassaKu</h1>
+                    <h2 class="masthead-subheading mb-0">Transactions made easy</h2>
                     <a class="btn btn-primary btn-xl rounded-pill mt-5" href="#scroll">Learn More</a>
                 </div>
             </div>
@@ -33,11 +33,11 @@
             <div class="container px-5">
                 <div class="row gx-5 align-items-center">
                     <div class="col-lg-6 order-lg-2">
-                        <div class="p-5"><img class="img-fluid rounded-circle" src="assets/img/inventory.jpg" alt="..." /></div>
+                        <div class="p-5"><img class="img-fluid rounded-circle" src="assets/img/targeting.jpg" alt="..." /></div>
                     </div>
                     <div class="col-lg-6 order-lg-1">
                         <div class="p-5">
-                            <h2 class="display-4">Inventory</h2>
+                            <h2 class="display-4">Revenue Targeting</h2>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
                         </div>
                     </div>
@@ -65,11 +65,11 @@
             <div class="container px-5">
                 <div class="row gx-5 align-items-center">
                     <div class="col-lg-6 order-lg-2">
-                        <div class="p-5"><img class="img-fluid rounded-circle" src="assets/img/targeting.jpg" alt="..." /></div>
+                        <div class="p-5"><img class="img-fluid rounded-circle" src="assets/img/data.jpg" alt="..." /></div>
                     </div>
                     <div class="col-lg-6 order-lg-1">
                         <div class="p-5">
-                            <h2 class="display-4">Targeting Profit</h2>
+                            <h2 class="display-4">Managing Product Data</h2>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
         </section>
         <!-- Footer-->
         <footer class="py-5 bg-black">
-            <div class="container px-5"><p class="m-0 text-center text-white small">Copyright &copy; StockInFlow 2021</p></div>
+            <div class="container px-5"><p class="m-0 text-center text-white small">Copyright &copy; KassaKu 2021</p></div>
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

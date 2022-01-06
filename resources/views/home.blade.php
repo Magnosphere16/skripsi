@@ -49,6 +49,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <router-link to="prediction" class="nav-link" onclick="homeHide()">
+                  <i class="fas fa-bullseye white"></i>
                   <p>Revenue Targeting</p>
                 </router-link>
               </li>
@@ -96,7 +97,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
   <!-- ./wrapper -->
       <div id="home">
-        <items></items>
+        <home :user-info="{{Auth::user()}}"></home>
       </div>
          <router-view :user-info="{{Auth::user()}}"></router-view>
          <vue-progress-bar></vue-progress-bar>
