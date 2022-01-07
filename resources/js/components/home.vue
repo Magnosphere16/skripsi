@@ -49,9 +49,9 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Revenue Targeting Progress ({{period}}) </span>
-                <span class="float-right"><b>Rp. {{ (curr_omset).toLocaleString('en') }}</b>/ Rp. {{ (monthlyRevenue).toLocaleString('en') }} ({{((curr_omset/monthlyRevenue)*100)}} %)</span>
+                <span class="float-right"><b>Rp. {{ (turn_over.to_current_turnover).toLocaleString('en') }}</b>/ Rp. {{ (turn_over.to_current_month_target_turnover).toLocaleString('en') }} ({{((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100).toFixed(2)}} %)</span>
                 <div class="progress progress-sm">
-                  <div class="progress-bar bg-primary" :style="{width: ((curr_omset/monthlyRevenue)*100) + '%'}"></div>
+                  <div class="progress-bar bg-primary" :style="{width: ((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100) + '%'}"></div>
                 </div>
               </div>
               <!-- /.info-box-content -->
@@ -239,7 +239,7 @@
                 times : {},
                 sold_product : {},
                 best_seller : [],
-                monthlyRevenue : (this.userInfo.target_revenue/this.userInfo.target_duration),
+                turn_over : {},
             };  
         },
         methods:{
@@ -286,6 +286,10 @@
                     .get('api/getCurrMonthSale')
                     .then(({data}) => (this.curr_omset = data));
 
+                await axios
+                      .get('api/userTurnOver/'+this.userInfo.id)
+                      .then(({data}) => (this.turn_over = data));
+                
                 await axios
                     .get('api/getSoldProduct')
                     .then(({data}) => (this.sold_product = data));

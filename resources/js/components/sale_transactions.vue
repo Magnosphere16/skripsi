@@ -1,15 +1,23 @@
 <template>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-xl">
+        <div class="col-xl mt-5">
+            <h1><strong>Sale Transaction Lists</strong></h1>
             <div class="mt-5">
-                <button class="btn btn-success" @click="downloadTransaction()">Download Transaction Report</button>
+                <div class="form-inline">
+                    <a class="btn btn-success btn-md mb-2 mr-3" :href="'api/downloadTransaction/'+userInfo.id+'/'+start_date+'/'+end_date">Download Transaction Report</a>
+                    <div class="form-group mb-2">
+                        <input type="date" v-model="start_date" class="form-control">
+                        <label for="inputPassword2" class="ml-3">To</label>
+                    </div>  
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input type="date" v-model="end_date" class="form-control">
+                    </div>
+                </div>
             </div>
-            <div class="card mt-5">
-                <div class="card-header" style="position:relative;"><strong>Sale Transaction Lists</strong>
-                        <router-link to="newSale" class="btn btn-danger btn-sm" style="float:right; right:0;" tag="button">+ New Sale Transaction</router-link>
-                    <!-- <router-link to="newSale" style="display:inline-block; float:right; right: 0; bottom:8px;" type="button" id="sell_item_btn" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#addItemFCatForm">+ New Sale Transactions</router> -->
-                    <!-- <button style="display:inline-block; float:right; right: 0; bottom:8px;" type="button" id="buy_item_btn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addItemFCatForm">Buy Items</button> -->
+            <div class="card mt-2">
+                <div class="card-header">
+                    <router-link to="newSale" class="btn btn-danger btn-md" style="float:right; right:0;" tag="button">+ New Sale Transaction</router-link>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped">
@@ -58,25 +66,18 @@
                 categories : {},
                 items : {},
                 unitTypes : {},
+                start_date: {},
+                end_date : {},
             }
         },
         methods:{
-            downloadTransaction(){
-                axios({
-                    url:"/files/template.xlsx",
-                    method:'GET',
-                    responseType:'blob'
-                }).then((response) => {
-                    var fileUrl = window.URL.createObjectURL(new Blob([response.data]));
-                    var fileLink = document.createElement('a');
-                    fileLink.href = fileUrl;
-
-                    fileLink.setAttribute('download','template.xlsx');
-                    document.body.appendChild(fileLink);
-
-                    fileLink.click();
-                })
-            },
+            // downloadTransaction(){
+            //         axios
+            //             .get("api/downloadTransaction/"+this.userInfo.id+"/"+this.start_date+"/"+this.end_date, {
+            //                 start_date:this.start_date,
+            //                 end_date:this.end_date
+            //             })
+            // },
             loadData(){
                 //untuk panggil progress bar
                 this.$Progress.start();

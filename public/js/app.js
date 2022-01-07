@@ -2213,6 +2213,7 @@ __webpack_require__.r(__webpack_exports__);
       harga_modal: 0,
       total_jual: 0,
       omset: {},
+      turn_over: {},
       form: new Form({
         id: "",
         target: "",
@@ -2232,15 +2233,18 @@ __webpack_require__.r(__webpack_exports__);
         var data = _ref.data;
         return _this.harga_modal = data;
       });
-      axios.get('api/getSale').then(function (_ref2) {
+      axios.get('api/userTurnOver/' + this.userInfo.id).then(function (_ref2) {
         var data = _ref2.data;
-        return _this.omset = data;
+        return _this.turn_over = data;
       });
       axios.get('api/getSale').then(function (_ref3) {
         var data = _ref3.data;
-        return _this.total_jual = data;
+        return _this.omset = data;
       });
-      console.log(this.total_jual); //untuk mengakhiri progress bar setelah halaman muncul
+      axios.get('api/getSale').then(function (_ref4) {
+        var data = _ref4.data;
+        return _this.total_jual = data;
+      }); //untuk mengakhiri progress bar setelah halaman muncul
 
       this.$Progress.finish();
     },
@@ -2538,7 +2542,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       times: {},
       sold_product: {},
       best_seller: [],
-      monthlyRevenue: this.userInfo.target_revenue / this.userInfo.target_duration
+      turn_over: {}
     };
   },
   methods: {
@@ -2604,26 +2608,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 9:
                 _context.next = 11;
-                return axios.get('api/getSoldProduct').then(function (_ref5) {
+                return axios.get('api/userTurnOver/' + _this.userInfo.id).then(function (_ref5) {
                   var data = _ref5.data;
-                  return _this.sold_product = data;
+                  return _this.turn_over = data;
                 });
 
               case 11:
                 _context.next = 13;
-                return axios.get('api/getBestSeller').then(function (_ref6) {
+                return axios.get('api/getSoldProduct').then(function (_ref6) {
                   var data = _ref6.data;
-                  return _this.best_seller = Object.values(data);
+                  return _this.sold_product = data;
                 });
 
               case 13:
+                _context.next = 15;
+                return axios.get('api/getBestSeller').then(function (_ref7) {
+                  var data = _ref7.data;
+                  return _this.best_seller = Object.values(data);
+                });
+
+              case 15:
                 _this.best_seller = _this.best_seller.sort(function (a, b) {
                   return b.total - a.total;
                 }); //untuk mengakhiri progress bar setelah halaman muncul
 
                 _this.$Progress.finish();
 
-              case 15:
+              case 17:
               case "end":
                 return _context.stop();
             }
@@ -3999,6 +4010,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
@@ -4010,24 +4029,19 @@ __webpack_require__.r(__webpack_exports__);
       transactionType: {},
       categories: {},
       items: {},
-      unitTypes: {}
+      unitTypes: {},
+      start_date: {},
+      end_date: {}
     };
   },
   methods: {
-    downloadTransaction: function downloadTransaction() {
-      axios({
-        url: "/files/template.xlsx",
-        method: 'GET',
-        responseType: 'blob'
-      }).then(function (response) {
-        var fileUrl = window.URL.createObjectURL(new Blob([response.data]));
-        var fileLink = document.createElement('a');
-        fileLink.href = fileUrl;
-        fileLink.setAttribute('download', 'template.xlsx');
-        document.body.appendChild(fileLink);
-        fileLink.click();
-      });
-    },
+    // downloadTransaction(){
+    //         axios
+    //             .get("api/downloadTransaction/"+this.userInfo.id+"/"+this.start_date+"/"+this.end_date, {
+    //                 start_date:this.start_date,
+    //                 end_date:this.end_date
+    //             })
+    // },
     loadData: function loadData() {
       var _this = this;
 
@@ -45088,11 +45102,13 @@ var render = function () {
             _c("h4", [
               _vm._v(
                 "Rp. " +
-                  _vm._s(_vm.userInfo.target_revenue.toLocaleString("en"))
+                  _vm._s(
+                    _vm.turn_over.to_final_target_turnover.toLocaleString("en")
+                  )
               ),
             ]),
             _vm._v(" "),
-            _c("p", [_vm._v("Current Target Revenue")]),
+            _c("p", [_vm._v("Target Turn Over")]),
           ]),
           _vm._v(" "),
           _vm._m(0),
@@ -45116,9 +45132,14 @@ var render = function () {
       _c("div", { staticClass: "col-lg-3 col-6" }, [
         _c("div", { staticClass: "small-box bg-warning" }, [
           _c("div", { staticClass: "inner" }, [
-            _c("h4", [_vm._v("Rp. " + _vm._s(_vm.omset.toLocaleString("en")))]),
+            _c("h4", [
+              _vm._v(
+                "Rp. " +
+                  _vm._s(_vm.turn_over.to_current_turnover.toLocaleString("en"))
+              ),
+            ]),
             _vm._v(" "),
-            _c("p", [_vm._v("Current Total Revenue")]),
+            _c("p", [_vm._v("Current Month Turn Over")]),
           ]),
           _vm._v(" "),
           _vm._m(2),
@@ -45132,14 +45153,14 @@ var render = function () {
               _vm._v(
                 "Rp. " +
                   _vm._s(
-                    (
-                      _vm.userInfo.target_revenue / _vm.userInfo.target_duration
-                    ).toLocaleString("en")
+                    _vm.turn_over.to_current_month_target_turnover.toLocaleString(
+                      "en"
+                    )
                   )
               ),
             ]),
             _vm._v(" "),
-            _c("p", [_vm._v("Revenue Each Months")]),
+            _c("p", [_vm._v("Current Month Target Turn Over")]),
           ]),
           _vm._v(" "),
           _vm._m(3),
@@ -45403,14 +45424,27 @@ var render = function () {
                 _c("span", { staticClass: "float-right" }, [
                   _c("b", [
                     _vm._v(
-                      "Rp. " + _vm._s(_vm.curr_omset.toLocaleString("en"))
+                      "Rp. " +
+                        _vm._s(
+                          _vm.turn_over.to_current_turnover.toLocaleString("en")
+                        )
                     ),
                   ]),
                   _vm._v(
                     "/ Rp. " +
-                      _vm._s(_vm.monthlyRevenue.toLocaleString("en")) +
+                      _vm._s(
+                        _vm.turn_over.to_current_month_target_turnover.toLocaleString(
+                          "en"
+                        )
+                      ) +
                       " (" +
-                      _vm._s((_vm.curr_omset / _vm.monthlyRevenue) * 100) +
+                      _vm._s(
+                        (
+                          (_vm.turn_over.to_current_turnover /
+                            _vm.turn_over.to_current_month_target_turnover) *
+                          100
+                        ).toFixed(2)
+                      ) +
                       " %)"
                   ),
                 ]),
@@ -45419,7 +45453,11 @@ var render = function () {
                   _c("div", {
                     staticClass: "progress-bar bg-primary",
                     style: {
-                      width: (_vm.curr_omset / _vm.monthlyRevenue) * 100 + "%",
+                      width:
+                        (_vm.turn_over.to_current_turnover /
+                          _vm.turn_over.to_current_month_target_turnover) *
+                          100 +
+                        "%",
                     },
                   }),
                 ]),
@@ -48150,36 +48188,93 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-xl" }, [
+      _c("div", { staticClass: "col-xl mt-5" }, [
+        _vm._m(0),
+        _vm._v(" "),
         _c("div", { staticClass: "mt-5" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-success",
-              on: {
-                click: function ($event) {
-                  return _vm.downloadTransaction()
+          _c("div", { staticClass: "form-inline" }, [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-success btn-md mb-2 mr-3",
+                attrs: {
+                  href:
+                    "api/downloadTransaction/" +
+                    _vm.userInfo.id +
+                    "/" +
+                    _vm.start_date +
+                    "/" +
+                    _vm.end_date,
                 },
               },
-            },
-            [_vm._v("Download Transaction Report")]
-          ),
+              [_vm._v("Download Transaction Report")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group mb-2" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.start_date,
+                    expression: "start_date",
+                  },
+                ],
+                staticClass: "form-control",
+                attrs: { type: "date" },
+                domProps: { value: _vm.start_date },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.start_date = $event.target.value
+                  },
+                },
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                { staticClass: "ml-3", attrs: { for: "inputPassword2" } },
+                [_vm._v("To")]
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group mx-sm-3 mb-2" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.end_date,
+                    expression: "end_date",
+                  },
+                ],
+                staticClass: "form-control",
+                attrs: { type: "date" },
+                domProps: { value: _vm.end_date },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.end_date = $event.target.value
+                  },
+                },
+              }),
+            ]),
+          ]),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "card mt-5" }, [
+        _c("div", { staticClass: "card mt-2" }, [
           _c(
             "div",
-            {
-              staticClass: "card-header",
-              staticStyle: { position: "relative" },
-            },
+            { staticClass: "card-header" },
             [
-              _c("strong", [_vm._v("Sale Transaction Lists")]),
-              _vm._v(" "),
               _c(
                 "router-link",
                 {
-                  staticClass: "btn btn-danger btn-sm",
+                  staticClass: "btn btn-danger btn-md",
                   staticStyle: { float: "right", right: "0" },
                   attrs: { to: "newSale", tag: "button" },
                 },
@@ -48191,7 +48286,7 @@ var render = function () {
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(0),
+              _vm._m(1),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -48237,6 +48332,12 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [_c("strong", [_vm._v("Sale Transaction Lists")])])
+  },
   function () {
     var _vm = this
     var _h = _vm.$createElement

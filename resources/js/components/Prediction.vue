@@ -5,9 +5,9 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h4>Rp. {{ (userInfo.target_revenue).toLocaleString('en') }}</h4>
+                <h4>Rp. {{ (turn_over.to_final_target_turnover).toLocaleString('en') }}</h4>
 
-                <p>Current Target Revenue</p>
+                <p>Target Turn Over</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -33,9 +33,9 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h4>Rp. {{ (omset).toLocaleString('en') }}</h4>
+                <h4>Rp. {{ (turn_over.to_current_turnover).toLocaleString('en') }}</h4>
 
-                <p>Current Total Revenue</p>
+                <p>Current Month Turn Over</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
@@ -47,9 +47,9 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h4>Rp. {{ (userInfo.target_revenue/userInfo.target_duration).toLocaleString('en') }}</h4>
+                <h4>Rp. {{ (turn_over.to_current_month_target_turnover).toLocaleString('en') }}</h4>
 
-                <p>Revenue Each Months</p>
+                <p>Current Month Target Turn Over</p>
               </div>
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>
@@ -120,6 +120,7 @@
                 harga_modal : 0,
                 total_jual : 0,
                 omset : {},
+                turn_over:{},
                 form: new Form({    
                     id:"",
                     target:"",
@@ -139,14 +140,16 @@
                     .then(({data}) => (this.harga_modal = data));
 
                 axios
+                      .get('api/userTurnOver/'+this.userInfo.id)
+                      .then(({data}) => (this.turn_over = data));
+
+                axios
                     .get('api/getSale')
                     .then(({data}) => (this.omset = data));
 
                 axios
                     .get('api/getSale')
                     .then(({data}) => (this.total_jual = data));
-
-                    console.log(this.total_jual);    
                 
                 //untuk mengakhiri progress bar setelah halaman muncul
                 this.$Progress.finish();
@@ -182,6 +185,5 @@
                 this.loadData();
             })
         }
-
     }
 </script>

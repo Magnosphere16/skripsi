@@ -7,7 +7,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UnitTypeController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\TurnOverController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // untuk di call axios yang ada di component vue bagian method>> bisa call controller 
+Route::get('downloadTransaction/{id}/{start}/{end}',[TransactionController::class, 'transactionExport']);
 Route::get('get_category',[CategoryController::class, 'index']);
 
 Route::get('getUnitType',[UnitTypeController::class, 'index']);
@@ -37,7 +38,6 @@ Route::get('getTransactionData',[TransactionController::class, 'transactionVisua
 
 Route::get('getSale',[TransactionController::class, 'getSale']);
 
-Route::get('getCurrMonthSale',[TransactionController::class, 'getRevenueCurrentMonth']);
 Route::get('getSoldProduct',[TransactionController::class, 'getSoldProduct']);
 Route::get('getBestSeller',[TransactionController::class, 'bestSeller']);
 
@@ -53,7 +53,11 @@ Route::get('getPurchaseTransactions',[TransactionController::class, 'getPurchase
 Route::get('getSaleTransactions',[TransactionController::class, 'getSaleTransactions']);
 Route::get('getTransactionType',[TransactionController::class, 'getTransactionType']);
 
-Route::post('addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);
+// Route::post('addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);
 Route::post('addSaleData',[TransactionController::class, 'addSaleTransaction']);
 
-Route::post('setTarget/{id}',[UserController::class,'setTarget']);
+Route::post('setTarget/{id}',[TurnOverController::class,'setTarget']);
+Route::get('getCurrMonthSale',[TurnOverController::class, 'getTurnOverCurrentMonth']);
+Route::get('userTurnOver/{id}',[TurnOverController::class, 'getUserTurnOver']);
+
+
