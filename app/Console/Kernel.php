@@ -62,9 +62,11 @@ class Kernel extends ConsoleKernel
                     $newTarget=$perMonthDefault-$selisih;
                 }
 
-                $newRealization=0;
-
-                
+                //update target baru
+                $updtTurnOver = TurnOver::where('to_user_id',$turnOver[$i]->to_user_id)->update([
+                    'to_current_turnover'=>0,//realisasi bulan ini di reset
+                    'to_current_month_target_turnover'=>$newTarget,//ganti target baru
+                ]);
             }
 
         })->monthly();
