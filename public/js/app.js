@@ -2092,6 +2092,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2225,28 +2233,54 @@ __webpack_require__.r(__webpack_exports__);
     loadData: function loadData() {
       var _this = this;
 
-      //Contoh get Data dari Database 
-      //untuk panggil progress bar
-      this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                //Contoh get Data dari Database 
+                //untuk panggil progress bar
+                _this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
 
-      axios.get('api/getAsset').then(function (_ref) {
-        var data = _ref.data;
-        return _this.harga_modal = data;
-      });
-      axios.get('api/userTurnOver/' + this.userInfo.id).then(function (_ref2) {
-        var data = _ref2.data;
-        return _this.turn_over = data;
-      });
-      axios.get('api/getSale').then(function (_ref3) {
-        var data = _ref3.data;
-        return _this.omset = data;
-      });
-      axios.get('api/getSale').then(function (_ref4) {
-        var data = _ref4.data;
-        return _this.total_jual = data;
-      }); //untuk mengakhiri progress bar setelah halaman muncul
 
-      this.$Progress.finish();
+                _context.next = 3;
+                return axios.get('api/getAsset').then(function (_ref) {
+                  var data = _ref.data;
+                  return _this.harga_modal = data;
+                });
+
+              case 3:
+                _context.next = 5;
+                return axios.get('api/userTurnOver/' + _this.userInfo.id).then(function (_ref2) {
+                  var data = _ref2.data;
+                  return _this.turn_over = data;
+                });
+
+              case 5:
+                _context.next = 7;
+                return axios.get('api/getSale').then(function (_ref3) {
+                  var data = _ref3.data;
+                  return _this.omset = data;
+                });
+
+              case 7:
+                _context.next = 9;
+                return axios.get('api/getSale').then(function (_ref4) {
+                  var data = _ref4.data;
+                  return _this.total_jual = data;
+                });
+
+              case 9:
+                //untuk mengakhiri progress bar setelah halaman muncul
+                _this.$Progress.finish();
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     //Contoh insert ke Database
     postData: function postData() {
@@ -2536,7 +2570,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       transactions: {},
       items: {},
       omset: {},
-      curr_omset: {},
       period: {},
       dates: {},
       times: {},
@@ -2577,64 +2610,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 //Contoh get Data dari Database 
                 //untuk panggil progress bar
                 _this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+                // await axios
+                //     .get('api/getTransactionData')
+                //     .then(({data}) => (this.transactions = data));
 
 
                 _context.next = 3;
-                return axios.get('api/getTransactionData').then(function (_ref) {
+                return axios.get('api/getItem').then(function (_ref) {
                   var data = _ref.data;
-                  return _this.transactions = data;
+                  return _this.items = data;
                 });
 
               case 3:
                 _context.next = 5;
-                return axios.get('api/getItem').then(function (_ref2) {
+                return axios.get('api/getSale').then(function (_ref2) {
                   var data = _ref2.data;
-                  return _this.items = data;
+                  return _this.omset = data;
                 });
 
               case 5:
                 _context.next = 7;
-                return axios.get('api/getSale').then(function (_ref3) {
+                return axios.get('api/userTurnOver/' + _this.userInfo.id).then(function (_ref3) {
                   var data = _ref3.data;
-                  return _this.omset = data;
+                  return _this.turn_over = data;
                 });
 
               case 7:
                 _context.next = 9;
-                return axios.get('api/getCurrMonthSale').then(function (_ref4) {
+                return axios.get('api/getSoldProduct').then(function (_ref4) {
                   var data = _ref4.data;
-                  return _this.curr_omset = data;
+                  return _this.sold_product = data;
                 });
 
               case 9:
                 _context.next = 11;
-                return axios.get('api/userTurnOver/' + _this.userInfo.id).then(function (_ref5) {
+                return axios.get('api/getBestSeller').then(function (_ref5) {
                   var data = _ref5.data;
-                  return _this.turn_over = data;
-                });
-
-              case 11:
-                _context.next = 13;
-                return axios.get('api/getSoldProduct').then(function (_ref6) {
-                  var data = _ref6.data;
-                  return _this.sold_product = data;
-                });
-
-              case 13:
-                _context.next = 15;
-                return axios.get('api/getBestSeller').then(function (_ref7) {
-                  var data = _ref7.data;
                   return _this.best_seller = Object.values(data);
                 });
 
-              case 15:
+              case 11:
                 _this.best_seller = _this.best_seller.sort(function (a, b) {
                   return b.total - a.total;
                 }); //untuk mengakhiri progress bar setelah halaman muncul
 
                 _this.$Progress.finish();
 
-              case 17:
+              case 13:
               case "end":
                 return _context.stop();
             }
@@ -2683,11 +2705,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   mounted: function mounted() {
     setInterval(this.new_clock, 1000);
+    setInterval(this.date, 1000);
   },
   created: function created() {
     var _this3 = this;
 
     this.date();
+    this.new_clock();
     this.loadData();
     Fire.$on('refreshData', function () {
       _this3.loadData();
@@ -2708,6 +2732,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3048,23 +3080,46 @@ __webpack_require__.r(__webpack_exports__);
     loadData: function loadData() {
       var _this2 = this;
 
-      //untuk panggil progress bar
-      this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                //untuk panggil progress bar
+                _this2.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
 
-      axios.get('api/get_category').then(function (_ref) {
-        var data = _ref.data;
-        return _this2.categories = data;
-      });
-      axios.get('api/getItem').then(function (_ref2) {
-        var data = _ref2.data;
-        return _this2.items = data;
-      });
-      axios.get('api/getUnitType').then(function (_ref3) {
-        var data = _ref3.data;
-        return _this2.unitTypes = data;
-      }); //untuk mengakhiri progress bar setelah halaman muncul
 
-      this.$Progress.finish();
+                _context.next = 3;
+                return axios.get('api/get_category').then(function (_ref) {
+                  var data = _ref.data;
+                  return _this2.categories = data;
+                });
+
+              case 3:
+                _context.next = 5;
+                return axios.get('api/getItem').then(function (_ref2) {
+                  var data = _ref2.data;
+                  return _this2.items = data;
+                });
+
+              case 5:
+                _context.next = 7;
+                return axios.get('api/getUnitType').then(function (_ref3) {
+                  var data = _ref3.data;
+                  return _this2.unitTypes = data;
+                });
+
+              case 7:
+                //untuk mengakhiri progress bar setelah halaman muncul
+                _this2.$Progress.finish();
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     postData: function postData() {
       var _this3 = this;
@@ -3164,6 +3219,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3341,19 +3404,39 @@ __webpack_require__.r(__webpack_exports__);
     loadData: function loadData() {
       var _this = this;
 
-      //untuk panggil progress bar
-      this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                //untuk panggil progress bar
+                _this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
 
-      axios.get('api/getItem').then(function (_ref) {
-        var data = _ref.data;
-        return _this.items = data;
-      });
-      axios.get('api/getUnitType').then(function (_ref2) {
-        var data = _ref2.data;
-        return _this.unitTypes = data;
-      }); //untuk mengakhiri progress bar setelah halaman muncul
 
-      this.$Progress.finish();
+                _context.next = 3;
+                return axios.get('api/getItem').then(function (_ref) {
+                  var data = _ref.data;
+                  return _this.items = data;
+                });
+
+              case 3:
+                _context.next = 5;
+                return axios.get('api/getUnitType').then(function (_ref2) {
+                  var data = _ref2.data;
+                  return _this.unitTypes = data;
+                });
+
+              case 5:
+                //untuk mengakhiri progress bar setelah halaman muncul
+                _this.$Progress.finish();
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     postData: function postData() {
       var _this2 = this;
@@ -3415,6 +3498,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3588,19 +3679,39 @@ __webpack_require__.r(__webpack_exports__);
     loadData: function loadData() {
       var _this = this;
 
-      //untuk panggil progress bar
-      this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                //untuk panggil progress bar
+                _this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
 
-      axios.get('api/getItem').then(function (_ref) {
-        var data = _ref.data;
-        return _this.items = data;
-      });
-      axios.get('api/getUnitType').then(function (_ref2) {
-        var data = _ref2.data;
-        return _this.unitTypes = data;
-      }); //untuk mengakhiri progress bar setelah halaman muncul
 
-      this.$Progress.finish();
+                _context.next = 3;
+                return axios.get('api/getItem').then(function (_ref) {
+                  var data = _ref.data;
+                  return _this.items = data;
+                });
+
+              case 3:
+                _context.next = 5;
+                return axios.get('api/getUnitType').then(function (_ref2) {
+                  var data = _ref2.data;
+                  return _this.unitTypes = data;
+                });
+
+              case 5:
+                //untuk mengakhiri progress bar setelah halaman muncul
+                _this.$Progress.finish();
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     postData: function postData() {
       var _this2 = this;
@@ -3851,6 +3962,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3913,31 +4032,60 @@ __webpack_require__.r(__webpack_exports__);
     loadData: function loadData() {
       var _this = this;
 
-      //untuk panggil progress bar
-      this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                //untuk panggil progress bar
+                _this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
 
-      axios.get('api/getPurchaseTransactions').then(function (_ref) {
-        var data = _ref.data;
-        return _this.transactionsHeader = data;
-      });
-      axios.get('api/getTransactionType').then(function (_ref2) {
-        var data = _ref2.data;
-        return _this.transactionType = data;
-      });
-      axios.get('api/get_category').then(function (_ref3) {
-        var data = _ref3.data;
-        return _this.categories = data;
-      });
-      axios.get('api/getItem').then(function (_ref4) {
-        var data = _ref4.data;
-        return _this.items = data;
-      });
-      axios.get('api/getUnitType').then(function (_ref5) {
-        var data = _ref5.data;
-        return _this.unitTypes = data;
-      }); //untuk mengakhiri progress bar setelah halaman muncul
 
-      this.$Progress.finish();
+                _context.next = 3;
+                return axios.get('api/getPurchaseTransactions').then(function (_ref) {
+                  var data = _ref.data;
+                  return _this.transactionsHeader = data;
+                });
+
+              case 3:
+                _context.next = 5;
+                return axios.get('api/getTransactionType').then(function (_ref2) {
+                  var data = _ref2.data;
+                  return _this.transactionType = data;
+                });
+
+              case 5:
+                _context.next = 7;
+                return axios.get('api/get_category').then(function (_ref3) {
+                  var data = _ref3.data;
+                  return _this.categories = data;
+                });
+
+              case 7:
+                _context.next = 9;
+                return axios.get('api/getItem').then(function (_ref4) {
+                  var data = _ref4.data;
+                  return _this.items = data;
+                });
+
+              case 9:
+                _context.next = 11;
+                return axios.get('api/getUnitType').then(function (_ref5) {
+                  var data = _ref5.data;
+                  return _this.unitTypes = data;
+                });
+
+              case 11:
+                //untuk mengakhiri progress bar setelah halaman muncul
+                _this.$Progress.finish();
+
+              case 12:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   created: function created() {
@@ -3963,6 +4111,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -4045,31 +4201,60 @@ __webpack_require__.r(__webpack_exports__);
     loadData: function loadData() {
       var _this = this;
 
-      //untuk panggil progress bar
-      this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                //untuk panggil progress bar
+                _this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
 
-      axios.get('api/getSaleTransactions').then(function (_ref) {
-        var data = _ref.data;
-        return _this.transactionsHeader = data;
-      });
-      axios.get('api/getTransactionType').then(function (_ref2) {
-        var data = _ref2.data;
-        return _this.transactionType = data;
-      });
-      axios.get('api/get_category').then(function (_ref3) {
-        var data = _ref3.data;
-        return _this.categories = data;
-      });
-      axios.get('api/getItem').then(function (_ref4) {
-        var data = _ref4.data;
-        return _this.items = data;
-      });
-      axios.get('api/getUnitType').then(function (_ref5) {
-        var data = _ref5.data;
-        return _this.unitTypes = data;
-      }); //untuk mengakhiri progress bar setelah halaman muncul
 
-      this.$Progress.finish();
+                _context.next = 3;
+                return axios.get('api/getSaleTransactions').then(function (_ref) {
+                  var data = _ref.data;
+                  return _this.transactionsHeader = data;
+                });
+
+              case 3:
+                _context.next = 5;
+                return axios.get('api/getTransactionType').then(function (_ref2) {
+                  var data = _ref2.data;
+                  return _this.transactionType = data;
+                });
+
+              case 5:
+                _context.next = 7;
+                return axios.get('api/get_category').then(function (_ref3) {
+                  var data = _ref3.data;
+                  return _this.categories = data;
+                });
+
+              case 7:
+                _context.next = 9;
+                return axios.get('api/getItem').then(function (_ref4) {
+                  var data = _ref4.data;
+                  return _this.items = data;
+                });
+
+              case 9:
+                _context.next = 11;
+                return axios.get('api/getUnitType').then(function (_ref5) {
+                  var data = _ref5.data;
+                  return _this.unitTypes = data;
+                });
+
+              case 11:
+                //untuk mengakhiri progress bar setelah halaman muncul
+                _this.$Progress.finish();
+
+              case 12:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   created: function created() {

@@ -78,26 +78,26 @@
             //                 end_date:this.end_date
             //             })
             // },
-            loadData(){
+            async loadData(){
                 //untuk panggil progress bar
                 this.$Progress.start();
 
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
-                axios
+                await axios
                     .get('api/getSaleTransactions')
                     .then(({data}) => (this.transactionsHeader = data));
                 
-                axios
+                await axios
                     .get('api/getTransactionType')
                     .then(({data}) => (this.transactionType = data));
 
-                axios
+                await axios
                     .get('api/get_category')
                     .then(({data}) => (this.categories = data));
-                axios
+                await axios
                     .get('api/getItem')
                     .then(({data}) => (this.items = data));
-                axios
+                await axios
                     .get('api/getUnitType')
                     .then(({data}) => (this.unitTypes = data));
                 //untuk mengakhiri progress bar setelah halaman muncul

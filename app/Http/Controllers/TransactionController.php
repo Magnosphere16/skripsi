@@ -49,21 +49,21 @@ class TransactionController extends Controller
         return $total_product;
     }
 
-    public function transactionVisualization(){
-        $data = TransactionHeader::select('id','tr_transaction_date','tr_total_price')->get()->groupBy(function($data){
-            return Carbon::parse($data->tr_transaction_date)->format('M');
-        });
+    // public function transactionVisualization(){
+    //     $data = TransactionHeader::select('id','tr_transaction_date','tr_total_price')->get()->groupBy(function($data){
+    //         return Carbon::parse($data->tr_transaction_date)->format('M');
+    //     });
 
-        $months=[];
-        $monthCount=[];
+    //     $months=[];
+    //     $monthCount=[];
 
-        foreach($data as $month =>$values){
-            $months[]=$month;
-            $monthCount[]=count($values);
-        }
+    //     foreach($data as $month =>$values){
+    //         $months[]=$month;
+    //         $monthCount[]=count($values);
+    //     }
 
-        return ['data'=>$data,'months'=>$months,'monthCount'=>$monthCount];
-    }
+    //     return ['data'=>$data,'months'=>$months,'monthCount'=>$monthCount];
+    // }
 
     public function addSaleTransaction(Request $request){
         $transaction_date=$request->get('transactionDate');

@@ -49,7 +49,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Revenue Targeting Progress ({{period}}) </span>
-                <span class="float-right"><b>Rp. {{ (turn_over.to_current_turnover).toLocaleString('en') }}</b>/ Rp. {{ (turn_over.to_current_month_target_turnover).toLocaleString('en') }} ({{((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100).toFixed(2)}} %)</span>
+                <span class="float-right"><b>Rp. {{(turn_over.to_current_turnover).toLocaleString('en')}}</b>/ Rp. {{(turn_over.to_current_month_target_turnover).toLocaleString('en')}} ({{((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100).toFixed(2)}} %)</span>
                 <div class="progress progress-sm">
                   <div class="progress-bar bg-primary" :style="{width: ((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100) + '%'}"></div>
                 </div>
@@ -233,7 +233,6 @@
                 transactions: {},
                 items : {},
                 omset : {},
-                curr_omset : {},
                 period : {},
                 dates : {},
                 times : {},
@@ -270,9 +269,9 @@
                 this.$Progress.start();
 
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
-                await axios
-                    .get('api/getTransactionData')
-                    .then(({data}) => (this.transactions = data));
+                // await axios
+                //     .get('api/getTransactionData')
+                //     .then(({data}) => (this.transactions = data));
 
                 await axios
                     .get('api/getItem')
@@ -282,10 +281,6 @@
                     .get('api/getSale')
                     .then(({data}) => (this.omset = data));
                 
-                await axios
-                    .get('api/getCurrMonthSale')
-                    .then(({data}) => (this.curr_omset = data));
-
                 await axios
                       .get('api/userTurnOver/'+this.userInfo.id)
                       .then(({data}) => (this.turn_over = data));
@@ -345,9 +340,11 @@
         },
         mounted(){
             setInterval(this.new_clock,1000);
+            setInterval(this.date,1000);
         },
         created(){
             this.date();
+            this.new_clock();
             this.loadData();
             Fire.$on('refreshData',() => {
                 this.loadData();
