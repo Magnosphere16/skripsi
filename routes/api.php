@@ -50,15 +50,15 @@ Route::post('addSaleData',[TransactionController::class, 'addSaleTransaction']);
 
 Route::get('getTransactionData',[TransactionController::class, 'transactionVisualization']);
 
-Route::get('getSale',[TransactionController::class, 'getSale']);
+Route::get('getSale/{id}',[TransactionController::class, 'getSale']);
 
-Route::get('getSoldProduct',[TransactionController::class, 'getSoldProduct']);
-Route::get('getBestSeller',[TransactionController::class, 'bestSeller']);
+Route::get('getSoldProduct/{id}',[TransactionController::class, 'getSoldProduct']);
+Route::get('getBestSeller/{id}',[TransactionController::class, 'bestSeller']);
 
-Route::get('getItem',[ItemController::class, 'getItem']);
+Route::get('getItem/{id}',[ItemController::class, 'getItem']);
 
 Route::post('setTarget/{id}',[TurnOverController::class,'setTarget']);
 Route::get('getCurrMonthSale',[TurnOverController::class, 'getTurnOverCurrentMonth']);
 Route::get('userTurnOver/{id}',[TurnOverController::class, 'getUserTurnOver']);
 
-
+Route::get('getItemInfo/{id}',[ItemController::class, 'getItemInfo']);

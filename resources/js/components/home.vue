@@ -4,8 +4,7 @@
       <div class="container-fluid">
         <div class="row mt-2">
             <div class="col-12 col-sm-6 col-md-3">
-              <strong>{{dates}}</strong>
-              <br>
+              <h3><strong>{{dates}}</strong></h3>
               {{times}}
             </div>
         </div>
@@ -15,7 +14,7 @@
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-wallet"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Revenue Total</span>
+                <span class="info-box-text">Turnover Total</span>
                 <span class="info-box-number">
                   Rp. {{ (omset).toLocaleString('en') }}
                   <!-- <small>%</small> -->
@@ -48,7 +47,7 @@
               <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-bullseye"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Revenue Targeting Progress ({{period}}) </span>
+                <span class="info-box-text">Turnover Targeting Progress ({{period}}) </span>
                 <span class="float-right"><b>Rp. {{(turn_over.to_current_turnover).toLocaleString('en')}}</b>/ Rp. {{(turn_over.to_current_month_target_turnover).toLocaleString('en')}} ({{((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100).toFixed(2)}} %)</span>
                 <div class="progress progress-sm">
                   <div class="progress-bar bg-primary" :style="{width: ((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100) + '%'}"></div>
@@ -196,8 +195,8 @@
               <!-- /.card-header -->
               <div class="card-body p-0">
                 <ul class="products-list product-list-in-card pl-2 pr-2">
-                  <li class="item" v-for="(a,index) in items" :key="a.id" :value="a.id">
-                    <div class="product-info" v-if="index < 5">
+                  <li class="item" v-for="a in items.slice(5)" :key="a.id" :value="a.id">
+                    <div class="product-info">
                       <a href="javascript:void(0)" class="product-title">{{a.item_name}}
                         <span class="badge badge-success float-right">Rp. {{ (a.item_buy_price).toLocaleString('en') }}</span></a>
                       <span class="product-description">
@@ -274,11 +273,11 @@
                 //     .then(({data}) => (this.transactions = data));
 
                 await axios
-                    .get('api/getItem')
+                    .get('api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
                 
                 await axios
-                    .get('api/getSale')
+                    .get('api/getSale/'+this.userInfo.id)
                     .then(({data}) => (this.omset = data));
                 
                 await axios
@@ -286,11 +285,11 @@
                       .then(({data}) => (this.turn_over = data));
                 
                 await axios
-                    .get('api/getSoldProduct')
+                    .get('api/getSoldProduct/'+this.userInfo.id)
                     .then(({data}) => (this.sold_product = data));
 
                 await axios
-                      .get('api/getBestSeller')
+                      .get('api/getBestSeller/'+this.userInfo.id)
                       .then(({data}) => (this.best_seller = Object.values(data)));
 
                 this.best_seller=this.best_seller.sort((a,b) =>{

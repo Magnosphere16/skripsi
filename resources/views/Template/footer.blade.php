@@ -4,5 +4,5 @@
         Social Medias Link
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2021 <a href="https://adminlte.io">KassaKu</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2021 <a href="#">KassaKu</a>.</strong> All rights reserved.
   </footer>

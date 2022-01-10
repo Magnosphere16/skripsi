@@ -1,13 +1,14 @@
 <template>
     <div class="container mt-5">
-        <div class="row">
+              <h1><strong>Turnover Targeting</strong></h1>
+        <div class="row mt-3">
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-info">
+            <div class="small-box bg-primary">
               <div class="inner">
-                <h4>Rp. {{ (turn_over.to_final_target_turnover).toLocaleString('en') }}</h4>
+                <h4><strong>Rp. {{ (turn_over.to_final_target_turnover).toLocaleString('en') }}</strong></h4>
 
-                <p>Target Turn Over</p>
+                <p>Target Turnover</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -17,9 +18,9 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-primary">
               <div class="inner">
-                <h4>Rp. {{ (harga_modal).toLocaleString('en') }}</h4>
+                <h4><strong>Rp. {{ (harga_modal).toLocaleString('en') }}</strong></h4>
 
                 <p>Asset</p>
               </div>
@@ -31,11 +32,11 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-warning">
+            <div class="small-box bg-primary">
               <div class="inner">
-                <h4>Rp. {{ (turn_over.to_current_turnover).toLocaleString('en') }}</h4>
+                <h4><strong>Rp. {{ (turn_over.to_current_turnover).toLocaleString('en') }}</strong></h4>
 
-                <p>Current Month Turn Over</p>
+                <p>Current Month Turnover</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
@@ -45,11 +46,11 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-primary">
               <div class="inner">
-                <h4>Rp. {{ (turn_over.to_current_month_target_turnover).toLocaleString('en') }}</h4>
+                <h4><strong>Rp. {{ (turn_over.to_current_month_target_turnover).toLocaleString('en') }}</strong></h4>
 
-                <p>Current Month Target Turn Over</p>
+                <p>Current Month Target Turnover</p>
               </div>
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>
@@ -61,13 +62,13 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title"><strong>Set Targeting Revenue Value</strong></h4>
+                    <div class="card-header bg-primary">
+                        <h4 class="card-title"><strong>Set Turnover Target Value</strong></h4>
                     </div>
                     <div class="card-body">
                         <form @submit.prevent="postData()">
                                             <div class="form-group row">
-                                                <label for="name" class="col-md-4 col-form-label text-md-right">Target Revenue Value</label>
+                                                <label for="name" class="col-md-4 col-form-label text-md-right">Turnover Target Value</label>
                                                 <div class="col-md-6">
                                                     <input
                                                         v-model="form.target"
@@ -80,7 +81,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="name" class="col-md-4 col-form-label text-md-right">Duration</label>
+                                                <label for="name" class="col-md-4 col-form-label text-md-right">Estimated achieved in</label>
                                                 <div class="col-md-4">
                                                     <input
                                                         v-model="form.duration"

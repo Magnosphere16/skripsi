@@ -3,24 +3,15 @@
     <div class="row justify-content-center">
         <div class="col-xl mt-5">
             <h1><strong>Sale Transaction Lists</strong></h1>
-            <div class="mt-5">
-                <div class="form-inline">
-                    <a class="btn btn-success btn-md mb-2 mr-3" :href="'api/downloadTransaction/'+userInfo.id+'/'+start_date+'/'+end_date">Download Transaction Report</a>
-                    <div class="form-group mb-2">
-                        <input type="date" v-model="start_date" class="form-control">
-                        <label for="inputPassword2" class="ml-3">To</label>
-                    </div>  
-                    <div class="form-group mx-sm-3 mb-2">
-                        <input type="date" v-model="end_date" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="card mt-2">
+            <div class="card mt-3">
                 <div class="card-header">
-                    <router-link to="newSale" class="btn btn-danger btn-md" style="float:right; right:0;" tag="button">+ New Sale Transaction</router-link>
+                    <router-link to="newSale" class="btn btn-primary btn-md" style ="float:right;" tag="button">+ New Sale Transaction</router-link>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped">
+                    <div class="ml-4">
+                        <pagination :meta="meta" v-on:pagination="getTransaction"></pagination>
+                    </div>
+                    <table class="table table-striped" id="myTable">
                         <thead>
                             <th>Transaction ID</th>
                             <th>Transaction Date</th>
@@ -34,10 +25,21 @@
                                 <div v-for="type in transactionType" :key="type.id" :value="type.id">
                                     <td v-if="a.tr_transaction_type_id === type.id" style="color:red">{{type.transaction_type_name}}</td>
                                 </div>
-                                <td>Rp {{(a.tr_total_price).toLocaleString('en')}}</td>
+                                <td style="text-align: right;"><strong>Rp {{(a.tr_total_price).toLocaleString('en')}}</strong></td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="form-inline">
+                <a class="btn btn-success btn-md mb-2 mr-3" :href="'api/downloadTransaction/'+userInfo.id+'/'+start_date+'/'+end_date">Download Transaction Report</a>
+                <div class="form-group mb-2">
+                    <label for="inputPassword2" class="mr-3">From</label>
+                    <input type="date" v-model="start_date" class="form-control">
+                    <label for="inputPassword2" class="ml-3">To</label>
+                </div>  
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="date" v-model="end_date" class="form-control">
                 </div>
             </div>
         </div>
@@ -68,25 +70,32 @@
                 unitTypes : {},
                 start_date: {},
                 end_date : {},
+
+                meta: {},
+
             }
         },
         methods:{
-            // downloadTransaction(){
-            //         axios
-            //             .get("api/downloadTransaction/"+this.userInfo.id+"/"+this.start_date+"/"+this.end_date, {
-            //                 start_date:this.start_date,
-            //                 end_date:this.end_date
-            //             })
-            // },
+            getTransaction(page){
+                axios
+                    .get('api/getSaleTransactions',{
+                        params:{
+                            page
+                        }
+                    })
+                    .then(({data}) => (
+                        this.transactionsHeader = data.data,
+                        this.meta = data.meta
+                        ));
+            },
             async loadData(){
                 //untuk panggil progress bar
                 this.$Progress.start();
 
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
-                await axios
-                    .get('api/getSaleTransactions')
-                    .then(({data}) => (this.transactionsHeader = data));
-                
+                //get all transaction pagination 5 data
+                this.getTransaction();
+
                 await axios
                     .get('api/getTransactionType')
                     .then(({data}) => (this.transactionType = data));
@@ -108,7 +117,7 @@
             this.loadData();
             Fire.$on('refreshData',() => {
                 this.loadData();
-            })
+            });
         }
 
     }

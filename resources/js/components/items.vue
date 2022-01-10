@@ -2,51 +2,33 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-xl mt-5">
-            <h1><strong>Item Lists</strong></h1>
+            <h1><strong>Product Lists</strong></h1>
             <div class="card mt-3">
                 <div class="card-header" style="position:relative;">
-                    <button style="display: inline; right: 10px; bottom:8px;" @click="showModalAdd()" type="button" id="add_item" class="btn btn-secondary btn-sm">Add Item</button>
-                    <button style="display: inline; right: 10px; bottom:8px;" @click="showModalImport()" id="swal_upload" class="btn btn-primary btn-sm">Import File</button>
+                    <button style="display: inline; right: 10px; bottom:8px;" @click="showModalAdd()" type="button" id="add_item" class="btn btn-secondary btn-sm">Add New Product</button>
+                    <button style="display: inline; right: 10px; bottom:8px;" @click="showModalImport()" id="swal_upload" class="btn btn-primary btn-sm">Import Product From File</button>
                 </div>
                 <div class="card-body">
-                        <!-- item list -->
-                        <table class="table table-striped">
-                            <thead>
-                                <th>Item Name</th>
-                                <th>Item Description</th>
-                                <th>Item Quantity</th>
-                                <th>Item Unit Type</th>
-                                <th>Item Buy Price</th>
-                                <th>Item Sell Price</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody>
-                                <tr v-for="a in items" :key="a.id" :value="a.id">
-                                    <td>{{a.item_name}}</td>
-                                    <td>{{a.item_desc}}</td>
-                                    <td>{{a.item_qty}}</td>
-                                    <div v-for="unit in unitTypes" :key="unit.id" :value="unit.id">
-                                       <td v-if="a.unit_type_id === unit.id">{{unit.unit_type_name}}</td>
-                                    </div>
-                                    <td>Rp {{a.item_buy_price}}</td>
-                                    <td>Rp {{a.item_sell_price}}</td>
-                                    <td>
-                                            <a
-                                                href="#"
-                                                @click="showModalEdit(a)"
-                                                ><i class="fas fa-edit blue"></i
-                                            ></a>
-                                            | <a
-                                                href="#"
-                                                @click="deleteData(a.id)"
-                                                ><i
-                                                    class="fas fa-trash-alt red"
-                                                ></i
-                                            ></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <!-- item list -->
+                    <div class="row mt-2" v-for="i in Math.ceil(items.length / 4)" :key="i">
+                        <div class="col-lg-3" v-for="item in items.slice((i - 1) * 4, i * 4)" :key="item.id">
+                            <div class="card h-100 ">
+                                <img class="card-img-top" src="assets/img/default.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h6 class="card-title"><router-link :to="'/item_details/'+item.id" class="link-primary"><strong>{{item.item_name}}</strong></router-link></h6>
+                                    <p class="card-text">{{item.item_desc}}</p>
+                                    <h5><strong>Rp. {{(item.item_sell_price).toLocaleString('en')
+                                                        +'/'+items.find((a) => {
+                                                        return a.id === item.id
+                                                    }).unit_type.unit_type_name}}</strong></h5>
+                                    <p>{{item.item_qty==0 ? 'Stok Habis' : 'Stock Tersisa: '
+                                            +item.item_qty+' '+items.find((a) => {
+                                                return a.id === item.id
+                                            }).unit_type.unit_type_name}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                         <!-- Pop Up Import file -->
                         <div class="modal fade" id="importItemForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html lang="en">
 <head>
     @include('Template.head')
-    <title>StockInFlow</title>
+    <title>KassaKu</title>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper" id="app">
@@ -19,7 +19,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/home" class="brand-link">
-      <i class="fas fa-cubes"></i><span class="brand-text font-weight-light"> KassaKu</span>
+      <i class="fas fa-cubes"></i><span class="brand-text font-weight-light"><strong> KassaKu</strong></span>
     </a>
 
     <!-- Sidebar -->
@@ -48,15 +48,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <router-link to="prediction" class="nav-link" onclick="homeHide()">
+                <router-link to="/prediction" class="nav-link" onclick="homeHide()">
                   <i class="fas fa-bullseye white"></i>
-                  <p>Revenue Targeting</p>
+                  <p>Turnover Targeting</p>
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="items" class="nav-link" onclick="homeHide()">
+                <router-link to="/items" class="nav-link" onclick="homeHide()">
                   <i class="fas fa-archive blue"></i>
-                  <p>Manage Items</p>
+                  <p>Manage Products</p>
                 </router-link>
               </li>
               <!-- <li class="nav-item menu-open">
@@ -66,7 +66,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </router-link>
               </li> -->
               <li class="nav-item menu-open">
-                <router-link to="sale_transactions" class="nav-link" onclick="homeHide()">
+                <router-link to="/sale_transactions" class="nav-link" onclick="homeHide()">
                   <i class="fas fa-cart-arrow-down red"></i>
                   <p>Transactions</p>
                 </router-link>
@@ -95,12 +95,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     
     <!-- Main content -->
     <div class="content">
-  <!-- ./wrapper -->
-  @if (Request::is('home') )
-      <div id="home">
-        <home :user-info="{{Auth::user()}}"></home>
-      </div>
-  @endif 
+    <!-- ./wrapper -->
+    @if (Request::is('home') )
+        <div id="home">
+          <home :user-info="{{Auth::user()}}"></home>
+        </div>
+    @endif 
 
          <router-view :user-info="{{Auth::user()}}"></router-view>
          <vue-progress-bar></vue-progress-bar>
@@ -108,9 +108,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
-  <!-- Main Footer -->
   @include('Template.footer')
+  <!-- Main Footer -->
 </div>
 <!-- ./wrapper -->
 

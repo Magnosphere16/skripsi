@@ -26,6 +26,7 @@ Route:: get('/profile',[App\Http\Controllers\HomeController::class,'index'])->wh
 Route:: get('/newSale',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 Route:: get('/newPurchase',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 Route:: get('/prediction',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
+Route:: get('/item_details/{id}',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 
 Auth::routes();
 

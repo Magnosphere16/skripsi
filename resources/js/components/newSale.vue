@@ -138,7 +138,7 @@
                     return item.id == event.target.value;
                 })?.unit_type_id;
                 
-                // console.log("itemChange("+event.target.value+")");
+                this.calcPrice(this.forms[index],index);
             },
             calcPrice(form,index){
                 var item_qty = this.items.find((item) => {

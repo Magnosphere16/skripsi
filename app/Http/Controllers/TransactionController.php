@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\TransactionResource;
+
 use App\Models\TransactionHeader;
 use App\Models\TransactionType;
 use App\Models\TransactionDetail;
@@ -25,12 +27,14 @@ class TransactionController extends Controller
         return Excel::download(new TransactionExport($start_date,$end_date,$id),'Transactions.xlsx');
     }
 
-    public function bestSeller(){
+    public function bestSeller($id){
         // $best = TransactionDetail::orderBy('td_item_qty','desc')->get()->take(5);
 
         $best=DB::table('transaction_detail')
                  ->select('transaction_detail.td_item_id', DB::raw('SUM(td_item_qty) as total'), 'item.item_name','item.item_buy_price')
+                 ->join('transaction_header','transaction_detail.td_transaction_id','=','transaction_header.id')
                  ->join('item','transaction_detail.td_item_id','=','item.id')
+                 ->where('transaction_header.tr_user_id',$id)
                  ->groupBy('transaction_detail.td_item_id','item.item_name','item.item_buy_price')
                  ->get();
         $bestSeller = $best->sortByDesc('total')->take(5);
@@ -38,8 +42,9 @@ class TransactionController extends Controller
         return $bestSeller;
     }
 
-    public function getSoldProduct(){
-        $trans_detail=TransactionDetail::all();
+    public function getSoldProduct($id){
+        $trans_detail=TransactionDetail::join('transaction_header','transaction_detail.td_transaction_id','=','transaction_header.id')
+                        ->where('transaction_header.tr_user_id',$id)->get();
 
         $total_product=0;
         for($i=0;$i<count($trans_detail);$i++){
@@ -179,7 +184,7 @@ class TransactionController extends Controller
 
     public function getSaleTransactions()
     {
-        return TransactionHeader::where('tr_transaction_type_id',2)->get();
+        return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)->paginate(5)->onEachSide(2));
     }
 
     public function getAsset()
@@ -192,9 +197,12 @@ class TransactionController extends Controller
         return $total_asset;
     }
 
-    public function getSale()
+    public function getSale($id)
     {
-        $trans_Header=TransactionHeader::where('tr_transaction_type_id',2)->get();
+        $trans_Header=TransactionHeader::where([
+                                        ['tr_transaction_type_id',2],
+                                        ['tr_user_id',$id]
+                                        ])->get();
 
         $total_price=0;
         for($i=0;$i<count($trans_Header);$i++){

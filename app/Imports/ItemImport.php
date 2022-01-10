@@ -63,6 +63,7 @@ class ItemImport implements ToCollection, WithHeadingRow
                 'item_desc'=>$row['item_desc'],
                 'item_qty'=>$row['item_qty'],
                 'unit_type_id'=>$unitTypeId,
+                'item_image'=>'assets/img/default.jpg',
                 'user_id'=>$this->id,
                 'item_category_id'=>$itemCategoryId,
                 'item_buy_price'=>$row['item_buy_price'],

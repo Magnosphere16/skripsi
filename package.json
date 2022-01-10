@@ -25,6 +25,8 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@babel/core": "^7.16.7",
+        "@babel/preset-env": "^7.16.7",
         "@fortawesome/fontawesome-free": "^5.15.4",
         "admin-lte": "^3.1.0",
         "sweetalert2": "^11.2.0",

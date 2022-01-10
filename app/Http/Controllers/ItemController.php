@@ -62,6 +62,7 @@ class ItemController extends Controller
                 'item_desc'=>$itemDesc,
                 'item_category_id'=>$category_id,
                 'item_qty'=>$itemQty,
+                'item_image'=>'assets/img/default.jpg',
                 'item_buy_price'=>$itemBuy,
                 'item_sell_price'=>$itemSell,
                 'user_id'=>$userId,
@@ -97,8 +98,12 @@ class ItemController extends Controller
         ]);
     }
 
-    public function getItem(){
+    public function getItem($id){
         // Eager loading
-        return Item::with('unitType')->get();
+        return Item::where('user_id',$id)->with('unitType')->get();
+    }
+
+    public function getItemInfo(Request $request){
+        return Item::where('id',$request->id)->first();
     }
 }
