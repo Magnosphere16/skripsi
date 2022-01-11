@@ -1,27 +1,24 @@
 <template>
-        <div class="container">
-
-    <!-- Portfolio Item Heading -->
-    <h1 class="my-4">
-        <strong>{{item_info.item_name}}</strong>
-    </h1>
+    <div class="container">
   
     <!-- Portfolio Item Row -->
-    <div class="row">
-  
-      <div class="col-md-4">
-        <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+    <div class="row mt-5">
+      <div class="col-md-4 mt-4">
+        <img class="img-fluid" :src="item_info.item_image" alt="itemimage">
       </div>
       <div class="col-md-8">
-        <h3 class="my-3">Project Description</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
-        <h3 class="my-3">Project Details</h3>
-        <ul>
-          <li>Lorem Ipsum</li>
-          <li>Dolor Sit Amet</li>
-          <li>Consectetur</li>
-          <li>Adipiscing Elit</li>
-        </ul>
+        <h3 class="my-4">
+            <strong>{{item_info.item_name}}</strong>
+        </h3>
+        <h1>
+            <strong>Rp. {{(item_info.item_sell_price).toLocaleString('en')}}/{{item_info.unit_type.unit_type_name}}</strong>
+        </h1>
+        <p>{{item_info.item_desc}}</p>
+        <h4 class="my-3"><strong>Details</strong></h4>
+        <p id="stock">{{item_info.item_qty===0 ? 'Out of Stock' : 'Stock(s): '
+                                            +item_info.item_qty+' '+item_info.unit_type.unit_type_name+' '}} <span v-if="(item_info.item_qty<=5 && item_info.item_qty>0)"><i class="fas fa-exclamation-triangle"></i></span></p>
+        <p>Category: {{item_info.category.category_name}}</p>
+        <p><strong>Buy Price: Rp. {{(item_info.item_sell_price).toLocaleString('en')}}</strong></p>
       </div>
   
     </div>
@@ -53,6 +50,11 @@
                     .get('http:/api/getItemInfo/'+this.id)
                     .then(({data}) => (this.item_info = data));
                 //untuk mengakhiri progress bar setelah halaman muncul
+
+                if(this.item_info.item_qty<=0){
+                    document.getElementById("stock").style.color="red";
+                }
+
                 this.$Progress.finish();
             },
         },

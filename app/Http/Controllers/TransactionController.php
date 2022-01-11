@@ -182,9 +182,12 @@ class TransactionController extends Controller
     //     return TransactionHeader::where('tr_transaction_type_id',1)->get();
     // }
 
-    public function getSaleTransactions()
+    public function getSaleTransactions($id)
     {
-        return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)->paginate(5)->onEachSide(2));
+        return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
+                                                            ->where('tr_user_id',$id)
+                                                            ->paginate(5)
+                                                            ->onEachSide(2));
     }
 
     public function getAsset()
@@ -200,9 +203,9 @@ class TransactionController extends Controller
     public function getSale($id)
     {
         $trans_Header=TransactionHeader::where([
-                                        ['tr_transaction_type_id',2],
-                                        ['tr_user_id',$id]
-                                        ])->get();
+                            ['tr_transaction_type_id',2],
+                            ['tr_user_id',$id]
+                        ])->get();
 
         $total_price=0;
         for($i=0;$i<count($trans_Header);$i++){

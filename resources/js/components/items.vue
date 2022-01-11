@@ -21,7 +21,7 @@
                                                         +'/'+items.find((a) => {
                                                         return a.id === item.id
                                                     }).unit_type.unit_type_name}}</strong></h5>
-                                    <p>{{item.item_qty==0 ? 'Stok Habis' : 'Stock Tersisa: '
+                                    <p id="stock">{{item.item_qty==0 ? ('Stok Habis') : 'Stock Tersisa: '
                                             +item.item_qty+' '+items.find((a) => {
                                                 return a.id === item.id
                                             }).unit_type.unit_type_name}}</p>
@@ -329,7 +329,7 @@
                     .get('api/get_category')
                     .then(({data}) => (this.categories = data));
                 await axios
-                    .get('api/getItem')
+                    .get('api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
                 await axios
                     .get('api/getUnitType')

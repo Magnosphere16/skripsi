@@ -16,4 +16,7 @@ class Item extends Model
     public function unitType() {
         return $this->belongsTo(UnitType::class);
     }
+    public function category() {
+        return $this->belongsTo(Category::class,'item_category_id');
+    }
 }

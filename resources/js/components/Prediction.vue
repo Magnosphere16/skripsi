@@ -120,7 +120,6 @@
                 disabled: false,
                 harga_modal : 0,
                 total_jual : 0,
-                omset : {},
                 turn_over:{},
                 form: new Form({    
                     id:"",
@@ -143,10 +142,6 @@
                 await axios
                       .get('api/userTurnOver/'+this.userInfo.id)
                       .then(({data}) => (this.turn_over = data));
-
-                await axios
-                    .get('api/getSale')
-                    .then(({data}) => (this.omset = data));
 
                 await axios
                     .get('api/getSale')

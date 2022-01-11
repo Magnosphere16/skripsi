@@ -31,6 +31,8 @@ Route::get('get_category',[CategoryController::class, 'index']);
 Route::get('getUnitType',[UnitTypeController::class, 'index']);
 
 Route::get('getUnitTypeId/{id}',[ItemController::class, 'getUnitTypeId']);
+Route::get('getCategoryId/{id}',[ItemController::class, 'getUnitTypeId']);
+
 
 Route::get('getAsset',[TransactionController::class, 'getAsset']);
 
@@ -41,7 +43,7 @@ Route::post('edit_item/{id}',[ItemController::class, 'editItem']);
 Route::post('delete_item/{id}',[ItemController::class, 'deleteItem']);
 
 Route::get('getPurchaseTransactions',[TransactionController::class, 'getPurchaseTransactions']);
-Route::get('getSaleTransactions',[TransactionController::class, 'getSaleTransactions']);
+Route::get('getSaleTransactions/{id}',[TransactionController::class, 'getSaleTransactions']);
 Route::get('getTransactionType',[TransactionController::class, 'getTransactionType']);
 
 // Route::post('addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);

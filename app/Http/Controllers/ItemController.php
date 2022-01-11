@@ -22,6 +22,11 @@ class ItemController extends Controller
         return $item->id;
     }
 
+    public function getCategoryId($id){
+        $category=Category::where('id',$id)->first();
+        return $category->id;
+    }
+
     public function addItem(Request $request, $id){
         //Validate Data
         $this->validate($request,[
@@ -100,10 +105,10 @@ class ItemController extends Controller
 
     public function getItem($id){
         // Eager loading
-        return Item::where('user_id',$id)->with('unitType')->get();
+        return Item::where('user_id',$id)->with('unitType')->latest()->take(5)->get();
     }
 
-    public function getItemInfo(Request $request){
-        return Item::where('id',$request->id)->first();
+    public function getItemInfo($id){
+        return Item::where('id',$id)->with(['unitType', 'category'])->first();
     }
 }

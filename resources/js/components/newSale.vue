@@ -146,15 +146,11 @@
                 })?.item_qty;
 
                 // if Inputed item quantity not exceed the item quantity in database
-                if(form.tr_item_qty<item_qty){
-                    this.errors.pop();
                     var total=form.tr_item_qty * form.tr_item_price;
                     this.forms[index].tr_line_total=total;
 
                     this.calcPriceTotal();
-                }else{//if it exceed
-                    this.errors.push('The amount of items stored is not enough');
-                }
+
             },
             calcPriceTotal(){
                 var total;
@@ -172,7 +168,7 @@
 
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
                 await axios
-                    .get('api/getItem')
+                    .get('api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
                 await axios
                     .get('api/getUnitType')
@@ -199,7 +195,7 @@
                         'Sale Transaction Saved Successfully!',
                         'success'
                         ).then(function() {
-                        window.location = "/home";
+                        window.location = "/sale_transactions";
                     });
                     this.$Progress.finish();
                     this.loading = false;

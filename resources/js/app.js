@@ -55,6 +55,8 @@ let routes =[
 //per component fragment untuk di put ke dalam blade
 Vue.component('home', require('./components/home.vue').default);
 Vue.component('pagination', require('./components/pagination.vue').default);
+Vue.component('pagination', require('./components/pagination.vue').default);
+Vue.component('graphic', require('./components/graphic.vue').default);
 
 const router = new VueRouter({
     mode: 'history',

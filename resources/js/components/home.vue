@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container">    
       <div class="content">
       <div class="container-fluid">
         <div class="row mt-2">
@@ -81,20 +81,15 @@
                     <span class="text-muted">Since last week</span>
                   </p>
                 </div>
+                <graphic></graphic>
                 <!-- /.d-flex -->
-
-                <div class="position-relative mb-4">
-                  <canvas id="visitors-chart" height="200"></canvas>
-                </div>
-
                 <div class="d-flex flex-row justify-content-end">
-                  <span class="mr-2">
+                  <!-- <span class="mr-2">
                     <i class="fas fa-square text-primary"></i> This Week
                   </span>
-
                   <span>
                     <i class="fas fa-square text-gray"></i> Last Week
-                  </span>
+                  </span> -->
                 </div>
               </div>
             </div>
@@ -172,7 +167,7 @@
                 <!-- /.d-flex -->
 
                 <div class="position-relative mb-4">
-                  <canvas id="sales-chart" height="200"></canvas>
+                      <!-- <line-chart :chart-data="datacollection" :width="200" :height="200"></line-chart> -->
                 </div>
 
                 <div class="d-flex flex-row justify-content-end">
@@ -195,10 +190,10 @@
               <!-- /.card-header -->
               <div class="card-body p-0">
                 <ul class="products-list product-list-in-card pl-2 pr-2">
-                  <li class="item" v-for="a in items.slice(5)" :key="a.id" :value="a.id">
+                  <li class="item" v-for="a in items" :key="a.id" :value="a.id">
                     <div class="product-info">
                       <a href="javascript:void(0)" class="product-title">{{a.item_name}}
-                        <span class="badge badge-success float-right">Rp. {{ (a.item_buy_price).toLocaleString('en') }}</span></a>
+                        <span class="badge badge-success float-right">Rp. {{ (a.item_sell_price).toLocaleString('en') }}</span></a>
                       <span class="product-description">
                         {{a.item_desc}}
                       </span>
@@ -222,11 +217,49 @@
     </div>
 </template>
 
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
 <script>
+
+// Vue.component("line-chart", {
+//   extends: VueChartJs.Line,
+//   mounted() {
+//     this.renderChart(
+//       {
+//         labels: [
+//           "January",
+//           "February",
+//           "March",
+//           "April",
+//           "May",
+//           "June",
+//           "July",
+//         ],
+//         datasets: [
+//           {
+//             label: "Data One",
+//             backgroundColor: "#f87979",
+//             data: [40, 39, 10, 40, 39, 80, 40],
+//           },
+//         ],
+//       },
+//       { responsive: true, maintainAspectRatio: false }
+//     );
+//   },
+// });
+
+    import LineChart from './graphic'
+
     export default {
+      components: {
+      LineChart
+    },
       props: ['userInfo'],
         data(){
             return{
+                maintainAspectRatio: true,
+
                 loading: false,
                 disabled: false,
                 transactions: {},
@@ -275,7 +308,6 @@
                 await axios
                     .get('api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
-                
                 await axios
                     .get('api/getSale/'+this.userInfo.id)
                     .then(({data}) => (this.omset = data));
@@ -335,7 +367,7 @@
                         this.loading = false;
                         this.disabled = false; 
                     });
-            }
+            },
         },
         mounted(){
             setInterval(this.new_clock,1000);

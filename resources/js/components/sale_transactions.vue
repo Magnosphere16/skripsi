@@ -78,7 +78,7 @@
         methods:{
             getTransaction(page){
                 axios
-                    .get('api/getSaleTransactions',{
+                    .get('api/getSaleTransactions/'+this.userInfo.id,{
                         params:{
                             page
                         }
@@ -104,7 +104,7 @@
                     .get('api/get_category')
                     .then(({data}) => (this.categories = data));
                 await axios
-                    .get('api/getItem')
+                    .get('api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
                 await axios
                     .get('api/getUnitType')

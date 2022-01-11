@@ -101,7 +101,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <home :user-info="{{Auth::user()}}"></home>
         </div>
     @endif 
-
          <router-view :user-info="{{Auth::user()}}"></router-view>
          <vue-progress-bar></vue-progress-bar>
     </div>
