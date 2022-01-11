@@ -67,7 +67,7 @@ class ItemController extends Controller
                 'item_desc'=>$itemDesc,
                 'item_category_id'=>$category_id,
                 'item_qty'=>$itemQty,
-                'item_image'=>'assets/img/default.jpg',
+                'item_image'=>'../assets/img/default.jpg',
                 'item_buy_price'=>$itemBuy,
                 'item_sell_price'=>$itemSell,
                 'user_id'=>$userId,

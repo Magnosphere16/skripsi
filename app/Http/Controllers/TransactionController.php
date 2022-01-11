@@ -18,11 +18,21 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function getSalesPerMonth($id){
+        $sales=DB::table('transaction_header')
+                    ->select(DB::raw('SUM(tr_total_price) as `Sum`'), DB::raw("MONTH(tr_transaction_date) month"), DB::raw("YEAR(tr_transaction_date) year") )
+                    ->where('tr_user_id',$id)
+                    ->groupBy('month','year')
+                    ->get();
+        return $sales;
+    }
+
     public function transactionExport($id,$start_date,$end_date){
         return Excel::download(new TransactionExport($start_date,$end_date,$id),'Transactions.xlsx');
     }

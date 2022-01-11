@@ -1,15 +1,34 @@
-import { Line, mixins } from 'vue-chartjs'
+import { Bar, Line, mixins } from 'vue-chartjs'
 const { reactiveProp } = mixins
 
 export default {
-  extends: Line,
+  extends: Bar,Line,
   mixins: [reactiveProp],
-  props: ['options'], 
+  props: ['options'],
   mounted () {
-    // this.chartData is created in the mixin.
-    // If you want to pass options please create a local options object
+    this.options={
+      scales: {
+        yAxes: [{
+          stacked: true,
+          ticks: {
+            beginAtZero: true,
+            min: 0,
+          },
+        }],
+        xAxes: [{
+          stacked: true,
+          ticks: {
+            beginAtZero: true,
+            categoryPercentage: 0.5,
+            barPercentage: 1,
+          },
+        }],
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    }
     this.renderChart(this.chartData, this.options)
-  }
+  },
 }
 
-console.log("chart nya dah ke import");
+console.log("chart 1 nya dah ke import");

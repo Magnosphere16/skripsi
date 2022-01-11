@@ -64,3 +64,4 @@ Route::get('getCurrMonthSale',[TurnOverController::class, 'getTurnOverCurrentMon
 Route::get('userTurnOver/{id}',[TurnOverController::class, 'getUserTurnOver']);
 
 Route::get('getItemInfo/{id}',[ItemController::class, 'getItemInfo']);
+Route::get('getSalesPerMonth/{id}',[TransactionController::class, 'getSalesPerMonth']);

@@ -3,12 +3,12 @@
       <div class="content">
       <div class="container-fluid">
         <div class="row mt-2">
-            <div class="col-12 col-sm-6 col-md-3">
+            <div class="col-12 col-sm-7 col-md-5">
               <h3><strong>{{dates}}</strong></h3>
               {{times}}
             </div>
         </div>
-        <div class="row mt-4">
+        <div class="row mt-3">
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-wallet"></i></span>
@@ -71,24 +71,24 @@
               <div class="card-body">
                 <div class="d-flex">
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">80</span>
+                    <span class="text-bold text-lg">Rp. 25,000,000</span>
                     <span>Sales Growth</span>
                   </p>
                   <p class="ml-auto d-flex flex-column text-right">
                     <span class="text-success">
                       <i class="fas fa-arrow-up"></i> 12.5%
                     </span>
-                    <span class="text-muted">Since last week</span>
+                    <span class="text-muted">Since last Year</span>
                   </p>
                 </div>
-                <graphic></graphic>
+                <graphic :passing="userInfo"></graphic>
                 <!-- /.d-flex -->
                 <div class="d-flex flex-row justify-content-end">
                   <!-- <span class="mr-2">
-                    <i class="fas fa-square text-primary"></i> This Week
-                  </span>
-                  <span>
-                    <i class="fas fa-square text-gray"></i> Last Week
+                    <i class="fas fa-square text-primary"></i> This Year
+                  </span> -->
+                  <!-- <span>
+                    <i class="fas fa-square text-gray"></i> Last Year
                   </span> -->
                 </div>
               </div>
@@ -161,23 +161,20 @@
                     <span class="text-success">
                       <i class="fas fa-arrow-up"></i> 33.1%
                     </span>
-                    <span class="text-muted">Since last month</span>
+                    <span class="text-muted">Since last Year</span>
                   </p>
                 </div>
-                <!-- /.d-flex -->
-
-                <div class="position-relative mb-4">
-                      <!-- <line-chart :chart-data="datacollection" :width="200" :height="200"></line-chart> -->
-                </div>
+                
+                  <graphic :passing="userInfo"></graphic>
 
                 <div class="d-flex flex-row justify-content-end">
-                  <span class="mr-2">
+                  <!-- <span class="mr-2">
                     <i class="fas fa-square text-primary"></i> This year
-                  </span>
+                  </span> -->
 
-                  <span>
+                  <!-- <span>
                     <i class="fas fa-square text-gray"></i> Last year
-                  </span>
+                  </span> -->
                 </div>
               </div>
             </div>
@@ -275,7 +272,7 @@
         },
         methods:{
             date(){
-                var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];;
+                var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
                 var days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
                 var date = new Date();
 

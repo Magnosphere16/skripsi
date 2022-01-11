@@ -1,5 +1,5 @@
 <template>
-    <line-chart :chart-data="datacollection" :height="250"></line-chart>
+    <line-chart :chart-data="datacollection" :height="250" :options="options"></line-chart>
 </template>
 
 <script>
@@ -10,27 +10,52 @@ export default {
   components: {
     LineChart
   },
+  props: ['passing'],
   data(){
     return {
-      datacollection: null
+      datacollection: null,
+      dataTemp: {},
     }
   },
   mounted () {
     this.fillData()
   },
   methods: {
-
-    fillData ()
+    async fillData ()
     {
-      this.datacollection = {
-        labels: ['January','February','March','April','May', 'June' , 'July'],
-        datasets: [
-          {
-            backgroundColor: '#4666d0',
-            data: [ 20, 40, 50, 20, 50, 40]
-          },
-        ]
+
+      let dataArr=[];
+      let monthArr=[];
+      await axios
+          .get('api/getSalesPerMonth/'+this.passing.id)
+          .then(({data}) => (this.dataTemp = Object.values(data)));
+      
+      var date = new Date();
+      var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      for(let i=0; i<this.dataTemp.length; i++){
+        if(this.dataTemp[i].year==date.getFullYear()){
+          monthArr[i]=months[this.dataTemp[i].month-1];
+          dataArr[i]=this.dataTemp[i].Sum;
+        }
       }
+      this.datacollection = {
+            labels: monthArr,
+            datasets: [
+              {
+                type: 'bar',
+                label: 'TurnOver Per Month',
+                backgroundColor: '#4666d0',
+                data: dataArr,
+              }
+            ]   
+        }
+        const options = {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        };
     }
   }
 }

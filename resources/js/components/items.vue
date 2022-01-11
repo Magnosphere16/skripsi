@@ -13,7 +13,7 @@
                     <div class="row mt-2" v-for="i in Math.ceil(items.length / 4)" :key="i">
                         <div class="col-lg-3" v-for="item in items.slice((i - 1) * 4, i * 4)" :key="item.id">
                             <div class="card h-100 ">
-                                <img class="card-img-top" src="assets/img/default.jpg" alt="Card image cap">
+                                <img class="card-img-top" :src="item.item_image" alt="Card image cap">
                                 <div class="card-body">
                                     <h6 class="card-title"><router-link :to="'/item_details/'+item.id" class="link-primary"><strong>{{item.item_name}}</strong></router-link></h6>
                                     <p class="card-text">{{item.item_desc}}</p>
@@ -218,6 +218,10 @@
 
 </template>
 
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<!-- BS JavaScript -->
+<script type="text/javascript" src="js/bootstrap.js"></script>
 <script>
     export default {
         props: ['userInfo'],

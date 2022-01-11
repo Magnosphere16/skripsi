@@ -2213,6 +2213,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
@@ -2321,7 +2326,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _LineChart_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LineChart.js */ "./resources/js/components/LineChart.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _LineChart_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LineChart.js */ "./resources/js/components/LineChart.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2329,11 +2342,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    LineChart: _LineChart_js__WEBPACK_IMPORTED_MODULE_0__["default"]
+    LineChart: _LineChart_js__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  props: ['passing'],
   data: function data() {
     return {
-      datacollection: null
+      datacollection: null,
+      dataTemp: {}
     };
   },
   mounted: function mounted() {
@@ -2341,13 +2356,57 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     fillData: function fillData() {
-      this.datacollection = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [{
-          backgroundColor: '#4666d0',
-          data: [20, 40, 50, 20, 50, 40]
-        }]
-      };
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var dataArr, monthArr, date, months, i, options;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                dataArr = [];
+                monthArr = [];
+                _context.next = 4;
+                return axios.get('api/getSalesPerMonth/' + _this.passing.id).then(function (_ref) {
+                  var data = _ref.data;
+                  return _this.dataTemp = Object.values(data);
+                });
+
+              case 4:
+                date = new Date();
+                months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+                for (i = 0; i < _this.dataTemp.length; i++) {
+                  if (_this.dataTemp[i].year == date.getFullYear()) {
+                    monthArr[i] = months[_this.dataTemp[i].month - 1];
+                    dataArr[i] = _this.dataTemp[i].Sum;
+                  }
+                }
+
+                _this.datacollection = {
+                  labels: monthArr,
+                  datasets: [{
+                    type: 'bar',
+                    label: 'TurnOver Per Month',
+                    backgroundColor: '#4666d0',
+                    data: dataArr
+                  }]
+                };
+                options = {
+                  scales: {
+                    y: {
+                      beginAtZero: true
+                    }
+                  }
+                };
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }
 });
@@ -2374,9 +2433,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
 //
 //
 //
@@ -2647,7 +2703,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     date: function date() {
       var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-      ;
       var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
       var date = new Date();
       this.period = months[date.getMonth()] + ' ' + date.getFullYear();
@@ -2911,6 +2966,10 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -4619,16 +4678,36 @@ __webpack_require__.r(__webpack_exports__);
 
 var reactiveProp = vue_chartjs__WEBPACK_IMPORTED_MODULE_0__.mixins.reactiveProp;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__.Line,
+  "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__.Bar,
+  Line: vue_chartjs__WEBPACK_IMPORTED_MODULE_0__.Line,
   mixins: [reactiveProp],
   props: ['options'],
   mounted: function mounted() {
-    // this.chartData is created in the mixin.
-    // If you want to pass options please create a local options object
+    this.options = {
+      scales: {
+        yAxes: [{
+          stacked: true,
+          ticks: {
+            beginAtZero: true,
+            min: 0
+          }
+        }],
+        xAxes: [{
+          stacked: true,
+          ticks: {
+            beginAtZero: true,
+            categoryPercentage: 0.5,
+            barPercentage: 1
+          }
+        }]
+      },
+      responsive: true,
+      maintainAspectRatio: false
+    };
     this.renderChart(this.chartData, this.options);
   }
 });
-console.log("chart nya dah ke import");
+console.log("chart 1 nya dah ke import");
 
 /***/ }),
 
@@ -79685,6 +79764,15 @@ var render = function () {
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "row mt-3" }, [
+      _c(
+        "div",
+        { staticClass: "col-lg-7 col-6 justify-content-center" },
+        [_c("graphic", { attrs: { passing: _vm.userInfo } })],
+        1
+      ),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row mt-2" }, [
       _c("div", { staticClass: "col-lg-3 col-6" }, [
         _c("div", { staticClass: "small-box bg-primary" }, [
           _c("div", { staticClass: "inner" }, [
@@ -79969,7 +80057,11 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("line-chart", {
-    attrs: { "chart-data": _vm.datacollection, height: 250 },
+    attrs: {
+      "chart-data": _vm.datacollection,
+      height: 250,
+      options: _vm.options,
+    },
   })
 }
 var staticRenderFns = []
@@ -79999,13 +80091,13 @@ var render = function () {
     _c("div", { staticClass: "content" }, [
       _c("div", { staticClass: "container-fluid" }, [
         _c("div", { staticClass: "row mt-2" }, [
-          _c("div", { staticClass: "col-12 col-sm-6 col-md-3" }, [
+          _c("div", { staticClass: "col-12 col-sm-7 col-md-5" }, [
             _c("h3", [_c("strong", [_vm._v(_vm._s(_vm.dates))])]),
             _vm._v("\n          " + _vm._s(_vm.times) + "\n        "),
           ]),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "row mt-4" }, [
+        _c("div", { staticClass: "row mt-3" }, [
           _c("div", { staticClass: "col-12 col-sm-6 col-md-3" }, [
             _c("div", { staticClass: "info-box" }, [
               _vm._m(0),
@@ -80109,7 +80201,7 @@ var render = function () {
                 [
                   _vm._m(4),
                   _vm._v(" "),
-                  _c("graphic"),
+                  _c("graphic", { attrs: { passing: _vm.userInfo } }),
                   _vm._v(" "),
                   _c("div", {
                     staticClass: "d-flex flex-row justify-content-end",
@@ -80163,10 +80255,27 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-lg-6" }, [
-            _vm._m(8),
+            _c("div", { staticClass: "card" }, [
+              _vm._m(8),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "card-body" },
+                [
+                  _vm._m(9),
+                  _vm._v(" "),
+                  _c("graphic", { attrs: { passing: _vm.userInfo } }),
+                  _vm._v(" "),
+                  _c("div", {
+                    staticClass: "d-flex flex-row justify-content-end",
+                  }),
+                ],
+                1
+              ),
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card" }, [
-              _vm._m(9),
+              _vm._m(10),
               _vm._v(" "),
               _c("div", { staticClass: "card-body p-0" }, [
                 _c(
@@ -80278,7 +80387,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "d-flex" }, [
       _c("p", { staticClass: "d-flex flex-column" }, [
-        _c("span", { staticClass: "text-bold text-lg" }, [_vm._v("80")]),
+        _c("span", { staticClass: "text-bold text-lg" }, [
+          _vm._v("Rp. 25,000,000"),
+        ]),
         _vm._v(" "),
         _c("span", [_vm._v("Sales Growth")]),
       ]),
@@ -80289,7 +80400,7 @@ var staticRenderFns = [
           _vm._v(" 12.5%\n                "),
         ]),
         _vm._v(" "),
-        _c("span", { staticClass: "text-muted" }, [_vm._v("Since last week")]),
+        _c("span", { staticClass: "text-muted" }, [_vm._v("Since last Year")]),
       ]),
     ])
   },
@@ -80341,52 +80452,36 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header border-0" }, [
-        _c("div", { staticClass: "d-flex justify-content-between" }, [
-          _c("h3", { staticClass: "card-title" }, [_vm._v("Sales")]),
-          _vm._v(" "),
-          _c("a", { attrs: { href: "javascript:void(0);" } }, [
-            _vm._v("View Report"),
-          ]),
+    return _c("div", { staticClass: "card-header border-0" }, [
+      _c("div", { staticClass: "d-flex justify-content-between" }, [
+        _c("h3", { staticClass: "card-title" }, [_vm._v("Sales")]),
+        _vm._v(" "),
+        _c("a", { attrs: { href: "javascript:void(0);" } }, [
+          _vm._v("View Report"),
         ]),
       ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex" }, [
+      _c("p", { staticClass: "d-flex flex-column" }, [
+        _c("span", { staticClass: "text-bold text-lg" }, [
+          _vm._v("Rp 1,230.00"),
+        ]),
+        _vm._v(" "),
+        _c("span", [_vm._v("Total Sales This Month")]),
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "d-flex" }, [
-          _c("p", { staticClass: "d-flex flex-column" }, [
-            _c("span", { staticClass: "text-bold text-lg" }, [
-              _vm._v("Rp 1,230.00"),
-            ]),
-            _vm._v(" "),
-            _c("span", [_vm._v("Total Sales This Month")]),
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "ml-auto d-flex flex-column text-right" }, [
-            _c("span", { staticClass: "text-success" }, [
-              _c("i", { staticClass: "fas fa-arrow-up" }),
-              _vm._v(" 33.1%\n                "),
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "text-muted" }, [
-              _vm._v("Since last month"),
-            ]),
-          ]),
+      _c("p", { staticClass: "ml-auto d-flex flex-column text-right" }, [
+        _c("span", { staticClass: "text-success" }, [
+          _c("i", { staticClass: "fas fa-arrow-up" }),
+          _vm._v(" 33.1%\n                "),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "position-relative mb-4" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "d-flex flex-row justify-content-end" }, [
-          _c("span", { staticClass: "mr-2" }, [
-            _c("i", { staticClass: "fas fa-square text-primary" }),
-            _vm._v(" This year\n              "),
-          ]),
-          _vm._v(" "),
-          _c("span", [
-            _c("i", { staticClass: "fas fa-square text-gray" }),
-            _vm._v(" Last year\n              "),
-          ]),
-        ]),
+        _c("span", { staticClass: "text-muted" }, [_vm._v("Since last Year")]),
       ]),
     ])
   },
@@ -80589,7 +80684,7 @@ var render = function () {
                           _c("img", {
                             staticClass: "card-img-top",
                             attrs: {
-                              src: "assets/img/default.jpg",
+                              src: item.item_image,
                               alt: "Card image cap",
                             },
                           }),
