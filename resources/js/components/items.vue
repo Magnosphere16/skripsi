@@ -220,6 +220,8 @@
 
 <!-- jQuery -->
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="../../dist/js/bootstrap.min.js"></script>
+
 <!-- BS JavaScript -->
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script>

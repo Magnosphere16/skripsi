@@ -48,9 +48,9 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Turnover Targeting Progress ({{period}}) </span>
-                <span class="float-right"><b>Rp. {{(turn_over.to_current_turnover/100).toLocaleString('en')}}</b>/ Rp. {{(turn_over.to_current_month_target_turnover).toLocaleString('en')}} ({{((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100).toFixed(2)}} %)</span>
-                <div class="progress progress-sm">
-                  <div class="progress-bar bg-primary" :style="{width: (((turn_over.to_current_turnover/100)/turn_over.to_current_month_target_turnover)*100) + '%'}"></div>
+                <span class="float-right"><b>Rp. {{(turn_over.to_current_turnover).toLocaleString('en')}}</b>/ Rp. {{(turn_over.to_current_month_target_turnover).toLocaleString('en')}} ({{((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100).toFixed(2)}} %)</span>
+                <div class="progress">
+                  <div class="progress-bar bg-primary" :style="{width: (((turn_over.to_current_turnover)/turn_over.to_current_month_target_turnover)*100) + '%'}"></div>
                 </div>
               </div>
               <!-- /.info-box-content -->
@@ -64,48 +64,16 @@
             <div class="card">
               <div class="card-header border-0">
                 <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Sales Growth</h3>
-                  <a href="javascript:void(0);">View Report</a>
+                  <h3 class="card-title"><strong>Sales Growth</strong></h3>
                 </div>
               </div>
-              <div class="card-body">
-                <div class="d-flex">
-                  <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">Rp. 25,000,000</span>
-                    <span>Sales Growth</span>
-                  </p>
-                  <p class="ml-auto d-flex flex-column text-right">
-                    <span class="text-success">
-                      <i class="fas fa-arrow-up"></i> 12.5%
-                    </span>
-                    <span class="text-muted">Since last Year</span>
-                  </p>
-                </div>
                 <graphic :passing="userInfo"></graphic>
-                <!-- /.d-flex -->
-                <div class="d-flex flex-row justify-content-end">
-                  <!-- <span class="mr-2">
-                    <i class="fas fa-square text-primary"></i> This Year
-                  </span> -->
-                  <!-- <span>
-                    <i class="fas fa-square text-gray"></i> Last Year
-                  </span> -->
-                </div>
-              </div>
             </div>
             <!-- /.card -->
 
             <div class="card">
               <div class="card-header border-0">
-                <h3 class="card-title">Best Seller Products</h3>
-                <div class="card-tools">
-                  <a href="#" class="btn btn-tool btn-sm">
-                    <i class="fas fa-download"></i>
-                  </a>
-                  <a href="#" class="btn btn-tool btn-sm">
-                    <i class="fas fa-bars"></i>
-                  </a>
-                </div>
+                <h3 class="card-title"><strong>Best Seller Products</strong></h3>
               </div>
               <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-valign-middle">
@@ -114,7 +82,6 @@
                     <th>Product</th>
                     <th>Price</th>
                     <th>Sales</th>
-                    <th>More</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -130,11 +97,6 @@
                         </small> -->
                         {{a.total}} Sold
                       </td>
-                      <td>
-                        <a href="#" class="text-muted">
-                          <i class="fas fa-search"></i>
-                        </a>
-                      </td>
                   </tr>
                   </tbody>
                 </table>
@@ -147,42 +109,16 @@
             <div class="card">
               <div class="card-header border-0">
                 <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Sales</h3>
-                  <a href="javascript:void(0);">View Report</a>
+                  <h3 class="card-title"><strong>Sales</strong></h3>
                 </div>
-              </div>
-              <div class="card-body">
-                <div class="d-flex">
-                  <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">Rp 1,230.00</span>
-                    <span>Total Sales This Month</span>
-                  </p>
-                  <p class="ml-auto d-flex flex-column text-right">
-                    <span class="text-success">
-                      <i class="fas fa-arrow-up"></i> 33.1%
-                    </span>
-                    <span class="text-muted">Since last Year</span>
-                  </p>
-                </div>
-                
-                  <graphic :passing="userInfo"></graphic>
-
-                <div class="d-flex flex-row justify-content-end">
-                  <!-- <span class="mr-2">
-                    <i class="fas fa-square text-primary"></i> This year
-                  </span> -->
-
-                  <!-- <span>
-                    <i class="fas fa-square text-gray"></i> Last year
-                  </span> -->
-                </div>
-              </div>
+              </div>               
+                  <sales-graphic :passing="userInfo"></sales-graphic>
             </div>
             <!-- /.card -->
 
           <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Recently Added Products</h3>
+                <h3 class="card-title"><strong>Recently Added Products</strong></h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body p-0">
@@ -198,11 +134,6 @@
                   </li>
                 </ul>
               </div>
-              <!-- /.card-body -->
-              <!-- <div class="card-footer text-center">
-                    <router-link to="items">View All Products</router-link>
-              </div> -->
-              <!-- /.card-footer -->
             </div>
           </div>
           <!-- /.col-md-6 -->
@@ -217,35 +148,8 @@
 <script src="https://unpkg.com/vue"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
+
 <script>
-
-// Vue.component("line-chart", {
-//   extends: VueChartJs.Line,
-//   mounted() {
-//     this.renderChart(
-//       {
-//         labels: [
-//           "January",
-//           "February",
-//           "March",
-//           "April",
-//           "May",
-//           "June",
-//           "July",
-//         ],
-//         datasets: [
-//           {
-//             label: "Data One",
-//             backgroundColor: "#f87979",
-//             data: [40, 39, 10, 40, 39, 80, 40],
-//           },
-//         ],
-//       },
-//       { responsive: true, maintainAspectRatio: false }
-//     );
-//   },
-// });
-
     import LineChart from './graphic'
 
     export default {
@@ -305,6 +209,11 @@
                 await axios
                     .get('api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
+
+                this.items=this.items.sort((a,b) =>{
+                    return b.id - a.id;
+                } );
+
                 await axios
                     .get('api/getSale/'+this.userInfo.id)
                     .then(({data}) => (this.omset = data));

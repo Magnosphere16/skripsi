@@ -24,6 +24,15 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getSalesTransactionPerMonth($id){
+        $sales=DB::table('transaction_header')
+                    ->select(DB::raw('count(id) as `count`'), DB::raw("MONTH(tr_transaction_date) month"), DB::raw("YEAR(tr_transaction_date) year") )
+                    ->where('tr_user_id',$id)
+                    ->groupBy('month','year')
+                    ->get();
+        return $sales;
+    }
+
     public function getSalesPerMonth($id){
         $sales=DB::table('transaction_header')
                     ->select(DB::raw('SUM(tr_total_price) as `Sum`'), DB::raw("MONTH(tr_transaction_date) month"), DB::raw("YEAR(tr_transaction_date) year") )
