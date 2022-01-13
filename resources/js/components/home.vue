@@ -48,9 +48,9 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Turnover Targeting Progress ({{period}}) </span>
-                <span class="float-right"><b>Rp. {{(turn_over.to_current_turnover).toLocaleString('en')}}</b>/ Rp. {{(turn_over.to_current_month_target_turnover).toLocaleString('en')}} ({{((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100).toFixed(2)}} %)</span>
+                <span class="float-right"><b>Rp. {{(turn_over.to_current_turnover/100).toLocaleString('en')}}</b>/ Rp. {{(turn_over.to_current_month_target_turnover).toLocaleString('en')}} ({{((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100).toFixed(2)}} %)</span>
                 <div class="progress progress-sm">
-                  <div class="progress-bar bg-primary" :style="{width: ((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100) + '%'}"></div>
+                  <div class="progress-bar bg-primary" :style="{width: (((turn_over.to_current_turnover/100)/turn_over.to_current_month_target_turnover)*100) + '%'}"></div>
                 </div>
               </div>
               <!-- /.info-box-content -->

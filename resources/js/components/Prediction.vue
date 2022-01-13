@@ -2,9 +2,6 @@
     <div class="container mt-5">
               <h1><strong>Turnover Targeting</strong></h1>
         <div class="row mt-3">
-           <div class="col-lg-7 col-6 justify-content-center">
-                <graphic :passing="userInfo"></graphic>
-            </div>
         </div>
         <div class="row mt-2">
           <div class="col-lg-3 col-6">
@@ -137,8 +134,6 @@
             async loadData(){
                //Contoh get Data dari Database 
                 //untuk panggil progress bar
-                this.$Progress.start();
-
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
                 await axios
                     .get('api/getAsset')
@@ -153,7 +148,6 @@
                     .then(({data}) => (this.total_jual = data));
                 
                 //untuk mengakhiri progress bar setelah halaman muncul
-                this.$Progress.finish();
             },
             //Contoh insert ke Database
             postData(){

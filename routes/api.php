@@ -49,7 +49,6 @@ Route::get('getTransactionType',[TransactionController::class, 'getTransactionTy
 // Route::post('addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);
 Route::post('addSaleData',[TransactionController::class, 'addSaleTransaction']);
 
-
 Route::get('getTransactionData',[TransactionController::class, 'transactionVisualization']);
 
 Route::get('getSale/{id}',[TransactionController::class, 'getSale']);
