@@ -2,19 +2,20 @@
               <div class="card-body">
                 <div class="d-flex">
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg text-success" v-if="currData !== null && (currData-prevData>0)">Rp. {{parseInt(currGrowth).toLocaleString('en')}}</span>
-                    <span class="text-bold text-lg text-danger" v-if="currData !== null && (currData-prevData<0)">Rp. {{parseInt(currGrowth).toLocaleString('en')}}</span>
+                    <span class="text-bold text-lg text-success" v-if="(currData !== null && (currData-prevData>0))">Rp. {{parseInt(currGrowth).toLocaleString('en')}}</span>
+                    <span class="text-bold text-lg text-danger" v-if="(currData !== null && (currData-prevData<0))">Rp. {{parseInt(currGrowth).toLocaleString('en')}}</span>
+                    <span class="text-bold text-lg" v-if="prevData==null || currData-prevData == 0 || prevData-currData == 0">Rp. 0</span>
                     <span>Total of Sales Changes This Month</span>
                   </p>
                   <p class="ml-auto d-flex flex-column text-right">
-                    <span class="text-success" v-if="currData > prevData && prevData!=0">
-                        <i class="fas fa-arrow-up"></i> {{((currData-prevData)/prevData)*100}}%
+                    <span class="text" v-if="prevData==null || currData-prevData == 0 || prevData-currData == 0">
+                        0%
                     </span>
-                    <span class="text" v-else>
-                        <i class="fas fa-arrow-up"></i>0%
+                    <span class="text-success" v-else-if="currData - prevData > 0">
+                        <i class="fas fa-arrow-up"></i> {{(((currData-prevData)/prevData)*100).toFixed(2)}}%
                     </span>
-                    <span class="text-danger" v-if="prevData > currData && prevData!=0">
-                      <i class="fas fa-arrow-down"></i> {{((prevData-currData)/prevData)*100}}%
+                    <span class="text-danger" v-else-if="currData - prevData < 0">
+                      <i class="fas fa-arrow-down"></i> {{(((prevData-currData)/prevData)*100).toFixed(2)}}%
                     </span>
                     <span class="text-muted">Since last Month</span>
                   </p>
@@ -37,9 +38,9 @@ export default {
       datacollection: null,
       dataTemp: {},
       opsi: {},
-      currGrowth:null,
-      currData:null,
-      prevdata:null,
+      currGrowth:{},
+      currData:{},
+      prevdata:{},
     }
   },
   mounted () {
@@ -63,15 +64,21 @@ export default {
 
       var date = new Date();
       var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-       
-      for(let i=0; i<this.dataTemp.length; i++){
+      if(this.dataTemp.length==1){
+        colorArr[0]="#4eba04";
+        dataArr[0]=this.dataTemp[0].Sum;
+
+        this.currData=this.dataTemp[0].Sum;
+        monthArr[0]=months[this.dataTemp[0].month-1]+" "+this.dataTemp[0].year;
+      }else{
+          for(let i=0; i<this.dataTemp.length; i++){
           monthArr[i]=months[this.dataTemp[i].month-1]+" "+this.dataTemp[i].year;
           if(i==0){
             dataArr[i]=this.dataTemp[i].Sum;
             colorArr[i]="#4eba04"
           }else{
             dataArr[i]=this.dataTemp[i].Sum-this.dataTemp[i-1].Sum;
-            if(this.dataTemp[i].Sum>this.dataTemp[i-1].Sum){
+            if(this.dataTemp[i].Sum - this.dataTemp[i-1].Sum > 0){
                 colorArr[i]="#4eba04";
             }else{
                colorArr[i]="#ea0100";
@@ -84,6 +91,7 @@ export default {
               }
             }
           }
+        }
       }
 
       this.datacollection = {

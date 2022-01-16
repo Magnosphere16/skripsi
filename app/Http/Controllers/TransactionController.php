@@ -9,6 +9,7 @@ use App\Models\TransactionHeader;
 use App\Models\TransactionType;
 use App\Models\TransactionDetail;
 use App\Models\TurnOver;
+use App\Models\TurnOverDetail;
 use App\Models\Item;
 use Carbon\Carbon;
 use DB;
@@ -73,21 +74,6 @@ class TransactionController extends Controller
         return $total_product;
     }
 
-    // public function transactionVisualization(){
-    //     $data = TransactionHeader::select('id','tr_transaction_date','tr_total_price')->get()->groupBy(function($data){
-    //         return Carbon::parse($data->tr_transaction_date)->format('M');
-    //     });
-
-    //     $months=[];
-    //     $monthCount=[];
-
-    //     foreach($data as $month =>$values){
-    //         $months[]=$month;
-    //         $monthCount[]=count($values);
-    //     }
-
-    //     return ['data'=>$data,'months'=>$months,'monthCount'=>$monthCount];
-    // }
 
     public function addSaleTransaction(Request $request){
         $transaction_date=$request->get('transactionDate');
@@ -132,11 +118,10 @@ class TransactionController extends Controller
 
         $total_price=0;
         for($i=0;$i<count($trans_Header);$i++){
-            if(date("m",strtotime($trans_Header[$i]->tr_transaction_date))==date('m')){
+            if(date("m",strtotime($trans_Header[$i]->tr_transaction_date))==date('m') && date("y",strtotime($trans_Header[$i]->tr_transaction_date))==date('y')){
                 $total_price += $trans_Header[$i]->tr_total_price;
             }
         }
-
         $updtTurnOver = TurnOver::where('to_user_id',$transaction_user)->update([
             'to_current_turnover'=>$total_price,
         ]);
@@ -229,7 +214,6 @@ class TransactionController extends Controller
         $total_price=0;
         for($i=0;$i<count($trans_Header);$i++){
             $total_price += $trans_Header[$i]->tr_total_price;
-
         }
         return $total_price;
     }

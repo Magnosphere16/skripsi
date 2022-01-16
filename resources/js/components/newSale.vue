@@ -139,18 +139,18 @@
                 })?.unit_type_id;
                 
                 this.calcPrice(this.forms[index],index);
+                this.calcPriceTotal();
             },
             calcPrice(form,index){
                 var item_qty = this.items.find((item) => {
                     return item.id == form.tr_item_id
                 })?.item_qty;
 
-                // if Inputed item quantity not exceed the item quantity in database
-                    var total=form.tr_item_qty * form.tr_item_price;
-                    this.forms[index].tr_line_total=total;
+            // if Inputed item quantity not exceed the item quantity in database
+                var total=form.tr_item_qty * form.tr_item_price;
+                this.forms[index].tr_line_total=total;
 
-                    this.calcPriceTotal();
-
+                this.calcPriceTotal();
             },
             calcPriceTotal(){
                 var total;

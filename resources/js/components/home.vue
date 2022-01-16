@@ -17,7 +17,6 @@
                 <span class="info-box-text">Turnover Total</span>
                 <span class="info-box-number">
                   Rp. {{ (omset).toLocaleString('en') }}
-                  <!-- <small>%</small> -->
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -33,11 +32,8 @@
                 <span class="info-box-text">Total Products Sold</span>
                 <span class="info-box-number">{{ (sold_product).toLocaleString('en') }}</span>
               </div>
-              <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
           </div>
-          <!-- /.col -->
 
           <!-- fix for small devices only -->
 
@@ -47,15 +43,17 @@
               <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-bullseye"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Turnover Targeting Progress ({{period}}) </span>
-                <span class="float-right"><b>Rp. {{(turn_over.to_current_turnover).toLocaleString('en')}}</b>/ Rp. {{(turn_over.to_current_month_target_turnover).toLocaleString('en')}} ({{((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100).toFixed(2)}} %)</span>
+                <span class="info-box-text" v-if="turn_over.to_current_turnover!=null">Turnover Targeting Progress ({{period}}) </span>
+                <span class="info-box-text" v-if="turn_over.to_current_turnover==null">Turnover Targeting Progress (Not Started) </span>
+
+                <span class="float-right" v-if="turn_over.to_current_turnover!=null || turn_over.to_current_month_target_turnover"><b>Rp. {{(turn_over.to_current_turnover).toLocaleString('en')}}</b>/ Rp. {{(turn_over.to_current_month_target_turnover).toLocaleString('en')}} ({{((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100).toFixed(2)}} %)</span>
+                <span class="float-right" v-if="turn_over.to_current_turnover==null && turn_over.to_current_month_target_turnover==null"><b>Rp. 0</b>/ Rp. 0</span>
                 <div class="progress">
                   <div class="progress-bar bg-primary" :style="{width: (((turn_over.to_current_turnover)/turn_over.to_current_month_target_turnover)*100) + '%'}"></div>
                 </div>
               </div>
-              <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
+
           </div>
           <!-- /.col -->
         </div>
@@ -182,7 +180,14 @@
 
                 this.period= months[date.getMonth()] + ' ' + date.getFullYear();
 
-                this.dates= days[date.getDay()-1] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+                var hari=0;
+                if(date.getDay()==0){
+                  hari = 7;
+                }else{
+                  hari = date.getDay();
+                }
+        
+                this.dates= days[hari-1] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
             },
             new_clock(){
                 var date = new Date();

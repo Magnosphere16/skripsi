@@ -14,7 +14,7 @@ class ItemController extends Controller
 
     public function import(Request $request,$id){
          Excel::import(new ItemImport($id),$request->file);
-         return redirect()->back();
+         return redirect('/items');
     }
 
     public function getUnitTypeId($id){
@@ -105,7 +105,7 @@ class ItemController extends Controller
 
     public function getItem($id){
         // Eager loading
-        return Item::where('user_id',$id)->with('unitType')->latest()->take(5)->get();
+        return Item::where('user_id',$id)->with('unitType')->latest()->get();
     }
 
     public function getItemInfo($id){

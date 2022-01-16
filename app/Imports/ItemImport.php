@@ -67,7 +67,7 @@ class ItemImport implements ToCollection, WithHeadingRow
                 'user_id'=>$this->id,
                 'item_category_id'=>$itemCategoryId,
                 'item_buy_price'=>$row['item_buy_price'],
-                'item_sell_price'=>0
+                'item_sell_price'=>$row['item_buy_price']
             ]);
         }
     }

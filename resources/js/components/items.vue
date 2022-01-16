@@ -5,8 +5,33 @@
             <h1><strong>Product Lists</strong></h1>
             <div class="card mt-3">
                 <div class="card-header" style="position:relative;">
-                    <button style="display: inline; right: 10px; bottom:8px;" @click="showModalAdd()" type="button" id="add_item" class="btn btn-secondary btn-sm">Add New Product</button>
-                    <button style="display: inline; right: 10px; bottom:8px;" @click="showModalImport()" id="swal_upload" class="btn btn-primary btn-sm">Import Product From File</button>
+
+                    <div class="row mt-2">
+                        <div class="col-lg-3 col-6">
+                            <div class="form-inline">
+                                    <input type="search" id="form1" class="form-control" placeholder="Search...">
+                                    <button type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <select v-model="form.item_category_id" 
+                                    name="category_id" id="category_id" 
+                                    class="form-control input-lg dynamic" 
+                                    style="width:inherit;"
+                                    @change="onChange($event)">
+                                        <option value="">Select Category</option>
+                                        <option v-for="item in categories" :key="item.id" :value="item.id">
+                                            {{item.category_name}}
+                                        </option>
+                                        <option value="create new category">Others</option>
+                                </select>
+                        </div>
+                        <div class="card-tools">
+                            <button  class="btn btn-secondary btn-sm" @click="showModalAdd" id="add_item">Add New Product</button>
+                            <!-- <button  class="btn btn-primary btn-sm" @click="showModalImport" id="swal_upload">Import Product From File</button> -->
+                            <router-link :to="'/import'" class="btn btn-primary btn-sm"><strong>Import Product From File</strong></router-link>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <!-- item list -->
@@ -29,201 +54,202 @@
                             </div>
                         </div>
                     </div>
-                        <!-- Pop Up Import file -->
-                        <div class="modal fade" id="importItemForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                <div class="modal-content" >
-                                    <div class="modal-header text-center">
-                                        <h4 class="modal-title" id="exampleModalLongTitle">Import New Item</h4>
-                                        <button type="button" class="close" data-dismiss="modal" @click="fileUploadDismiss()" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                            <div>
-                                                <p>You may Download the template with the link below:</p>
-                                                <button class="btn btn-success" @click="downloadTemplate()">Download Template</button>
-                                            </div>
-                                            <hr>
-                                            <div class="input-group mb-3">
-                                                <div class="custom-file">
-                                                     <input type="file" @change="handleFileUpload($event)" class="custom-file-input">
-                                                    <label class="custom-file-label" for="customFile" id="customFile">Choose File</label>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <button v-on:click="importData()" class="btn btn-primary btn-block">
-                                                    <i v-show="loading" class="fa fa-spinner fa-spin"></i>
-                                                        Submit
-                                                </button>
-                                            </div>
-                                    </div>
-                                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- MODAL IMPORT -->
+    <div class="modal" id="importItemForm" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content" >
+                <div class="modal-header text-center">
+                    <h4 class="modal-title" id="exampleModalLongTitle">Import New Item</h4>
+                    <button type="button" class="close" data-dismiss="modal" @click="fileUploadDismiss()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <div>
+                            <p>You may Download the template with the link below:</p>
+                            <button class="btn btn-success" @click="downloadTemplate()">Download Template</button>
+                        </div>
+                        <hr>
+                        <div class="input-group mb-3">
+                            <div class="custom-file">
+                                    <input type="file" @change="handleFileUpload($event)" class="custom-file-input">
+                                <label class="custom-file-label" for="customFile" id="customFile">Choose File</label>
                             </div>
                         </div>
-                        <!-- Pop Up Add Item-->
-                        <div class="modal fade" id="addItemForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                <div class="modal-content" >
-                                    <div class="modal-header text-center">
-                                        <h4 class="modal-title" id="exampleModalLongTitle" v-show="!modal">New Item</h4>
-                                        <h4 class="modal-title" id="exampleModalLongTitle" v-show="modal">Edit Item</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form @submit.prevent="modal ? editData() : postData()">
-                                            <div class="form-group row">
-                                                <label for="name" class="col-md-4 col-form-label text-md-right">Item Name</label>
-                                                <div class="col-md-6">
-                                                    <input
-                                                        class="form-control"
-                                                        id="item_name" 
-                                                        type="text" 
-                                                        v-model="form.item_name"
-                                                        name="item_name" 
-                                                        required
-                                                        placeholder="Item Name">
-                                                        <has-error :form="form" field="item_name"></has-error> 
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="item_desc" class="col-md-4 col-form-label text-md-right">Item Description</label>
-
-                                                <div class="col-md-6">
-                                                    <textarea v-model="form.item_desc"
-                                                        id="item_desc" 
-                                                        rows="4" 
-                                                        cols="50" 
-                                                        class="form-control" 
-                                                        name="item_desc" 
-                                                        required
-                                                        placeholder="Item Description">
-                                                        
-                                                    </textarea>
-                                                    <has-error :form="form" field="item_desc"></has-error> 
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="item_desc" class="col-md-4 col-form-label text-md-right">Item Category</label>
-
-                                                <div class="col-md-6">
-                                                    <select v-model="form.item_category_id" 
-                                                        name="category_id" id="category_id" 
-                                                        class="form-control input-lg dynamic" 
-                                                        style="width:inherit;"
-                                                       @change="onChange($event)">
-                                                            <option value="">Select Category</option>
-                                                            <option v-for="item in categories" :key="item.id" :value="item.id">
-                                                                {{item.category_name}}
-                                                            </option>
-                                                            <option value="create new category">Others</option>
-                                                    </select>
-                                                    <input
-                                                        class="form-control"
-                                                        id="category_id_others" 
-                                                        type="text" 
-                                                        v-model="form.item_category_id"
-                                                        name="item_category_id" 
-                                                        placeholder="create new category" style="display:none;">
-                                                    <!-- <has-error :form="form" field="item_category_id"></has-error> -->
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="qty" class="col-md-4 col-form-label text-md-right">Item Quantity</label>
-
-                                                <div class="col-md-6">
-                                                    <input v-model="form.item_qty" 
-                                                        id="item_qty" 
-                                                        type="number" 
-                                                        class="form-control"
-                                                        name="item_qty"
-                                                        required  
-                                                        placeholder="1">
-                                                    <has-error :form="form" field="item_qty"></has-error>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="item_unit_type" class="col-md-4 col-form-label text-md-right">Unit Type</label>
-
-                                                <div class="col-md-6">
-                                                    <select v-model="form.unit_type_id" 
-                                                        name="unit_type_id" id="unit_type_id" 
-                                                        class="form-control input-lg dynamic" 
-                                                        style="width:inherit;"
-                                                       @change="onChange($event)">
-                                                            <option value="">Select Unit Type</option>
-                                                            <option v-for="item in unitTypes" :key="item.id" :value="item.id">
-                                                                {{item.unit_type_name}}
-                                                            </option>
-                                                            <!-- <option value="create new category">Others</option> -->
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="buy" class="col-md-4 col-form-label text-md-right">Item Buy Price</label>
-
-                                                <div class="col-md-6">
-                                                    <input v-model="form.item_buy_price" 
-                                                        id="item_buy" 
-                                                        type="number" 
-                                                        class="form-control" 
-                                                        name="item_buy_price" 
-                                                        required
-                                                        placeholder="0">
-                                                    <has-error :form="form" field="item_buy_price"></has-error>
-                                                </div>
-                                            </div>
-    
-
-                                            <div class="form-group row">
-                                                <label for="sell" class="col-md-4 col-form-label text-md-right">Item Sell Price</label>
-
-                                                <div class="col-md-6">
-                                                    <input v-model="form.item_sell_price" 
-                                                        id="item_sell" 
-                                                        type="number" 
-                                                        class="form-control"
-                                                        name="item_sell_price" 
-                                                        required
-                                                        placeholder="0">
-                                                    <has-error :form="form" field="item_sell_price"></has-error>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row mb-0">
-                                                <div class="col-md-6 offset-md-4">
-                                                    <button type="submit" class="btn btn-primary btn-block" :disabled="disabled">
-                                                        <i v-show="loading" class="fa fa-spinner fa-spin"></i>
-                                                         Submit
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                        <div>
+                            <button v-on:click="importData()" class="btn btn-primary btn-block">
+                                <i v-show="loading" class="fa fa-spinner fa-spin"></i>
+                                    Submit
+                            </button>
                         </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+<!-- MODAL IMPORT -->
+<!-- MODAL ADD -->
+    <div class="modal" id="addItemForm" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content" >
+                <div class="modal-header text-center">
+                    <h4 class="modal-title" id="exampleModalLongTitle" v-show="!modal">New Item</h4>
+                    <h4 class="modal-title" id="exampleModalLongTitle" v-show="modal">Edit Item</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form @submit.prevent="modal ? editData() : postData()">
+                        <div class="form-group row">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">Item Name</label>
+                            <div class="col-md-6">
+                                <input
+                                    class="form-control"
+                                    id="item_name" 
+                                    type="text" 
+                                    v-model="form.item_name"
+                                    name="item_name" 
+                                    required
+                                    placeholder="Item Name">
+                                    <has-error :form="form" field="item_name"></has-error> 
+                            </div>
+                        </div>
 
+                        <div class="form-group row">
+                            <label for="item_desc" class="col-md-4 col-form-label text-md-right">Item Description</label>
+
+                            <div class="col-md-6">
+                                <textarea v-model="form.item_desc"
+                                    id="item_desc" 
+                                    rows="4" 
+                                    cols="50" 
+                                    class="form-control" 
+                                    name="item_desc" 
+                                    required
+                                    placeholder="Item Description">
+                                    
+                                </textarea>
+                                <has-error :form="form" field="item_desc"></has-error> 
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="item_desc" class="col-md-4 col-form-label text-md-right">Item Category</label>
+
+                            <div class="col-md-6">
+                                <select v-model="form.item_category_id" 
+                                    name="category_id" id="category_id" 
+                                    class="form-control input-lg dynamic" 
+                                    style="width:inherit;"
+                                    @change="onChange($event)">
+                                        <option value="">Select Category</option>
+                                        <option v-for="item in categories" :key="item.id" :value="item.id">
+                                            {{item.category_name}}
+                                        </option>
+                                        <option value="create new category">Others</option>
+                                </select>
+                                <input
+                                    class="form-control"
+                                    id="category_id_others" 
+                                    type="text" 
+                                    v-model="form.item_category_id"
+                                    name="item_category_id" 
+                                    placeholder="create new category" style="display:none;">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="qty" class="col-md-4 col-form-label text-md-right">Item Quantity</label>
+
+                            <div class="col-md-6">
+                                <input v-model="form.item_qty" 
+                                    id="item_qty" 
+                                    type="number" 
+                                    class="form-control"
+                                    name="item_qty"
+                                    required  
+                                    placeholder="1">
+                                <has-error :form="form" field="item_qty"></has-error>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="item_unit_type" class="col-md-4 col-form-label text-md-right">Unit Type</label>
+
+                            <div class="col-md-6">
+                                <select v-model="form.unit_type_id" 
+                                    name="unit_type_id" id="unit_type_id" 
+                                    class="form-control input-lg dynamic" 
+                                    style="width:inherit;"
+                                    @change="onChange($event)">
+                                        <option value="">Select Unit Type</option>
+                                        <option v-for="item in unitTypes" :key="item.id" :value="item.id">
+                                            {{item.unit_type_name}}
+                                        </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="buy" class="col-md-4 col-form-label text-md-right">Item Buy Price</label>
+
+                            <div class="col-md-6">
+                                <input v-model="form.item_buy_price" 
+                                    id="item_buy" 
+                                    type="number" 
+                                    class="form-control" 
+                                    name="item_buy_price" 
+                                    required
+                                    placeholder="0">
+                                <has-error :form="form" field="item_buy_price"></has-error>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="sell" class="col-md-4 col-form-label text-md-right">Item Sell Price</label>
+
+                            <div class="col-md-6">
+                                <input v-model="form.item_sell_price" 
+                                    id="item_sell" 
+                                    type="number" 
+                                    class="form-control"
+                                    name="item_sell_price" 
+                                    required
+                                    placeholder="0">
+                                <has-error :form="form" field="item_sell_price"></has-error>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary btn-block" :disabled="disabled">
+                                    <i v-show="loading" class="fa fa-spinner fa-spin"></i>
+                                        Submit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- MODAL ADD -->
+</div>
 </template>
 
-<!-- jQuery -->
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="../../dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
-<!-- BS JavaScript -->
-<script type="text/javascript" src="js/bootstrap.js"></script>
+<!-- jQuery Modal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
 <script>
     export default {
         props: ['userInfo'],
@@ -313,17 +339,21 @@
                 }
             },
             showModalAdd(){
+                console.log("showAddModal");
                 this.modal = false;
                 this.form.reset();
-                $("#addItemForm").modal("show");
+                console.log($("#addItemForm"));
+                window.$("#addItemForm").modal("show");
             },
             showModalImport(){
-                $("#importItemForm").modal("show");
+                console.log("showImportModal");
+                console.log($("#importItemForm"));
+                window.$("#importItemForm").modal("show");
             },
             showModalEdit(a){
                 this.modal = true;
                 this.form.reset();
-                $("#addItemForm").modal("show");
+                window.$("#addItemForm").modal("show");
                 this.form.fill(a);
             },
             async loadData(){
@@ -337,6 +367,7 @@
                 await axios
                     .get('api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
+                 console.log(this.items);
                 await axios
                     .get('api/getUnitType')
                     .then(({data}) => (this.unitTypes = data));

@@ -26,6 +26,7 @@ class TurnOverController extends Controller
             }
         }
 
+        //Make master data to track overall turn over
         $dataSave=[
             'to_user_id'=>$id,
             'to_turnover_duration'=>$request->duration,
@@ -34,7 +35,18 @@ class TurnOverController extends Controller
             'to_final_target_turnover'=>$request->target,
             'created_at'=>date('Y-m-d H:i:s'),
         ];
-        DB::table('turn_over')->insert($dataSave);
+        $turn_id=DB::table('turn_over')->insertGetId($dataSave);
+
+        //Starting Track turn over from 1st period
+        $dataSaveDetail=[
+            'tod_turn_over_id'=>$turn_id,
+            'tod_period'=>1,
+            'tod_turn_over_amount'=>$total_price,
+            'tod_target_turn_over'=>$startingTarget,
+            'tod_month'=>date('m'),
+            'tod_year'=>date('Y')
+        ];
+        DB::table('turn_over_detail')->insert($dataSaveDetail);
     }
 
     public function getTurnOverCurrentMonth(){
