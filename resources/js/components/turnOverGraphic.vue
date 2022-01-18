@@ -40,8 +40,9 @@ export default {
       datacollection: null,
       dataTemp: {},
       opsi: {},
+      turn_over: {},
       currData:null,
-      prevData:null
+      prevData:null,
     }
   },
   mounted () {
@@ -50,10 +51,16 @@ export default {
   methods: {
     async fillData ()
     {
+
+      await axios
+          .get('api/userTurnOver/'+this.passing.id)
+          .then(({data}) => (this.turn_over = data));
+
       let dataArr=[];
+      let targetArr=[];
       let monthArr=[];
       await axios
-          .get('api/getSalesPerMonth/'+this.passing.id)
+          .get('api/getTurnOverPerMonth/'+this.passing.id)
           .then(({data}) => (this.dataTemp = Object.values(data)));
 
       this.dataTemp=this.dataTemp.sort((a,b) =>{ // sort based on year
@@ -63,24 +70,29 @@ export default {
       var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
       
         if(this.dataTemp.length==1){
-        dataArr[0]=this.dataTemp[0].Sum;
+        dataArr[0]=this.dataTemp[0].tod_turn_over_amount;
+        targetArr[0]=this.dataTemp[0].tod_target_turn_over;
 
-        this.currData=this.dataTemp[0].Sum;
+        this.currData=this.dataTemp[0].tod_turn_over_amount;
         monthArr[0]=months[this.dataTemp[0].month-1]+" "+this.dataTemp[0].year;
         }else{
           for(let i=0; i<this.dataTemp.length; i++){
               monthArr[i]=months[this.dataTemp[i].month-1]+" "+this.dataTemp[i].year;
-              dataArr[i]=this.dataTemp[i].Sum;
+              dataArr[i]=this.dataTemp[i].tod_turn_over_amount;
+              if(this.dataTemp[i].tod_target_turn_over<=0){
+                targetArr[i]=this.turn_over.to_final_target_turnover/this.turn_over.to_turnover_duration;
+              }else{
+                targetArr[i]=this.dataTemp[i].tod_target_turn_over;
+              }
               
               if(this.dataTemp[i].year==date.getFullYear()){
                   if(this.dataTemp[i].month==(date.getMonth()+1)){            
-                    this.currData=this.dataTemp[i].Sum;
-                    this.prevData=this.dataTemp[i-1].Sum;
+                    this.currData=this.dataTemp[i].tod_turn_over_amount;
+                    this.prevData=this.dataTemp[i-1].tod_turn_over_amount;
                   }
               }
           }
         }
-      console.log(dataArr);
       this.datacollection = {
             labels: months,
             datasets: [
@@ -92,7 +104,7 @@ export default {
               {
                 type: 'line',
                 backgroundColor:'rgba(255, 99, 132, 0.2)',
-                data: dataArr,
+                data: targetArr,
               }
             ]   
         }

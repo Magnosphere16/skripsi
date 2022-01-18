@@ -47,7 +47,7 @@
                 <span class="info-box-text" v-if="turn_over.to_current_turnover==null">Turnover Targeting Progress (Not Started) </span>
 
                 <span class="float-right" v-if="turn_over.to_current_turnover!=null || turn_over.to_current_month_target_turnover"><b>Rp. {{(turn_over.to_current_turnover).toLocaleString('en')}}</b>/ Rp. {{(turn_over.to_current_month_target_turnover).toLocaleString('en')}} ({{((turn_over.to_current_turnover/turn_over.to_current_month_target_turnover)*100).toFixed(2)}} %)</span>
-                <span class="float-right" v-if="turn_over.to_current_turnover==null && turn_over.to_current_month_target_turnover==null"><b>Rp. 0</b>/ Rp. 0</span>
+                <span class="float-right" v-if="(turn_over.to_current_turnover==null && turn_over.to_current_month_target_turnover==null) "><b>Rp. 0</b>/ Rp. 0</span>
                 <div class="progress">
                   <div class="progress-bar bg-primary" :style="{width: (((turn_over.to_current_turnover)/turn_over.to_current_month_target_turnover)*100) + '%'}"></div>
                 </div>

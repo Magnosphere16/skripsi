@@ -48,9 +48,11 @@ let routes =[
     {path: '/profile', component:require('./components/profile.vue').default},
     {path: '/newSale', component:require('./components/newSale.vue').default},
     {path: '/newPurchase', component:require('./components/newPurchase.vue').default},
-    {path: '/prediction', component:require('./components/Prediction.vue').default},
+    {path: '/target', component:require('./components/target.vue').default},
     {path: '/item_details/:id',component:require('./components/item_details.vue').default},
-    {path: '/import',component:require('./components/import.vue').default}
+    {path: '/transaction_detail/:id',component:require('./components/transaction_detail.vue').default},
+    {path: '/import',component:require('./components/import.vue').default},
+    {path: '/addNewItem',component:require('./components/addNewItem.vue').default}
 ]
 
 //per component fragment untuk di put ke dalam blade
@@ -59,6 +61,7 @@ Vue.component('pagination', require('./components/pagination.vue').default);
 Vue.component('graphic', require('./components/graphic.vue').default);
 Vue.component('sales-graphic', require('./components/salesGraphic.vue').default);
 Vue.component('turn-over', require('./components/turnOverGraphic.vue').default);
+
 
 
 const router = new VueRouter({

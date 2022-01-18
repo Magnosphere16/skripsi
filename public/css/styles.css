@@ -19,7 +19,7 @@
   --bs-red: #dc3545;
   --bs-orange: #ff6a00;
   --bs-yellow: #ffc107;
-  --bs-green: #198754;
+  --bs-green: #19b36b;
   --bs-teal: #20c997;
   --bs-cyan: #0dcaf0;
   --bs-white: #fff;
@@ -42,9 +42,9 @@
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
-  --bs-primary-rgb: 238, 9, 121;
-  --bs-secondary-rgb: 255, 106, 0;
-  --bs-success-rgb: 25, 135, 84;
+  --bs-primary-rgb: #087de9;
+  --bs-secondary-rgb: #495057;
+  --bs-success-rgb: #198754;
   --bs-info-rgb: 13, 202, 240;
   --bs-warning-rgb: 255, 193, 7;
   --bs-danger-rgb: 220, 53, 69;
@@ -79,7 +79,7 @@
 
 body {
   margin: 0;
-  font-family: var(--bs-body-font-family);
+  /* font-family: var(--bs-body-font-family); */
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);
@@ -105,7 +105,6 @@ hr:not([size]) {
 h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
   margin-top: 0;
   margin-bottom: 0.5rem;
-  font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-weight: 800;
   line-height: 1.2;
 }
@@ -238,7 +237,7 @@ sup {
 
 a {
   color: #087de9;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 a:hover {
   color: #be0761;
@@ -253,7 +252,7 @@ pre,
 code,
 kbd,
 samp {
-  font-family: var(--bs-font-monospace);
+  /* font-family: var(--bs-font-monospace); */
   font-size: 1em;
   direction: ltr /* rtl:ignore */;
   unicode-bidi: bidi-override;
@@ -2218,9 +2217,9 @@ progress {
 .form-control:focus {
   color: #212529;
   background-color: #fff;
-  border-color: #f784bc;
+  border-color: #087de9;
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(238, 9, 121, 0.25);
+  box-shadow: 0 0 0 0.25rem #087de9;
 }
 .form-control::-webkit-date-and-time-value {
   height: 1.5em;
@@ -3031,13 +3030,13 @@ textarea.form-control-lg {
 }
 
 .btn-primary {
-  color: #087de9;
-  background-color: white;
+  color: white;
+  background-color: #087de9;
   border-color: #087de9;
 }
 .btn-primary:hover {
-  color: #fff;
-  background-color: #087de9;
+  color: #087de9;
+  background-color: #fff;
   border-color: #087de9;
 }
 .btn-check:focus + .btn-primary, .btn-primary:focus {
@@ -3061,25 +3060,25 @@ textarea.form-control-lg {
 }
 
 .btn-secondary {
-  color: #000;
-  background-color: #ff6a00;
-  border-color: #ff6a00;
+  color: white;
+  background-color: #7a7a79;
+  border-color: #7a7a79;
 }
 .btn-secondary:hover {
-  color: #000;
-  background-color: #ff8026;
-  border-color: #ff791a;
+  color: #7a7a79;
+  background-color: white;
+  border-color: #7a7a79;
 }
 .btn-check:focus + .btn-secondary, .btn-secondary:focus {
   color: #000;
-  background-color: #ff8026;
-  border-color: #ff791a;
+  background-color: #7a7a79;
+  border-color: #7a7a79;
   box-shadow: 0 0 0 0.25rem rgba(217, 90, 0, 0.5);
 }
 .btn-check:checked + .btn-secondary, .btn-check:active + .btn-secondary, .btn-secondary:active, .btn-secondary.active, .show > .btn-secondary.dropdown-toggle {
   color: #000;
-  background-color: #ff8833;
-  border-color: #ff791a;
+  background-color: #7a7a79;
+  border-color: #7a7a79;
 }
 .btn-check:checked + .btn-secondary:focus, .btn-check:active + .btn-secondary:focus, .btn-secondary:active:focus, .btn-secondary.active:focus, .show > .btn-secondary.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.25rem rgba(217, 90, 0, 0.5);
@@ -3096,8 +3095,8 @@ textarea.form-control-lg {
   border-color: #198754;
 }
 .btn-success:hover {
-  color: #fff;
-  background-color: #157347;
+  color: #146c43;
+  background-color: #fff;
   border-color: #146c43;
 }
 .btn-check:focus + .btn-success, .btn-success:focus {
@@ -3473,7 +3472,6 @@ textarea.form-control-lg {
 .btn-link {
   font-weight: 400;
   color: #087de9;
-  text-decoration: underline;
 }
 .btn-link:hover {
   color: #be0761;
@@ -5763,7 +5761,7 @@ textarea.form-control-lg {
   z-index: 1080;
   display: block;
   margin: 0;
-  font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -5865,7 +5863,7 @@ textarea.form-control-lg {
   z-index: 1070;
   display: block;
   max-width: 276px;
-  font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -7594,7 +7592,7 @@ textarea.form-control-lg {
 }
 
 .font-monospace {
-  font-family: var(--bs-font-monospace) !important;
+  /* font-family: var(--bs-font-monospace) !important; */
 }
 
 .fs-1 {
@@ -7682,7 +7680,7 @@ textarea.form-control-lg {
 }
 
 .text-decoration-underline {
-  text-decoration: underline !important;
+  /* text-decoration: underline !important; */
 }
 
 .text-decoration-line-through {
@@ -7728,7 +7726,7 @@ textarea.form-control-lg {
 
 .text-success {
   --bs-text-opacity: 1;
-  color: rgba(var(--bs-success-rgb), var(--bs-text-opacity)) !important;
+  color:  #19b36b !important;
 }
 
 .text-info {
@@ -7809,7 +7807,7 @@ textarea.form-control-lg {
 
 .bg-primary {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
+  background-color: rgba(var(), var(--bs-bg-opacity)) !important;
 }
 
 .bg-secondary {
@@ -7819,7 +7817,7 @@ textarea.form-control-lg {
 
 .bg-success {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;
+  background-color: #19b36b !important;
 }
 
 .bg-info {

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\TransactionHeader;
 use App\Models\TransactionDetail;
 use App\Models\TurnOver;
+use App\Models\TurnOverDetail;
+
 
 use Illuminate\Http\Request;
 use DB;
@@ -11,7 +13,22 @@ use DB;
 class TurnOverController extends Controller
 {
     public function getUserTurnOver($id){
-        return TurnOver::where('to_user_id',$id)->first();
+
+        //get newest turn over target
+        $turnOver=TurnOver::select(DB::raw('MAX(id) as `max_Id`'),'to_user_id',DB::raw('MAX(created_at) as `maxDate`'))
+        ->groupBy('to_user_id')->where('to_user_id',$id)
+        ->first();
+
+        return TurnOver::where('id',$turnOver->max_Id)->first();
+    }
+
+    public function getTurnOverPerMonth($id){
+        //get newest turn over target
+        $turnOver=TurnOver::select(DB::raw('MAX(id) as `maxId`'),'to_user_id',DB::raw('MAX(created_at) as `maxDate`'))
+        ->groupBy('to_user_id')->where('to_user_id',$id)
+        ->first();
+        
+        return TurnOverDetail::where('tod_turn_over_id',$turnOver->maxId)->get();
     }
 
     public function setTarget(Request $request, $id){

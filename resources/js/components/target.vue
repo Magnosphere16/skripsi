@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container mt-3">
         <h1><strong>Turnover Targeting</strong></h1>
         <div class="row mt-2">
           <div class="col-lg-3 col-6">
@@ -49,8 +49,8 @@
             <!-- small box -->
             <div class="small-box bg-primary">
               <div class="inner">
-                <h4 v-if="turn_over.to_current_month_target_turnover!=null"><strong>Rp. {{ (turn_over.to_current_month_target_turnover).toLocaleString('en') }}</strong></h4>
-                <h4 v-else><strong>Rp. 0</strong></h4>
+                <h4 v-if="turn_over.to_current_month_target_turnover!=null && turn_over.to_current_month_target_turnover>0"><strong>Rp. {{ (turn_over.to_current_month_target_turnover).toLocaleString('en') }}</strong></h4>
+                <h4 v-else><strong>Rp. {{turn_over.to_final_target_turnover/turn_over.to_turnover_duration}}</strong></h4>
 
                 <p>Current Month Target Turnover</p>
               </div>
@@ -97,16 +97,15 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">Estimated achieved in</label>
-                                <div class="col-md-4">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">Estimated achieved in (Months)</label>
+                                <div class="col-md-6">
                                     <input
                                         v-model="form.duration"
                                         id="duration" 
                                         type="number" 
                                         class="form-control"
-                                        name="duration"
-                                        >
-                                </div><strong>Month(s)</strong>
+                                        name="duration">
+                                </div>
                             </div>
 
                             <div class="form-group row mb-0">

@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1 class="mt-5">New Sale Transaction</h1>
+        <h1 class="mt-3">New Sale Transaction</h1>
         <form @submit.prevent="postData()">
             <label for="tr_transaction_date">Transaction Date*</label>
             <input  v-model="tr_transaction_date"
@@ -8,17 +8,17 @@
                     class="form-control"
                     name="tr_transaction_date" 
                     type="date" 
-                    :placeholder="new Date().toLocaleString()">
+                    :placeholder="curr_date">
             <div class="row justify-content-center mt-5">
                 <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Item Name*</th>
-                            <th scope="col">Item Quantity*</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Product Name*</th>
+                            <th scope="col">Product Quantity*</th>
                             <th scope="col">Unit Type*</th>
-                            <th scope="col">Item Price*</th>
-                            <th scope="col">Total Price*</th>
+                            <th scope="col">Product Price*</th>
+                            <th scope="col">Sub Total Price*</th>
                         </tr>
                     </thead>
                     <tbody class="add_sale_transaction">
@@ -87,12 +87,12 @@
             <div id="final_total" style="float:right; right:0;">
                     <h5>Total:</h5>
                     <h3>Rp. {{(final_total).toLocaleString('en')}}</h3>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-danger" style="float:left; left:0;">
-                    <i v-show="loading" class="fa fa-spinner fa-spin"></i>
-                        Submit Transaction
-                </button>
+                    <div>
+                        <button type="submit" class="btn btn-danger" style="float:left; left:0;">
+                            <i v-show="loading" class="fa fa-spinner fa-spin"></i>
+                                Submit Transaction
+                        </button>
+                    </div>
             </div>
         </form>
     </div>
@@ -108,6 +108,7 @@
                 items : [],
                 unitTypes : [],
                 errors: [],
+                curr_date:new Date(),
 
                 tr_user_id:this.userInfo.id,
                 tr_transaction_type:2,

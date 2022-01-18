@@ -1,13 +1,25 @@
 <template>
 <!-- body structure -->
     <div class="container">
+            <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
+                        <div class="container-xl px-4">
+                            <div class="page-header-content pt-4">
+                                <div class="row align-items-center justify-content-between">
+                                    <div class="col-auto mt-4">
+                                        <h1 class="page-header-title">
+                                            <div class="page-header-icon"><i data-feather="edit-3"></i></div>
+                                            Import New Item
+                                        </h1>
+                                        <div class="page-header-subtitle">Add Multiple Products data by uploading Excel data. To Help you with the data adjustment, we provided the template excel file for you to download.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
            <div class="card mt-3">
-            <div class="card-header text-center">
-                <h4 class="card-title" id="exampleModalLongTitle">Import New Item</h4>
-            </div>
             <div class="card-body">
                     <div>
-                        <p>You may Download the template with the link below:</p>
+                        <p>You may Download the template by click the button below:</p>
                         <button class="btn btn-success" @click="downloadTemplate()">Download Template</button>
                     </div>
                     <hr>
@@ -18,10 +30,11 @@
                         </div>
                     </div>
                     <div>
-                        <button v-on:click="importData()" class="btn btn-primary btn-block">
+                            <router-link :to="'/items'" class="btn btn-secondary btn-md" style="float:right">Cancel</router-link>
+                            <button v-on:click="importData()" class="btn btn-primary btn-md mr-3" style="float:right" >
                             <i v-show="loading" class="fa fa-spinner fa-spin"></i>
                                 Submit
-                        </button>
+                            </button>
                     </div>
                 </div>
             </div>
@@ -91,22 +104,28 @@
                     }
                 ).then(()=>{
                     Fire.$emit("refreshData");
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Item Imported successfully'
-                        });
+                    Swal.fire(
+                        'Success!',
+                        'Item Imported Successfully!',
+                        'success'
+                        ).then(function() {
+                        window.location = "/items";
+                    });
                     this.$Progress.finish();
-                    
                     this.loading = false;
                     this.disabled = false;
                     })
                 // else
-                .catch(()=>{
-                    this.$Progress.fail();
-                    this.loading = false;
-                    this.disabled = false; 
-                    window.location.href="/home"
-                });
+                    .catch(()=>{
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Import Failed',
+                        text: "",
+                        })
+                        this.$Progress.fail();
+                        this.loading = false;
+                        this.disabled = false; 
+                    });
             },
             handleFileUpload(event){
                 this.file = event.target.files[0];

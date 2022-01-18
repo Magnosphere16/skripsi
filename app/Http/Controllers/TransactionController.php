@@ -118,13 +118,26 @@ class TransactionController extends Controller
 
         $total_price=0;
         for($i=0;$i<count($trans_Header);$i++){
-            if(date("m",strtotime($trans_Header[$i]->tr_transaction_date))==date('m') && date("y",strtotime($trans_Header[$i]->tr_transaction_date))==date('y')){
+            if(date("m",strtotime($trans_Header[$i]->tr_transaction_date))==date('m') && date("Y",strtotime($trans_Header[$i]->tr_transaction_date))==date('Y')){
                 $total_price += $trans_Header[$i]->tr_total_price;
             }
         }
-        $updtTurnOver = TurnOver::where('to_user_id',$transaction_user)->update([
+
+        //get newest turn over target
+        $turnOver=TurnOver::select(DB::raw('MAX(id) as `max_Id`'),'to_user_id',DB::raw('MAX(created_at) as `maxDate`'))
+        ->groupBy('to_user_id')->where('to_user_id',$transaction_user)
+        ->first();
+
+        $updtTurnOver = TurnOver::where('to_user_id',$transaction_user)->where('id',$turnOver->max_Id)->update([
             'to_current_turnover'=>$total_price,
         ]);
+
+        $updtTurnOverDtl = TurnOverDetail::where('tod_turn_over_id',$turnOver->max_Id)
+                                ->where('tod_month',date('m'))
+                                ->where('tod_year',date('Y'))
+                                ->update([
+                                'tod_turn_over_amount'=>$total_price,
+                            ]);
     }
 
     // public function addPurchaseTransaction(Request $request)
@@ -185,6 +198,19 @@ class TransactionController extends Controller
     // {
     //     return TransactionHeader::where('tr_transaction_type_id',1)->get();
     // }
+
+    public function getTransactionDetail($id){
+        $trans_dtl=DB::table('transaction_detail')
+                 ->select('transaction_detail.td_item_id','item.item_name', 'transaction_detail.td_item_qty', 'transaction_detail.td_item_price'
+                                ,'transaction_detail.td_sub_total_price'
+                                ,'transaction_header.tr_transaction_date'
+                                ,'transaction_header.tr_total_price')
+                 ->join('transaction_header','transaction_detail.td_transaction_id','=','transaction_header.id')
+                 ->join('item','transaction_detail.td_item_id','=','item.id')
+                 ->where('transaction_header.id',$id)
+                 ->get();
+         return $trans_dtl;
+        }
 
     public function getSaleTransactions($id)
     {

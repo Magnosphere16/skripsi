@@ -9,4 +9,5 @@ class TurnOverDetail extends Model
 {
     use HasFactory;
     protected $table='turn_over_detail';
+    public $timestamps=false;
 }

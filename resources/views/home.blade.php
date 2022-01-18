@@ -30,7 +30,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div> -->
         <div class="info">
-          <router-link to="profile" hashid="{{Auth::user()->id}}" class="d-block">{{ Auth::user()->userName }}</router-link>
+          <router-link to="profile" hashid="{{Auth::user()->id}}" class="d-block" onclick="homeHide()">{{ Auth::user()->userName }}</router-link>
         </div>
       </div>
 
@@ -48,7 +48,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <router-link to="/prediction" class="nav-link" onclick="homeHide()">
+                <router-link to="/target" class="nav-link" onclick="homeHide()">
                   <i class="fas fa-bullseye white"></i>
                   <p>Turnover Targeting</p>
                 </router-link>

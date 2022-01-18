@@ -1,7 +1,7 @@
 <template>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-xl mt-5">
+        <div class="col-xl mt-3">
             <h1><strong>Sale Transaction Lists</strong><router-link to="newSale" class="btn btn-primary btn-md" style ="float:right;" tag="button">+ New Sale Transaction</router-link></h1>
             <div class="card mt-3">
                 <div class="card-header">
@@ -26,12 +26,14 @@
                             <th>Transaction ID</th>
                             <th>Transaction Date</th>
                             <th>Total Price</th>
+                            <th>Details</th>
                         </thead>
                         <tbody>
                             <tr v-for="a in transactionsHeader" :key="a.id" :value="a.id">
                                 <td>{{a.id}}</td>
                                 <td>{{a.tr_transaction_date}}</td>
                                 <td style="text-align: right;"><strong>Rp {{(a.tr_total_price).toLocaleString('en')}}</strong></td>
+                                <td><router-link :to="'/transaction_detail/'+a.id" class="link-primary"><strong>More <i class="fas fa-arrow-circle-right"></i></strong></router-link></td>
                             </tr>
                         </tbody>
                     </table>

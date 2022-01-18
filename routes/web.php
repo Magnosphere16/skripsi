@@ -25,10 +25,11 @@ Route:: get('/purchase_transactions',[App\Http\Controllers\HomeController::class
 Route:: get('/profile',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 Route:: get('/newSale',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 Route:: get('/newPurchase',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
-Route:: get('/prediction',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
+Route:: get('/target',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 Route:: get('/item_details/{id}',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
+Route:: get('/transaction_detail/{id}',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 Route:: get('/import',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
-
+Route:: get('/addNewItem',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 
 Auth::routes();
 
