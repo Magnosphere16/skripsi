@@ -24,7 +24,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// untuk di call axios yang ada di component vue bagian method>> bisa call controller 
 Route::get('downloadTransaction/{id}/{start}/{end}',[TransactionController::class, 'transactionExport']);
 Route::get('get_category',[CategoryController::class, 'index']);
 
@@ -46,7 +45,7 @@ Route::post('delete_item/{id}',[ItemController::class, 'deleteItem']);
 Route::get('getSaleTransactions/{id}',[TransactionController::class, 'getSaleTransactions']);
 Route::get('getTransactionType',[TransactionController::class, 'getTransactionType']);
 
-Route::get('getTransactionDetail/{id}',[TransactionController::class, 'getTransactionDetail']);
+Route::get('getTransactionDetail/{id}',[TransactionController::class, 'getSaleTransactions']);
 
 // Route::post('addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);
 Route::post('addSaleData',[TransactionController::class, 'addSaleTransaction']);

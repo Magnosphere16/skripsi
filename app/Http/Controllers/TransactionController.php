@@ -82,7 +82,7 @@ class TransactionController extends Controller
         $transaction_total=$request->get('total_price');
 
         $transaction=$request->get('saleArray');
-        
+
         $headerSave=[
             'tr_user_id'=>$transaction_user,
             'tr_transaction_type_id'=>$transaction_type,
@@ -222,10 +222,11 @@ class TransactionController extends Controller
 
     public function getAsset()
     {
-        $item=Item::all();
-        $total_asset=0;
-        for($i=0;$i<count($item);$i++){
-            $total_asset += ($item[$i]->item_qty*$item[$i]->item_buy_price);
+        $trans_Header=TransactionHeader::where('tr_transaction_type_id',1)->get();
+
+        $total_price=0;
+        for($i=0;$i<count($trans_Header);$i++){
+            $total_price += $trans_Header[$i]->tr_total_price;
         }
         return $total_asset;
     }
