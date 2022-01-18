@@ -1,9 +1,9 @@
 <template>
-<div class="container-xl px-4 mt-4">
-    <div>
-    <router-link :to="'/sale_transactions'" class="btn btn-secondary btn-md" style="float:left">Back</router-link>
-    </div>
+            <div class="container-xl px-4 mt-4">
                         <!-- Invoice-->
+                        <div class="mb-4">
+                            <router-link :to="'/sale_transactions'" class="btn btn-secondary btn-md" style="float:left">Back</router-link>
+                        </div>
                         <div class="card invoice">
                             <div class="card-header p-4 p-md-5 border-bottom-0 bg-primary text-white-50">
                                 <div class="row justify-content-between align-items-center">
@@ -27,8 +27,9 @@
                                             <tr class="small text-uppercase">
                                                 <th scope="col"><strong>Product Name</strong></th>
                                                 <th class="text-end" scope="col"><strong>Product Quantity</strong></th>
-                                                <th class="text-end" scope="col"><strong>Price</strong></th>
-                                                <th class="text-end" scope="col"><strong>Sub total</strong></th>
+                                                <th class="text-end" scope="col">Unit Type</th>
+                                                <th style="text-align: right;" class="text-end" scope="col"><strong>Price</strong></th>
+                                                <th style="text-align: right;" class="text-end" scope="col"><strong>Sub total</strong></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -37,16 +38,21 @@
                                                 <td>
                                                     <div class="fw-bold">{{x.item_name}}</div>
                                                 </td>
-                                                <td class="text-end fw-bold">{{x.td_item_qty}}</td>
-                                                <td class="text-end fw-bold">Rp. {{(x.td_item_price).toLocaleString('en')}}</td>
-                                                <td class="text-end fw-bold">Rp. {{(x.td_sub_total_price).toLocaleString('en')}}</td>
+                                                <td class="text-end fw-bold text-center">{{x.td_item_qty}}</td>
+                                                <td class="text-end fw-bold text-center">{{!items.find((item) => {
+                                                    return item.id === x.td_item_id
+                                                }) ? '' : items.find((item) => {
+                                                    return item.id === x.td_item_id
+                                                }).unit_type.unit_type_name}}</td>
+                                                <td style="text-align: right;" class="text-end fw-bold">Rp. {{(x.td_item_price).toLocaleString('en')}}</td>
+                                                <td style="text-align: right;" class="text-end fw-bold">Rp. {{(x.td_sub_total_price).toLocaleString('en')}}</td>
                                             </tr>
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="2"></td>
-                                                <td><strong>Total:</strong></td>
-                                                <td><strong>Rp. {{(transaction_info[0].tr_total_price).toLocaleString('en')}}</strong></td>
+                                                <td colspan="3"></td>
+                                                <td style="text-align: right;"><strong>Total:</strong></td>
+                                                <td style="text-align: right;"><strong>Rp. {{(transaction_info[0].tr_total_price).toLocaleString('en')}}</strong></td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -66,6 +72,7 @@
                 id:{},
                 transaction_info:{},
                 dates:{},
+                items:{},
             }
         },
         methods:{
@@ -75,13 +82,22 @@
                 await axios
                     .get('http:/api/getTransactionDetail/'+this.id)
                     .then(({data})=>(this.transaction_info = data));  
+
                 //untuk mengakhiri progress bar setelah halaman muncul
+
+                console.log("anjaay"); 
+
+                await axios
+                    .get('http:/api/getItem/'+this.userInfo.id)
+                    .then(({data}) => (this.items = data));
+
                 this.date();
                 this.$Progress.finish();
             },
             date(){
                 var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
                 var date = new Date(this.transaction_info[0].tr_transaction_date);
+                console.log(date);
                 this.dates= months[date.getMonth()] + ' ' + date.getDate() + ', ' +  date.getFullYear();
             }
         },

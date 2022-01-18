@@ -50,7 +50,7 @@ let routes =[
     {path: '/newPurchase', component:require('./components/newPurchase.vue').default},
     {path: '/target', component:require('./components/target.vue').default},
     {path: '/item_details/:id',component:require('./components/item_details.vue').default},
-    {path: '/transaction_detail/:id',component:require('./components/item_details.vue').default},
+    {path: '/transaction_detail/:id',component:require('./components/transaction_detail.vue').default},
     {path: '/import',component:require('./components/import.vue').default},
     {path: '/addNewItem',component:require('./components/addNewItem.vue').default}
 ]
