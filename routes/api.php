@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// untuk di call axios yang ada di component vue bagian method>> bisa call controller 
+// untuk di call axios yang ada di component vue bagian method>> bisa call controller
 Route::get('get_category',[CategoryController::class, 'index']);
 
 Route::get('getUnitType',[UnitTypeController::class, 'index']);

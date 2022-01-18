@@ -48,7 +48,9 @@ let routes =[
     {path: '/profile', component:require('./components/profile.vue').default},
     {path: '/newSale', component:require('./components/newSale.vue').default},
     {path: '/newPurchase', component:require('./components/newPurchase.vue').default},
-    {path: '/prediction', component:require('./components/Prediction.vue').default}
+    {path: '/prediction', component:require('./components/Prediction.vue').default},
+    {path: '/Visualization', component:require('./components/Visualization.vue').default},
+
 ]
 
 //per component fragment untuk di put ke dalam blade

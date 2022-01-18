@@ -9,11 +9,19 @@
                             <a class="small text-white stretched-link" href="#">View Details</a>
                             <div class="small text-white"><svg class="svg-inline--fa fa-angle-right fa-w-8" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg><!-- <i class="fas fa-angle-right"></i> Font Awesome fontawesome.com --></div>
                         </div>
-                                
+
                     <div class="card-body">
                         Harga Modal : Rp. {{ (harga_modal).toLocaleString('en') }}<br>
                         Total Jual  : Rp. {{ (total_jual).toLocaleString('en') }}
                     </div>
+<!--
+                    <tr v-for="tes in transactionsHeader" :key="tes.id" :value="tes.id">
+                            <td>{{tes.id}}</td>
+                            <td>{{tes.tr_transaction_type_id}}</td>
+                            <td>{{tes.tr_transaction_date}}</td>
+                            <td>{{tes.tr_total_price}}</td>
+                    </tr> -->
+
                 </div>
             </div>
         </div>
@@ -29,11 +37,12 @@
                 disabled: false,
                 harga_modal : 0,
                 total_jual : 0,
+                // transactionsHeader : {}
             }
         },
         methods:{
             loadData(){
-               //Contoh get Data dari Database 
+               //Contoh get Data dari Database
                 //untuk panggil progress bar
                 this.$Progress.start();
 
@@ -48,10 +57,17 @@
                     .get('api/getSale')
                     .then(({data}) => (this.total_jual = data));
 
-                    console.log(this.total_jual);    
-                
-                //untuk mengakhiri progress bar setelah halaman muncul
-                this.$Progress.finish();
+                    console.log(this.total_jual);
+
+                // axios
+                // .get('api/getAllTransaction')
+                // .then(({data}) => (this.transactionsHeader= data));
+
+                // //untuk mengakhiri progress bar setelah halaman muncul
+                // this.$Progress.finish();
+
+
+
             },
             //Contoh insert ke Database
             postData(){
@@ -88,7 +104,7 @@
                         })
                         this.$Progress.fail();
                         this.loading = false;
-                        this.disabled = false; 
+                        this.disabled = false;
                     });
             }
         },

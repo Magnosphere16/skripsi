@@ -2103,6 +2103,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
@@ -2110,14 +2118,15 @@ __webpack_require__.r(__webpack_exports__);
       loading: false,
       disabled: false,
       harga_modal: 0,
-      total_jual: 0
+      total_jual: 0,
+      transactionsHeader: {}
     };
   },
   methods: {
     loadData: function loadData() {
       var _this = this;
 
-      //Contoh get Data dari Database 
+      //Contoh get Data dari Database
       //untuk panggil progress bar
       this.$Progress.start(); // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
 
@@ -2130,7 +2139,11 @@ __webpack_require__.r(__webpack_exports__);
         var data = _ref2.data;
         return _this.total_jual = data;
       });
-      console.log(this.total_jual); //untuk mengakhiri progress bar setelah halaman muncul
+      console.log(this.total_jual);
+      axios.get('api/getAllTransaction').then(function (_ref3) {
+        var data = _ref3.data;
+        return _this.transactionsHeader = data;
+      }); //untuk mengakhiri progress bar setelah halaman muncul
 
       this.$Progress.finish();
     },
@@ -3520,6 +3533,9 @@ var routes = [{
 }, {
   path: '/prediction',
   component: (__webpack_require__(/*! ./components/Prediction.vue */ "./resources/js/components/Prediction.vue")["default"])
+}, {
+  path: '/Visualization',
+  component: (__webpack_require__(/*! ./components/Visualization.vue */ "./resources/js/components/Visualization.vue")["default"])
 }]; //per component fragment untuk di put ke dalam blade
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
@@ -42710,6 +42726,40 @@ component.options.__file = "resources/js/components/Prediction.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Visualization.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/Visualization.vue ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+var script = {}
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
+  script,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+component.options.__file = "resources/js/components/Visualization.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/items.vue":
 /*!*******************************************!*\
   !*** ./resources/js/components/items.vue ***!
@@ -43627,71 +43677,88 @@ var render = function () {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center mt-5" }, [
       _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Profit Prediction"),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [_vm._v("Primary Card")]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "card-footer d-flex align-items-center justify-content-between",
-            },
-            [
-              _c(
-                "a",
-                {
-                  staticClass: "small text-white stretched-link",
-                  attrs: { href: "#" },
-                },
-                [_vm._v("View Details")]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "small text-white" }, [
+        _c(
+          "div",
+          { staticClass: "card" },
+          [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v("Profit Prediction"),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [_vm._v("Primary Card")]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-footer d-flex align-items-center justify-content-between",
+              },
+              [
                 _c(
-                  "svg",
+                  "a",
                   {
-                    staticClass: "svg-inline--fa fa-angle-right fa-w-8",
-                    attrs: {
-                      "aria-hidden": "true",
-                      focusable: "false",
-                      "data-prefix": "fas",
-                      "data-icon": "angle-right",
-                      role: "img",
-                      xmlns: "http://www.w3.org/2000/svg",
-                      viewBox: "0 0 256 512",
-                      "data-fa-i2svg": "",
-                    },
+                    staticClass: "small text-white stretched-link",
+                    attrs: { href: "#" },
                   },
-                  [
-                    _c("path", {
-                      attrs: {
-                        fill: "currentColor",
-                        d: "M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z",
-                      },
-                    }),
-                  ]
+                  [_vm._v("View Details")]
                 ),
-              ]),
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _vm._v(
-              "\n                    Harga Modal : Rp. " +
-                _vm._s(_vm.harga_modal.toLocaleString("en"))
+                _vm._v(" "),
+                _c("div", { staticClass: "small text-white" }, [
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "svg-inline--fa fa-angle-right fa-w-8",
+                      attrs: {
+                        "aria-hidden": "true",
+                        focusable: "false",
+                        "data-prefix": "fas",
+                        "data-icon": "angle-right",
+                        role: "img",
+                        xmlns: "http://www.w3.org/2000/svg",
+                        viewBox: "0 0 256 512",
+                        "data-fa-i2svg": "",
+                      },
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          fill: "currentColor",
+                          d: "M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z",
+                        },
+                      }),
+                    ]
+                  ),
+                ]),
+              ]
             ),
-            _c("br"),
-            _vm._v(
-              "\n                    Total Jual  : Rp. " +
-                _vm._s(_vm.total_jual.toLocaleString("en")) +
-                "\n                "
-            ),
-          ]),
-        ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _vm._v(
+                "\n                    Harga Modal : Rp. " +
+                  _vm._s(_vm.harga_modal.toLocaleString("en"))
+              ),
+              _c("br"),
+              _vm._v(
+                "\n                    Total Jual  : Rp. " +
+                  _vm._s(_vm.total_jual.toLocaleString("en")) +
+                  "\n                "
+              ),
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.transactionsHeader, function (tes) {
+              return _c("tr", { key: tes.id, attrs: { value: tes.id } }, [
+                _c("td", [_vm._v(_vm._s(tes.id))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(tes.tr_transaction_type_id))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(tes.tr_transaction_date))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(tes.tr_total_price))]),
+              ])
+            }),
+          ],
+          2
+        ),
       ]),
     ]),
   ])
@@ -61396,7 +61463,7 @@ Vue.compile = compileToFunctions;
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\xampp\\\\htdocs\\\\skripsi"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\xampp\\\\htdocs\\\\skripsi","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\Users\\\\Leo\\\\Documents\\\\GitHub\\\\skripsi"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\Users\\\\Leo\\\\Documents\\\\GitHub\\\\skripsi","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ })
 
