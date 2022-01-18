@@ -47,6 +47,7 @@
                                         placeholder="min. 1"
                                         @input="calcPrice(form,a)"
                                         >
+                                <!-- <p id="warning_qty" class="text-danger" style="display:none;">*The amount of items filled exceeds the quantity of items that have been stored</p> -->
                             </td>
                             <td>
                                 <input v-model="form.tr_unit_type_id" style="display:none;" >
@@ -106,6 +107,7 @@
                 disabled: false,
                 items : [],
                 unitTypes : [],
+                errors: [],
 
                 tr_user_id:this.userInfo.id,
                 tr_transaction_type:2,
@@ -136,9 +138,15 @@
                     return item.id == event.target.value;
                 })?.unit_type_id;
                 
-                // console.log("itemChange("+event.target.value+")");
+                this.calcPrice(this.forms[index],index);
+                this.calcPriceTotal();
             },
             calcPrice(form,index){
+                var item_qty = this.items.find((item) => {
+                    return item.id == form.tr_item_id
+                })?.item_qty;
+
+            // if Inputed item quantity not exceed the item quantity in database
                 var total=form.tr_item_qty * form.tr_item_price;
                 this.forms[index].tr_line_total=total;
 
@@ -154,15 +162,15 @@
                 },0);
                 this.final_total = total;
             },
-            loadData(){
+            async loadData(){
                 //untuk panggil progress bar
                 this.$Progress.start();
 
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
-                axios
-                    .get('api/getItem')
+                await axios
+                    .get('api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
-                axios
+                await axios
                     .get('api/getUnitType')
                     .then(({data}) => (this.unitTypes = data));
 
@@ -187,7 +195,7 @@
                         'Sale Transaction Saved Successfully!',
                         'success'
                         ).then(function() {
-                        window.location = "/home";
+                        window.location = "/sale_transactions";
                     });
                     this.$Progress.finish();
                     this.loading = false;

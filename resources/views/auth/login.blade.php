@@ -3,10 +3,10 @@
 @section('content')
 <div class="container-fluid ps-md-0">
     <div class="row g-0">
-        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image">
-            <img class="img-fluid rounded-circle" src="assets/img/financial.jpg" alt="">
+        <div class="d-none d-md-flex col-md-4 col-lg-4 ml-auto bg-image">
+            <img class="img-fluid rounded-circle" src="assets/img/login.jpg" alt="">
         </div>
-        <div class="col-md-8 col-lg-6">
+        <div class="col-md-1 col-lg-6">
             <div class="login d-flex align-items-center py-5">
                 <div class="container">
                     <div class="row">

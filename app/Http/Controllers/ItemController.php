@@ -5,14 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Category;
-
+use Excel;
+use App\Imports\ItemImport;
 use DB;
 
 class ItemController extends Controller
 {
+
+    public function import(Request $request,$id){
+         Excel::import(new ItemImport($id),$request->file);
+         return redirect('/items');
+    }
+
     public function getUnitTypeId($id){
         $item=Item::where('id',$id)->first();
         return $item->id;
+    }
+
+    public function getCategoryId($id){
+        $category=Category::where('id',$id)->first();
+        return $category->id;
     }
 
     public function addItem(Request $request, $id){
@@ -55,6 +67,7 @@ class ItemController extends Controller
                 'item_desc'=>$itemDesc,
                 'item_category_id'=>$category_id,
                 'item_qty'=>$itemQty,
+                'item_image'=>'../assets/img/default.jpg',
                 'item_buy_price'=>$itemBuy,
                 'item_sell_price'=>$itemSell,
                 'user_id'=>$userId,
@@ -90,8 +103,12 @@ class ItemController extends Controller
         ]);
     }
 
-    public function getItem(){
+    public function getItem($id){
         // Eager loading
-        return Item::with('unitType')->get();
+        return Item::where('user_id',$id)->with('unitType')->latest()->get();
+    }
+
+    public function getItemInfo($id){
+        return Item::where('id',$id)->with(['unitType', 'category'])->first();
     }
 }

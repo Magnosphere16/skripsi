@@ -49,12 +49,22 @@ let routes =[
     {path: '/newSale', component:require('./components/newSale.vue').default},
     {path: '/newPurchase', component:require('./components/newPurchase.vue').default},
     {path: '/prediction', component:require('./components/Prediction.vue').default},
+<<<<<<< HEAD
     {path: '/Visualization', component:require('./components/Visualization.vue').default},
 
+=======
+    {path: '/item_details/:id',component:require('./components/item_details.vue').default},
+    {path: '/import',component:require('./components/import.vue').default}
+>>>>>>> a1080ea7aeb028a66d6b9caa472a3d32384dfc4c
 ]
 
 //per component fragment untuk di put ke dalam blade
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('home', require('./components/home.vue').default);
+Vue.component('pagination', require('./components/pagination.vue').default);
+Vue.component('graphic', require('./components/graphic.vue').default);
+Vue.component('sales-graphic', require('./components/salesGraphic.vue').default);
+Vue.component('turn-over', require('./components/turnOverGraphic.vue').default);
+
 
 const router = new VueRouter({
     mode: 'history',

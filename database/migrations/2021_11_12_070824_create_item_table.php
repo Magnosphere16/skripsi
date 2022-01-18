@@ -27,6 +27,7 @@ class CreateItemTable extends Migration
             $table->foreign('item_category_id')->references('id')->on('category')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('item_buy_price');
             $table->integer('item_sell_price')->nullable();
+            $table->timestamps();
         });
     }
 

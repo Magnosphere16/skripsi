@@ -26,10 +26,13 @@ Route:: get('/profile',[App\Http\Controllers\HomeController::class,'index'])->wh
 Route:: get('/newSale',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 Route:: get('/newPurchase',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
 Route:: get('/prediction',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
+Route:: get('/item_details/{id}',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
+Route:: get('/import',[App\Http\Controllers\HomeController::class,'index'])->where('any','.*');
+
 
 Auth::routes();
 
-Route:: get('/home',[App\Http\Controllers\HomeController::class,'index']);
+Route:: get('/home',[App\Http\Controllers\HomeController::class,'index'])->name('home');
 Route:: post('/CheckEmail',[App\Http\Controllers\UserController::class,'checkEmail']);
 Route:: post('/registerUser',[App\Http\Controllers\Auth\RegisterController::class,'create']);
 

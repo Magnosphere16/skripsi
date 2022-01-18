@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/home" class="brand-link">
-      <i class="fas fa-cubes"></i><span class="brand-text font-weight-light"> StockInFlow</span>
+      <i class="fas fa-cubes"></i><span class="brand-text font-weight-light"> KassaKu</span>
     </a>
 
     <!-- Sidebar -->
@@ -31,7 +31,8 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <router-link to="prediction" class="nav-link">
-                  <p>Profit Prediction</p>
+                  <i class="fas fa-bullseye red"></i>
+                  <p>Revenue Targeting</p>
                 </router-link>
               </li>
               <li class="nav-item">
@@ -40,16 +41,16 @@
                   <p>Manage Items</p>
                 </router-link>
               </li>
-              <li class="nav-item menu-open">
+              <!-- <li class="nav-item menu-open">
                 <router-link to="purchase_transactions" class="nav-link">
                   <i class="fas fa-shopping-cart green"></i>
                   <p>Purchase Transactions</p>
                 </router-link>
-              </li>
+              </li> -->
               <li class="nav-item menu-open">
                 <router-link to="sale_transactions" class="nav-link">
                   <i class="fas fa-cart-arrow-down red"></i>
-                  <p>Sale Transactions</p>
+                  <p>Transactions</p>
                 </router-link>
               </li>
               <li class="nav-item">

@@ -6,7 +6,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UnitTypeController;
 use App\Http\Controllers\TransactionController;
-
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\TurnOverController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,27 +24,48 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+<<<<<<< HEAD
 // untuk di call axios yang ada di component vue bagian method>> bisa call controller
+=======
+// untuk di call axios yang ada di component vue bagian method>> bisa call controller 
+Route::get('downloadTransaction/{id}/{start}/{end}',[TransactionController::class, 'transactionExport']);
+>>>>>>> a1080ea7aeb028a66d6b9caa472a3d32384dfc4c
 Route::get('get_category',[CategoryController::class, 'index']);
 
 Route::get('getUnitType',[UnitTypeController::class, 'index']);
 
 Route::get('getUnitTypeId/{id}',[ItemController::class, 'getUnitTypeId']);
+Route::get('getCategoryId/{id}',[ItemController::class, 'getUnitTypeId']);
+
 
 Route::get('getAsset',[TransactionController::class, 'getAsset']);
 
-Route::get('getSale',[TransactionController::class, 'getSale']);
-
-Route::get('getItem',[ItemController::class, 'getItem']);
-
 Route::post('add_item/{user_id}',[ItemController::class, 'addItem']);
+Route::post('import_item/{user_id}',[ItemController::class, 'import']);
 
 Route::post('edit_item/{id}',[ItemController::class, 'editItem']);
 Route::post('delete_item/{id}',[ItemController::class, 'deleteItem']);
 
 Route::get('getPurchaseTransactions',[TransactionController::class, 'getPurchaseTransactions']);
-Route::get('getSaleTransactions',[TransactionController::class, 'getSaleTransactions']);
+Route::get('getSaleTransactions/{id}',[TransactionController::class, 'getSaleTransactions']);
 Route::get('getTransactionType',[TransactionController::class, 'getTransactionType']);
 
-Route::post('addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);
+// Route::post('addPurchaseData',[TransactionController::class, 'addPurchaseTransaction']);
 Route::post('addSaleData',[TransactionController::class, 'addSaleTransaction']);
+
+Route::get('getTransactionData',[TransactionController::class, 'transactionVisualization']);
+
+Route::get('getSale/{id}',[TransactionController::class, 'getSale']);
+
+Route::get('getSoldProduct/{id}',[TransactionController::class, 'getSoldProduct']);
+Route::get('getBestSeller/{id}',[TransactionController::class, 'bestSeller']);
+
+Route::get('getItem/{id}',[ItemController::class, 'getItem']);
+
+Route::post('setTarget/{id}',[TurnOverController::class,'setTarget']);
+Route::get('getCurrMonthSale',[TurnOverController::class, 'getTurnOverCurrentMonth']);
+Route::get('userTurnOver/{id}',[TurnOverController::class, 'getUserTurnOver']);
+
+Route::get('getItemInfo/{id}',[ItemController::class, 'getItemInfo']);
+Route::get('getSalesPerMonth/{id}',[TransactionController::class, 'getSalesPerMonth']);
+Route::get('getSalesTransactionPerMonth/{id}',[TransactionController::class, 'getSalesTransactionPerMonth']);

@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="container">
         <div class="row justify-content-center mt-5">
             <div class="col-md-8">
@@ -10,10 +11,129 @@
                             <div class="small text-white"><svg class="svg-inline--fa fa-angle-right fa-w-8" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg><!-- <i class="fas fa-angle-right"></i> Font Awesome fontawesome.com --></div>
                         </div>
 
-                    <div class="card-body">
-                        Harga Modal : Rp. {{ (harga_modal).toLocaleString('en') }}<br>
-                        Total Jual  : Rp. {{ (total_jual).toLocaleString('en') }}
+=======
+    <div class="container mt-5">
+        <h1><strong>Turnover Targeting</strong></h1>
+        <div class="row mt-2">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-primary">
+              <div class="inner">
+                <h4 v-if="turn_over.to_final_target_turnover!=null"><strong>Rp. {{ (turn_over.to_final_target_turnover).toLocaleString('en') }}</strong></h4>
+                <h4 v-else><strong>Rp. 0</strong></h4>
+                <p>Target Turnover</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-primary">
+              <div class="inner">
+                <h4 v-if="harga_modal!=null"><strong>Rp. {{ (harga_modal).toLocaleString('en') }}</strong></h4>
+
+                <p>Asset</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-primary">
+              <div class="inner">
+                <h4 v-if="turn_over.to_current_turnover!=null"><strong>Rp. {{ (turn_over.to_current_turnover).toLocaleString('en') }}</strong></h4>
+                <h4 v-else><strong>Rp. 0</strong></h4>
+
+                <p>Current Month Turnover</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-primary">
+              <div class="inner">
+                <h4 v-if="turn_over.to_current_month_target_turnover!=null"><strong>Rp. {{ (turn_over.to_current_month_target_turnover).toLocaleString('en') }}</strong></h4>
+                <h4 v-else><strong>Rp. 0</strong></h4>
+
+                <p>Current Month Target Turnover</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-header border-0 bg-primary">
+                <div class="d-flex justify-content-between">
+                  <h3 class="card-title"><strong>Turn Over</strong></h3>
+                </div>
+              </div>               
+                <turn-over :passing="userInfo"></turn-over>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col-md-6 -->
+          <div class="col-lg-6">
+            <div class="card">
+                    <div class="card-header bg-primary">
+                        <h4 class="card-title"><strong>Set Turnover Target Value</strong></h4>
                     </div>
+>>>>>>> a1080ea7aeb028a66d6b9caa472a3d32384dfc4c
+                    <div class="card-body">
+                        <form @submit.prevent="postData()">
+                            <div class="form-group row">
+                                <label for="target" class="col-md-4 col-form-label text-md-right">Turnover Target Value</label>
+                                <div class="col-md-6">
+                                    <input
+                                        v-model="form.target"
+                                        id="target" 
+                                        type="number.toFixed(2)" 
+                                        class="form-control"
+                                        name="target"
+                                        >
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">Estimated achieved in</label>
+                                <div class="col-md-4">
+                                    <input
+                                        v-model="form.duration"
+                                        id="duration" 
+                                        type="number" 
+                                        class="form-control"
+                                        name="duration"
+                                        >
+                                </div><strong>Month(s)</strong>
+                            </div>
+
+                            <div class="form-group row mb-0">
+                                <div class="col-md-6 offset-md-4">
+                                    <button type="submit" class="btn btn-primary btn-block" :disabled="disabled">
+                                        <i v-show="loading" class="fa fa-spinner fa-spin"></i>
+                                          Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+<<<<<<< HEAD
 <!--
                     <tr v-for="tes in transactionsHeader" :key="tes.id" :value="tes.id">
                             <td>{{tes.id}}</td>
@@ -22,8 +142,12 @@
                             <td>{{tes.tr_total_price}}</td>
                     </tr> -->
 
+=======
+                <!-- /.card-footer -->
+>>>>>>> a1080ea7aeb028a66d6b9caa472a3d32384dfc4c
                 </div>
-            </div>
+            <!-- /.card --> 
+          </div>
         </div>
     </div>
 </template>
@@ -37,26 +161,37 @@
                 disabled: false,
                 harga_modal : 0,
                 total_jual : 0,
+<<<<<<< HEAD
                 // transactionsHeader : {}
             }
         },
         methods:{
             loadData(){
                //Contoh get Data dari Database
+=======
+                turn_over:{},
+                form: new Form({    
+                    id:"",
+                    target:"",
+                    duration:""
+                }),
+            }
+        },
+        methods:{
+            async loadData(){
+               //Contoh get Data dari Database 
+>>>>>>> a1080ea7aeb028a66d6b9caa472a3d32384dfc4c
                 //untuk panggil progress bar
-                this.$Progress.start();
-
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
-                axios
+                await axios
                     .get('api/getAsset')
                     .then(({data}) => (this.harga_modal = data));
 
-                    console.log(this.harga_modal);
+                await axios
+                      .get('api/userTurnOver/'+this.userInfo.id)
+                      .then(({data}) => (this.turn_over = data));
 
-                axios
-                    .get('api/getSale')
-                    .then(({data}) => (this.total_jual = data));
-
+<<<<<<< HEAD
                     console.log(this.total_jual);
 
                 // axios
@@ -68,25 +203,23 @@
 
 
 
+=======
+                // await axios
+                //     .get('api/getSale')
+                //     .then(({data}) => (this.total_jual = data));
+                
+                //untuk mengakhiri progress bar setelah halaman muncul
+>>>>>>> a1080ea7aeb028a66d6b9caa472a3d32384dfc4c
             },
             //Contoh insert ke Database
             postData(){
-                this.$Progress.start();
-                this.loading = true;
-                this.disabled = true;
-                    axios
-                    .post("api/addSaleData", {
-                        saleArray: this.forms,
-                        transactionDate :this.tr_transaction_date,
-                        transactionType:2,
-                        userId:this.tr_user_id,
-                        total_price:this.final_total
-                    }).then(()=>{
-                        //pop up
+                this.form
+                    .post('api/setTarget/'+this.userInfo.id)
+                    .then(()=>{
                     Fire.$emit("refreshData");
                     Swal.fire(
                         'Success!',
-                        'Sale Transaction Saved Successfully!',
+                        'Target Revenue Saved Successfully!',
                         'success'
                         ).then(function() {
                         window.location = "/home";
@@ -96,6 +229,7 @@
                     this.disabled = false;
                     })
                 // else
+<<<<<<< HEAD
                     .catch(()=>{
                         Swal.fire({
                         icon: 'error',
@@ -106,6 +240,13 @@
                         this.loading = false;
                         this.disabled = false;
                     });
+=======
+                .catch(()=>{
+                    this.$Progress.fail();
+                    this.loading = false;
+                    this.disabled = false; 
+                });
+>>>>>>> a1080ea7aeb028a66d6b9caa472a3d32384dfc4c
             }
         },
         created(){
@@ -114,6 +255,5 @@
                 this.loadData();
             })
         }
-
     }
 </script>

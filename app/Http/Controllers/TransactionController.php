@@ -3,19 +3,78 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\TransactionResource;
+
 use App\Models\TransactionHeader;
 use App\Models\TransactionType;
 use App\Models\TransactionDetail;
+use App\Models\TurnOver;
+use App\Models\TurnOverDetail;
 use App\Models\Item;
+use Carbon\Carbon;
 use DB;
+
+use App\Exports\TransactionExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function getSalesTransactionPerMonth($id){
+        $sales=DB::table('transaction_header')
+                    ->select(DB::raw('count(id) as `count`'), DB::raw("MONTH(tr_transaction_date) month"), DB::raw("YEAR(tr_transaction_date) year") )
+                    ->where('tr_user_id',$id)
+                    ->groupBy('month','year')
+                    ->get();
+        return $sales;
+    }
+
+    public function getSalesPerMonth($id){
+        $sales=DB::table('transaction_header')
+                    ->select(DB::raw('SUM(tr_total_price) as `Sum`'), DB::raw("MONTH(tr_transaction_date) month"), DB::raw("YEAR(tr_transaction_date) year") )
+                    ->where('tr_user_id',$id)
+                    ->groupBy('month','year')
+                    ->get();
+        return $sales;
+    }
+
+    public function transactionExport($id,$start_date,$end_date){
+        return Excel::download(new TransactionExport($start_date,$end_date,$id),'Transactions.xlsx');
+    }
+
+    public function bestSeller($id){
+        // $best = TransactionDetail::orderBy('td_item_qty','desc')->get()->take(5);
+
+        $best=DB::table('transaction_detail')
+                 ->select('transaction_detail.td_item_id', DB::raw('SUM(td_item_qty) as total'), 'item.item_name','item.item_buy_price')
+                 ->join('transaction_header','transaction_detail.td_transaction_id','=','transaction_header.id')
+                 ->join('item','transaction_detail.td_item_id','=','item.id')
+                 ->where('transaction_header.tr_user_id',$id)
+                 ->groupBy('transaction_detail.td_item_id','item.item_name','item.item_buy_price')
+                 ->get();
+        $bestSeller = $best->sortByDesc('total')->take(5);
+
+        return $bestSeller;
+    }
+
+    public function getSoldProduct($id){
+        $trans_detail=TransactionDetail::join('transaction_header','transaction_detail.td_transaction_id','=','transaction_header.id')
+                        ->where('transaction_header.tr_user_id',$id)->get();
+
+        $total_product=0;
+        for($i=0;$i<count($trans_detail);$i++){
+            $total_product += $trans_detail[$i]->td_item_qty;
+
+        }
+        return $total_product;
+    }
+
+
     public function addSaleTransaction(Request $request){
         $transaction_date=$request->get('transactionDate');
         $transaction_type=$request->get('transactionType');
@@ -54,86 +113,112 @@ class TransactionController extends Controller
                 'td_sub_total_price' =>$arrTrans['tr_line_total'],
             ]);
         }
-    }
 
-    public function addPurchaseTransaction(Request $request)
-    {
-        $transaction_date=$request->get('transactionDate');
-        $transaction_type=$request->get('transactionType');
-        $transaction_user=$request->get('userId');
-        $transaction_total=$request->get('total_price');
+        $trans_Header=TransactionHeader::where('tr_transaction_type_id',2)->get();
 
-        $transaction=$request->get('purchaseArray');
-
-        $headerSave=[
-                    'tr_user_id'=>$transaction_user,
-                    'tr_transaction_type_id'=>$transaction_type,
-                    'tr_transaction_date'=>$transaction_date,
-                    'tr_total_price'=>$transaction_total,
-                ];
-        $trans_id=DB::table('transaction_header')->insertGetId($headerSave);
-
-        $item_id=0;
-        $item=Item::all();
-        foreach($transaction as $arrTrans){
-            //search existing item
-            for($i=0;$i<count($item);$i++){
-                if(strcasecmp($arrTrans['tr_item_name'],$item[$i]->item_name)==0){
-                    $item_id=$item[$i]->id;
-                    $item[$i]->update([
-                        'item_qty' => $item[$i]->item_qty+$arrTrans['tr_item_qty']
-                    ]);
-                    break;
-                }else{
-                    $itemSave=[
-                        'item_name'=>$arrTrans['tr_item_name'],
-                        'item_desc'=>"New Item",
-                        'item_qty'=>$arrTrans['tr_item_qty'],
-                        'item_buy_price'=>$arrTrans['tr_item_price'],
-                        'item_sell_price'=>0,
-                        'item_category_id'=>1,
-                        'user_id'=>$transaction_user,
-                        'unit_type_id'=>$arrTrans['tr_unit_type_id'],
-                    ];
-                    $item_id=DB::table('item')->insertGetId($itemSave);
-                    break;
-                }
+        $total_price=0;
+        for($i=0;$i<count($trans_Header);$i++){
+            if(date("m",strtotime($trans_Header[$i]->tr_transaction_date))==date('m') && date("y",strtotime($trans_Header[$i]->tr_transaction_date))==date('y')){
+                $total_price += $trans_Header[$i]->tr_total_price;
             }
-            TransactionDetail::create([
-                'td_transaction_id' => $trans_id,
-                'td_item_id' =>$item_id,
-                'td_item_qty' =>$arrTrans['tr_item_qty'],
-                'td_item_price' =>$arrTrans['tr_item_price'],
-                'td_sub_total_price' =>$arrTrans['tr_line_total'],
-            ]);
         }
-        return back();
+        $updtTurnOver = TurnOver::where('to_user_id',$transaction_user)->update([
+            'to_current_turnover'=>$total_price,
+        ]);
     }
 
-    public function getPurchaseTransactions()
-    {
-        return TransactionHeader::where('tr_transaction_type_id',1)->get();
-    }
+    // public function addPurchaseTransaction(Request $request)
+    // {
+    //     $transaction_date=$request->get('transactionDate');
+    //     $transaction_type=$request->get('transactionType');
+    //     $transaction_user=$request->get('userId');
+    //     $transaction_total=$request->get('total_price');
 
-    public function getSaleTransactions()
+    //     $transaction=$request->get('purchaseArray');
+
+    //     $headerSave=[
+    //                 'tr_user_id'=>$transaction_user,
+    //                 'tr_transaction_type_id'=>$transaction_type,
+    //                 'tr_transaction_date'=>$transaction_date,
+    //                 'tr_total_price'=>$transaction_total,
+    //             ];
+    //     $trans_id=DB::table('transaction_header')->insertGetId($headerSave);
+
+    //     $item_id=0;
+    //     $item=Item::all();
+    //     foreach($transaction as $arrTrans){
+    //         //search existing item
+    //         for($i=0;$i<count($item);$i++){
+    //             if(strcasecmp($arrTrans['tr_item_name'],$item[$i]->item_name)==0){
+    //                 $item_id=$item[$i]->id;
+    //                 $item[$i]->update([
+    //                     'item_qty' => $item[$i]->item_qty+$arrTrans['tr_item_qty']
+    //                 ]);
+    //                 break;
+    //             }else{
+    //                 $itemSave=[
+    //                     'item_name'=>$arrTrans['tr_item_name'],
+    //                     'item_desc'=>"New Item",
+    //                     'item_qty'=>$arrTrans['tr_item_qty'],
+    //                     'item_buy_price'=>$arrTrans['tr_item_price'],
+    //                     'item_sell_price'=>0,
+    //                     'item_category_id'=>1,
+    //                     'user_id'=>$transaction_user,
+    //                     'unit_type_id'=>$arrTrans['tr_unit_type_id'],
+    //                 ];
+    //                 $item_id=DB::table('item')->insertGetId($itemSave);
+    //                 break;
+    //             }
+    //         }
+    //         TransactionDetail::create([
+    //             'td_transaction_id' => $trans_id,
+    //             'td_item_id' =>$item_id,
+    //             'td_item_qty' =>$arrTrans['tr_item_qty'],
+    //             'td_item_price' =>$arrTrans['tr_item_price'],
+    //             'td_sub_total_price' =>$arrTrans['tr_line_total'],
+    //         ]);
+    //     }
+    //     return back();
+    // }
+
+    // public function getPurchaseTransactions()
+    // {
+    //     return TransactionHeader::where('tr_transaction_type_id',1)->get();
+    // }
+
+    public function getSaleTransactions($id)
     {
-        return TransactionHeader::where('tr_transaction_type_id',2)->get();
+        return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
+                                                            ->where('tr_user_id',$id)
+                                                            ->paginate(5)
+                                                            ->onEachSide(2));
     }
 
     public function getAsset()
     {
+<<<<<<< HEAD
         $trans_Header=TransactionHeader::where('tr_transaction_type_id',1)->get();
 
         $total_price=0;
         for($i=0;$i<count($trans_Header);$i++){
             $total_price += $trans_Header[$i]->tr_total_price;
+=======
+        $item=Item::all();
+        $total_asset=0;
+        for($i=0;$i<count($item);$i++){
+            $total_asset += ($item[$i]->item_qty*$item[$i]->item_buy_price);
+>>>>>>> a1080ea7aeb028a66d6b9caa472a3d32384dfc4c
         }
-        return $total_price;
+        return $total_asset;
     }
 
-    public function getSale()
+    public function getSale($id)
     {
-        $trans_Header=TransactionHeader::where('tr_transaction_type_id',2)->get();
+        $trans_Header=TransactionHeader::where([
+                            ['tr_transaction_type_id',2],
+                            ['tr_user_id',$id]
+                        ])->get();
+
         $total_price=0;
         for($i=0;$i<count($trans_Header);$i++){
             $total_price += $trans_Header[$i]->tr_total_price;

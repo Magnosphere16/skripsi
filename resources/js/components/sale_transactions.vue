@@ -1,29 +1,37 @@
 <template>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-xl">
-            <div class="card mt-5">
-                <div class="card-header" style="position:relative;"><strong>Sale Transaction Lists</strong>
-                        <router-link to="newSale" class="btn btn-danger btn-sm" style="float:right; right:0;" tag="button">+ New Sale Transaction</router-link>
-                    <!-- <router-link to="newSale" style="display:inline-block; float:right; right: 0; bottom:8px;" type="button" id="sell_item_btn" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#addItemFCatForm">+ New Sale Transactions</router> -->
-                    <!-- <button style="display:inline-block; float:right; right: 0; bottom:8px;" type="button" id="buy_item_btn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addItemFCatForm">Buy Items</button> -->
+        <div class="col-xl mt-5">
+            <h1><strong>Sale Transaction Lists</strong><router-link to="newSale" class="btn btn-primary btn-md" style ="float:right;" tag="button">+ New Sale Transaction</router-link></h1>
+            <div class="card mt-3">
+                <div class="card-header">
+                    <div class="form-inline">
+                        <a class="btn btn-success btn-md mb-2 mr-3" :href="'api/downloadTransaction/'+userInfo.id+'/'+start_date+'/'+end_date">Download Transaction Report</a>
+                        <div class="form-group mb-2">
+                            <label for="inputDateFrom" class="mr-3">From</label>
+                            <input type="date" v-model="start_date" class="form-control">
+                            <label for="inputDateTo" class="ml-3">To</label>
+                        </div>  
+                        <div class="form-group mx-sm-3 mb-2">
+                            <input type="date" v-model="end_date" class="form-control">
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped">
+                    <div class="ml-4">
+                        <pagination :meta="meta" v-on:pagination="getTransaction"></pagination>
+                    </div>
+                    <table class="table table-striped" id="myTable">
                         <thead>
                             <th>Transaction ID</th>
                             <th>Transaction Date</th>
-                            <th>Transaction Type</th>
                             <th>Total Price</th>
                         </thead>
                         <tbody>
                             <tr v-for="a in transactionsHeader" :key="a.id" :value="a.id">
                                 <td>{{a.id}}</td>
                                 <td>{{a.tr_transaction_date}}</td>
-                                <div v-for="type in transactionType" :key="type.id" :value="type.id">
-                                    <td v-if="a.tr_transaction_type_id === type.id" style="color:red">{{type.transaction_type_name}}</td>
-                                </div>
-                                <td>Rp {{(a.tr_total_price).toLocaleString('en')}}</td>
+                                <td style="text-align: right;"><strong>Rp {{(a.tr_total_price).toLocaleString('en')}}</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -55,29 +63,45 @@
                 categories : {},
                 items : {},
                 unitTypes : {},
+                start_date: {},
+                end_date : {},
+
+                meta: {},
+
             }
         },
         methods:{
-            loadData(){
+            getTransaction(page){
+                axios
+                    .get('api/getSaleTransactions/'+this.userInfo.id,{
+                        params:{
+                            page
+                        }
+                    })
+                    .then(({data}) => (
+                        this.transactionsHeader = data.data,
+                        this.meta = data.meta
+                        ));
+            },
+            async loadData(){
                 //untuk panggil progress bar
                 this.$Progress.start();
 
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
-                axios
-                    .get('api/getSaleTransactions')
-                    .then(({data}) => (this.transactionsHeader = data));
-                
-                axios
+                //get all transaction pagination 5 data
+                this.getTransaction();
+
+                await axios
                     .get('api/getTransactionType')
                     .then(({data}) => (this.transactionType = data));
 
-                axios
+                await axios
                     .get('api/get_category')
                     .then(({data}) => (this.categories = data));
-                axios
-                    .get('api/getItem')
+                await axios
+                    .get('api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
-                axios
+                await axios
                     .get('api/getUnitType')
                     .then(({data}) => (this.unitTypes = data));
                 //untuk mengakhiri progress bar setelah halaman muncul
@@ -88,7 +112,7 @@
             this.loadData();
             Fire.$on('refreshData',() => {
                 this.loadData();
-            })
+            });
         }
 
     }
