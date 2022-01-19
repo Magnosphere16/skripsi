@@ -8,6 +8,7 @@ use App\Models\Category;
 use Excel;
 use App\Imports\ItemImport;
 use DB;
+use Image;
 
 class ItemController extends Controller
 {
@@ -40,10 +41,10 @@ class ItemController extends Controller
         ]);
 
         if($request->hasfile('item_image')){
-            $imageString = '../assets/item_img/'.$request->item_name.'_'.$id.'.'.time().'.'.$request->file('item_image')->extension();
-            $request->file('item_image')->resize(110, 110, function ($const) {
-                $const->aspectRatio();
-            })->move('Assets/Item_img', $imageString);
+            $image=$request->item_image;
+            $img = Image::make($image->path());
+            $img->resize(1500, 1500)->save('assets/item_img/'.$request->item_name.'_'.$id.'.'.$request->file('item_image')->extension());
+            $imageString = '../assets/item_img/'.$request->item_name.'_'.$id.'.'.$request->file('item_image')->extension();
         }
 
         //Find Existing Item Category
@@ -101,9 +102,17 @@ class ItemController extends Controller
         //     'item_sell_price' => ['required', 'integer', 'min:1'],
         // ]);
 
+        if($request->hasfile('item_image')){
+            $image=$request->item_image;
+            $img = Image::make($image->path());
+            $img->resize(1500, 1500)->save('assets/item_img/'.$request->item_name.'_'.$id.'.'.$request->file('item_image')->extension());
+            $imageString = '../assets/item_img/'.$request->item_name.'_'.$id.'.'.$request->file('item_image')->extension();
+        }
+
         $updtItem = Item::where('id',$id)->update([
                 'item_name'=>$request->item_name,
                 'item_desc'=>$request->item_desc,
+                'item_image'=>$imageString,
                 'item_category_id'=>$request->item_category_id,
                 'unit_type_id'=>$request->unit_type_id,
                 'item_qty'=>$request->item_qty,

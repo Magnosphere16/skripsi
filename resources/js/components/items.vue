@@ -39,7 +39,7 @@
                     <div class="row mt-2">
                         <div class="col-lg-3" v-for="item in filteredItems" :key="item.id">
                             <div class="card">
-                                <img class="card-img-top" :src="item.item_image" alt="Card image cap">
+                                <img class="card-img-top" id="item-image" :src="item.item_image" alt="Card image cap">
                                 <div class="card-body">
                                     <h6 class="card-title"><router-link :to="'/item_details/'+item.id" class="link-primary"><strong>{{item.item_name+" "}}</strong></router-link><a @click="deleteData(item.id)"><i class="fas fa-trash-alt red"></i></a></h6>
                                     <p class="card-text">{{item.item_desc}}</p>
@@ -184,6 +184,10 @@
                 await axios
                     .get('api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
+                 var reader=new FileReader();
+                 reader.onload=function(e){
+                    $('#item-image').attr('src',e.target.result).css('width','150px;').css(' height','150px;');
+                };
                 await axios
                     .get('api/getUnitType')
                     .then(({data}) => (this.unitTypes = data));

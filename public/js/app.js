@@ -2531,6 +2531,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
@@ -2547,6 +2559,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         id: "",
         item_name: "",
         item_desc: "",
+        item_image: "",
         item_qty: "",
         item_category_id: "",
         unit_type_id: "",
@@ -2556,6 +2569,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
+    onFileSelected: function onFileSelected(e) {
+      this.form.item_image = e.target.files[0];
+      document.getElementById("item_image").innerHTML = e.target.files[0].name;
+    },
     loadData: function loadData() {
       var _this = this;
 
@@ -3587,6 +3604,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var reader;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -3609,17 +3627,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 5:
-                _context.next = 7;
+                reader = new FileReader();
+
+                reader.onload = function (e) {
+                  $('#item-image').attr('src', e.target.result).css('width', '150px;').css(' height', '150px;');
+                };
+
+                _context.next = 9;
                 return axios.get('api/getUnitType').then(function (_ref3) {
                   var data = _ref3.data;
                   return _this2.unitTypes = data;
                 });
 
-              case 7:
+              case 9:
                 //untuk mengakhiri progress bar setelah halaman muncul
                 _this2.$Progress.finish();
 
-              case 8:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -81834,7 +81858,7 @@ var render = function () {
                 { staticClass: "col-md-6" },
                 [
                   _c("label", { attrs: { for: "name" } }, [
-                    _vm._v("Item Name"),
+                    _vm._v("Product Name"),
                   ]),
                   _vm._v(" "),
                   _c("input", {
@@ -81877,7 +81901,7 @@ var render = function () {
                 { staticClass: "col-md-6" },
                 [
                   _c("label", { attrs: { for: "item_desc" } }, [
-                    _vm._v("Item Category"),
+                    _vm._v("Product Category"),
                   ]),
                   _vm._v(" "),
                   _c(
@@ -81992,7 +82016,7 @@ var render = function () {
                 { staticClass: "col-md-6" },
                 [
                   _c("label", { attrs: { for: "item_desc" } }, [
-                    _vm._v("Item Description"),
+                    _vm._v("Product Description"),
                   ]),
                   _vm._v(" "),
                   _c("textarea", {
@@ -82032,40 +82056,129 @@ var render = function () {
               ),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-6" }, [
+                _c("div", { staticClass: "row mb-3" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col-md-6" },
+                    [
+                      _c("label", { attrs: { for: "qty" } }, [
+                        _vm._v("Product Quantity"),
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.item_qty,
+                            expression: "form.item_qty",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "item_qty",
+                          type: "number",
+                          name: "item_qty",
+                          required: "",
+                          placeholder: "1",
+                        },
+                        domProps: { value: _vm.form.item_qty },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "item_qty", $event.target.value)
+                          },
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "item_qty" },
+                      }),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("label", { attrs: { for: "item_unit_type" } }, [
+                      _vm._v("Unit Type"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.unit_type_id,
+                            expression: "form.unit_type_id",
+                          },
+                        ],
+                        staticClass: "form-control input-lg dynamic",
+                        attrs: { name: "unit_type_id", id: "unit_type_id" },
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.form,
+                              "unit_type_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Select Unit Type"),
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.unitTypes, function (item) {
+                          return _c(
+                            "option",
+                            { key: item.id, domProps: { value: item.id } },
+                            [
+                              _vm._v(
+                                "\r\n                                                    " +
+                                  _vm._s(item.unit_type_name) +
+                                  "\r\n                                                "
+                              ),
+                            ]
+                          )
+                        }),
+                      ],
+                      2
+                    ),
+                  ]),
+                ]),
+                _vm._v(" "),
                 _c(
                   "div",
                   { staticClass: "mb-3" },
                   [
                     _c("label", { attrs: { for: "qty" } }, [
-                      _vm._v("Item Quantity"),
+                      _vm._v("Product Image"),
                     ]),
                     _vm._v(" "),
                     _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.item_qty,
-                          expression: "form.item_qty",
-                        },
-                      ],
                       staticClass: "form-control",
                       attrs: {
-                        id: "item_qty",
-                        type: "number",
-                        name: "item_qty",
+                        id: "item_image",
+                        type: "file",
+                        name: "item_image",
                         required: "",
-                        placeholder: "1",
                       },
-                      domProps: { value: _vm.form.item_qty },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "item_qty", $event.target.value)
-                        },
-                      },
+                      on: { change: _vm.onFileSelected },
                     }),
                     _vm._v(" "),
                     _c("has-error", {
@@ -82074,68 +82187,6 @@ var render = function () {
                   ],
                   1
                 ),
-                _vm._v(" "),
-                _c("div", { staticClass: "mb-3" }, [
-                  _c("label", { attrs: { for: "item_unit_type" } }, [
-                    _vm._v("Unit Type"),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.unit_type_id,
-                          expression: "form.unit_type_id",
-                        },
-                      ],
-                      staticClass: "form-control input-lg dynamic",
-                      staticStyle: { width: "inherit" },
-                      attrs: { name: "unit_type_id", id: "unit_type_id" },
-                      on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.form,
-                            "unit_type_id",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                      },
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Select Unit Type"),
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.unitTypes, function (item) {
-                        return _c(
-                          "option",
-                          { key: item.id, domProps: { value: item.id } },
-                          [
-                            _vm._v(
-                              "\r\n                                                " +
-                                _vm._s(item.unit_type_name) +
-                                "\r\n                                            "
-                            ),
-                          ]
-                        )
-                      }),
-                    ],
-                    2
-                  ),
-                ]),
               ]),
             ]),
             _vm._v(" "),
@@ -82145,7 +82196,7 @@ var render = function () {
                 { staticClass: "col-md-6" },
                 [
                   _c("label", { attrs: { for: "buy" } }, [
-                    _vm._v("Item Buy Price"),
+                    _vm._v("Product Buy Price"),
                   ]),
                   _vm._v(" "),
                   _c("input", {
@@ -82192,7 +82243,7 @@ var render = function () {
                 { staticClass: "col-md-6" },
                 [
                   _c("label", { attrs: { for: "sell" } }, [
-                    _vm._v("Item Sell Price"),
+                    _vm._v("Product Sell Price"),
                   ]),
                   _vm._v(" "),
                   _c("input", {
@@ -83242,7 +83293,11 @@ var render = function () {
                   _c("div", { staticClass: "card" }, [
                     _c("img", {
                       staticClass: "card-img-top",
-                      attrs: { src: item.item_image, alt: "Card image cap" },
+                      attrs: {
+                        id: "item-image",
+                        src: item.item_image,
+                        alt: "Card image cap",
+                      },
                     }),
                     _vm._v(" "),
                     _c("div", { staticClass: "card-body" }, [

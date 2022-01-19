@@ -22,7 +22,7 @@
                     <form @submit.prevent="editData()">
                         <div class="row gx-3 mb-3">
                             <div class="col-md-6">
-                                <label for="name">Item Name</label>
+                                <label for="name">Product Name</label>
                                 <input
                                     class="form-control"
                                     id="item_name" 
@@ -34,7 +34,7 @@
                                     <has-error :form="form" field="item_name"></has-error> 
                             </div>
                             <div class="col-md-6">
-                                <label for="item_desc">Item Category</label>
+                                <label for="item_desc">Product Category</label>
                                 <select v-model="form.item_category_id" 
                                     name="category_id" id="category_id" 
                                     class="form-control input-lg dynamic" 
@@ -59,7 +59,7 @@
                         </div>
                         <div class="row gx-3 mb-3">
                             <div class="col-md-6">
-                                <label for="item_desc">Item Description</label>
+                                <label for="item_desc">Product Description</label>
                                     <textarea v-model="form.item_desc"
                                         id="item_desc" 
                                         rows="5" 
@@ -72,35 +72,47 @@
                                     <has-error :form="form" field="item_desc"></has-error> 
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="qty">Item Quantity</label>
-                                    <input v-model="form.item_qty" 
-                                        id="item_qty" 
-                                        type="number" 
-                                        class="form-control"
-                                        name="item_qty"
-                                        required  
-                                        placeholder="1">
-                                    <has-error :form="form" field="item_qty"></has-error>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="qty">Product Quantity</label>
+                                        <input v-model="form.item_qty" 
+                                            id="item_qty" 
+                                            type="number" 
+                                            class="form-control"
+                                            name="item_qty"
+                                            required  
+                                            placeholder="1">
+                                        <has-error :form="form" field="item_qty"></has-error>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="item_unit_type">Unit Type</label>
+                                        <select v-model="form.unit_type_id" 
+                                            name="unit_type_id" id="unit_type_id" 
+                                            class="form-control input-lg dynamic" 
+                                            >
+                                                <option value="">Select Unit Type</option>
+                                                <option v-for="item in unitTypes" :key="item.id" :value="item.id">
+                                                    {{item.unit_type_name}}
+                                                </option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="item_unit_type">Unit Type</label>
-                                    <select v-model="form.unit_type_id" 
-                                        name="unit_type_id" id="unit_type_id" 
-                                        class="form-control input-lg dynamic" 
-                                        style="width:inherit;"
-                                        >
-                                            <option value="">Select Unit Type</option>
-                                            <option v-for="item in unitTypes" :key="item.id" :value="item.id">
-                                                {{item.unit_type_name}}
-                                            </option>
-                                    </select>
+                                    <label for="qty">Product Image</label>
+                                    <input
+                                        id="item_image"
+                                        type="file"
+                                        @change="onFileSelected" 
+                                        class="form-control"
+                                        name="item_image"
+                                        required>
+                                    <has-error :form="form" field="item_qty"></has-error>
                                 </div>
                             </div>
                         </div>
                         <div class="row gx-3 mb-3">
                             <div class="col-md-6">
-                                <label for="buy">Item Buy Price</label>
+                                <label for="buy">Product Buy Price</label>
                                 <input v-model="form.item_buy_price" 
                                     id="item_buy" 
                                     type="number" 
@@ -111,7 +123,7 @@
                                 <has-error :form="form" field="item_buy_price"></has-error>
                             </div>
                             <div class="col-md-6">
-                                 <label for="sell">Item Sell Price</label>
+                                 <label for="sell">Product Sell Price</label>
                                 <input v-model="form.item_sell_price" 
                                     id="item_sell" 
                                     type="number" 
@@ -157,6 +169,7 @@
                     id:"",
                     item_name:"",
                     item_desc:"",
+                    item_image:"",
                     item_qty:"",
                     item_category_id:"",
                     unit_type_id:"",
@@ -166,6 +179,10 @@
             }
         },
         methods:{
+            onFileSelected(e){
+                this.form.item_image = e.target.files[0];
+                document.getElementById("item_image").innerHTML=e.target.files[0].name;
+            },
             async loadData(){
                 //untuk panggil progress bar
                 this.$Progress.start();

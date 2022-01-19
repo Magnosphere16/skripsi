@@ -186,9 +186,12 @@ return [
     | the aliases are "lazy" loaded so they don't hinder performance.
     |
     */
+    'provides' => [
+        'Intervention\Image\ImageServiceProvider'
+    ],
 
     'aliases' => [
-
+        'Image' => 'Intervention\Image\Facades\Image',
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
