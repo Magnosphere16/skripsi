@@ -8,7 +8,7 @@
       </div>
       <div class="col-md-8">
         <h3 class="my-4">
-            <strong>{{item_info.item_name}}</strong>
+            <strong>{{item_info.item_name+" "}}<router-link :to="'/edit_item/'+id"><i class="fas fa-edit" style="color: black;"></i></router-link></strong>
         </h3>
         <h1>
             <strong>Rp. {{(item_info.item_sell_price).toLocaleString('en')}}/{{item_info.unit_type.unit_type_name}}</strong>

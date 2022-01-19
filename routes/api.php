@@ -42,7 +42,7 @@ Route::post('edit_item/{id}',[ItemController::class, 'editItem']);
 Route::post('delete_item/{id}',[ItemController::class, 'deleteItem']);
 
 // Route::get('getPurchaseTransactions',[TransactionController::class, 'getPurchaseTransactions']);
-Route::get('getSaleTransactions/{id}',[TransactionController::class, 'getSaleTransactions']);
+Route::get('getSaleTransactions/{id}/{start}/{end}',[TransactionController::class, 'getSaleTransactions']);
 Route::get('getTransactionType',[TransactionController::class, 'getTransactionType']);
 
 Route::get('getTransactionDetail/{id}',[TransactionController::class, 'getTransactionDetail']);

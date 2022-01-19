@@ -155,12 +155,6 @@
                       .get('api/userTurnOver/'+this.userInfo.id)
                       .then(({data}) => (this.turn_over = data));
 
-                    console.log(this.turn_over);
-
-                // axios
-                // .get('api/getAllTransaction')
-                // .then(({data}) => (this.transactionsHeader= data));
-
                 // //untuk mengakhiri progress bar setelah halaman muncul
                 // this.$Progress.finish();
 

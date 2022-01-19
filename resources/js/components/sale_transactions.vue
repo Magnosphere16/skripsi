@@ -9,11 +9,11 @@
                         <a class="btn btn-success btn-md mb-2 mr-3" :href="'api/downloadTransaction/'+userInfo.id+'/'+start_date+'/'+end_date">Download Transaction Report</a>
                         <div class="form-group mb-2">
                             <label for="inputDateFrom" class="mr-3">From</label>
-                            <input type="date" v-model="start_date" class="form-control">
+                            <input type="date" @change="onChangeStart($event)" class="form-control">
                             <label for="inputDateTo" class="ml-3">To</label>
                         </div>  
                         <div class="form-group mx-sm-3 mb-2">
-                            <input type="date" v-model="end_date" class="form-control">
+                            <input type="date" @change="onChangeEnd($event)" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -23,17 +23,15 @@
                     </div>
                     <table class="table table-striped" id="myTable">
                         <thead>
-                            <th>Transaction ID</th>
-                            <th>Transaction Date</th>
-                            <th>Total Price</th>
-                            <th>Details</th>
+                            <th class="text-center">Transaction ID</th>
+                            <th class="text-center">Transaction Date</th>
+                            <th style="text-align: right;">Total Price</th>
                         </thead>
                         <tbody>
-                            <tr v-for="a in transactionsHeader" :key="a.id" :value="a.id">
-                                <td>{{a.id}}</td>
-                                <td>{{a.tr_transaction_date}}</td>
-                                <td style="text-align: right;"><strong>Rp {{(a.tr_total_price).toLocaleString('en')}}</strong></td>
-                                <td><router-link :to="'/transaction_detail/'+a.id" class="link-primary"><strong>More <i class="fas fa-arrow-circle-right"></i></strong></router-link></td>
+                            <tr v-for="trans in transactionsHeader" :key="trans.id" :value="trans.id">
+                                <td class="text-center">{{trans.id}}</td>
+                                <td class="text-center"><router-link :to="'/transaction_detail/'+trans.id" class="link-primary"><strong>{{trans.tr_transaction_date}}</strong></router-link></td>
+                                <td style="text-align: right;"><strong>Rp {{(trans.tr_total_price).toLocaleString('en')}}</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -59,24 +57,39 @@
             return{
                 loading: false,
                 disabled: false,
-                transactionsHeader : {},
+                transactionsHeader : [],
                 transactionsDetail : {},
                 transactionType : {},
                 categories : {},
                 items : {},
                 unitTypes : {},
-                start_date: {},
-                end_date : {},
+                start_date: '',
+                end_date : '',
 
                 meta: {},
-
             }
         },
         methods:{
+            onChangeStart(event){
+                this.start_date=event.target.value;
+                this.getTransaction();
+            },
+            onChangeEnd(event){
+                this.end_date=event.target.value;
+                this.getTransaction();
+            },
             getTransaction(page){
+                let start=0;
+                let end=0;
+                if(this.start_date!=""){
+                    start=this.start_date;
+                }
+                if(this.end_date!=""){
+                    end=this.this.end_date;
+                }
                 axios
-                    .get('api/getSaleTransactions/'+this.userInfo.id,{
-                        params:{
+                    .get('api/getSaleTransactions/'+this.userInfo.id+'/'+start+'/'+end,{
+                        params:{    
                             page
                         }
                     })
@@ -115,6 +128,29 @@
             Fire.$on('refreshData',() => {
                 this.loadData();
             });
+        },
+        computed:{
+            // filteredTransaction: function (){
+            //     return this.transactionsHeader.filter((trans)=>{
+            //             let filtered = true;
+            //             let start=this.start_date;
+            //             let end =this.end_date;
+            //             if(start!="" && end!=""){
+            //                 console.log("ada smua")
+            //                 filtered = (start <= trans.tr_transaction_date) && (trans.tr_transaction_date <= end);
+            //             }else if(start !="" && end ==""){
+            //                 console.log("start doang");
+            //                 console.log(start);
+            //                 console.log(trans.tr_transaction_date);
+            //                 filtered = (start <= trans.tr_transaction_date);
+            //                 console.log(filtered);
+            //             }else if(start =="" && end != ""){
+            //                 console.log("end doang");
+            //                 filtered = trans.tr_transaction_date <= end;
+            //             }
+            //         return filtered
+            //     })
+            // },
         }
 
     }

@@ -39,6 +39,13 @@ class ItemController extends Controller
             'item_sell_price' => ['required', 'integer', 'min:1'],
         ]);
 
+        if($request->hasfile('item_image')){
+            $imageString = '../assets/item_img/'.$request->item_name.'_'.$id.'.'.time().'.'.$request->file('item_image')->extension();
+            $request->file('item_image')->resize(110, 110, function ($const) {
+                $const->aspectRatio();
+            })->move('Assets/Item_img', $imageString);
+        }
+
         //Find Existing Item Category
         $findCategory=Category::where('id',$request->item_category_id)->first();
         
@@ -52,6 +59,8 @@ class ItemController extends Controller
         }else{
             $currCategory=Category::where('id',$request->item_category_id)->first();
         }
+
+
 
         //Insert new Item data
         $itemName= $request->item_name;
@@ -67,7 +76,7 @@ class ItemController extends Controller
                 'item_desc'=>$itemDesc,
                 'item_category_id'=>$category_id,
                 'item_qty'=>$itemQty,
-                'item_image'=>'../assets/img/default.jpg',
+                'item_image'=>$imageString,
                 'item_buy_price'=>$itemBuy,
                 'item_sell_price'=>$itemSell,
                 'user_id'=>$userId,
@@ -101,6 +110,7 @@ class ItemController extends Controller
                 'item_buy_price'=>$request->item_buy_price,
                 'item_sell_price'=>$request->item_sell_price,
         ]);
+        return $updtItem;
     }
 
     public function getItem($id){

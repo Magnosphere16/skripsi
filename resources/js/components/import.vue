@@ -59,16 +59,6 @@
                 items : {},
                 unitTypes: {},
                 deletes :{},
-                form: new Form({    
-                    id:"",
-                    item_name:"",
-                    item_desc:"",
-                    item_qty:"",
-                    item_category_id:"",
-                    unit_type_id:"",
-                    item_buy_price:"",
-                    item_sell_price:"",
-                }),
             }
         },
         methods:{

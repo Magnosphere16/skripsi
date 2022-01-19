@@ -1,10 +1,7 @@
 <template>
             <div class="container-xl px-4 mt-4">
                         <!-- Invoice-->
-                        <div class="mb-4">
-                            <router-link :to="'/sale_transactions'" class="btn btn-secondary btn-md" style="float:left">Back</router-link>
-                        </div>
-                        <div class="card invoice">
+                        <div class="card invoice"> 
                             <div class="card-header p-4 p-md-5 border-bottom-0 bg-primary text-white-50">
                                 <div class="row justify-content-between align-items-center">
                                     <div class="col-12 col-lg-auto mb-5 mb-lg-0 text-center text-lg-start">
@@ -22,6 +19,9 @@
                             <div class="card-body p-4 p-md-5">
                                 <!-- Invoice table-->
                                 <div class="table-responsive mb-4">
+                                    <div class="mb-5">
+                                        <router-link :to="'/sale_transactions'" style="float:left"><i class="fas fa-arrow-left"></i> Back</router-link>
+                                    </div>
                                     <table class="table table-borderless mb-0">
                                         <thead class="border-bottom">
                                             <tr class="small text-uppercase">
@@ -84,9 +84,6 @@
                     .then(({data})=>(this.transaction_info = data));  
 
                 //untuk mengakhiri progress bar setelah halaman muncul
-
-                console.log("anjaay"); 
-
                 await axios
                     .get('http:/api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
@@ -97,7 +94,6 @@
             date(){
                 var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
                 var date = new Date(this.transaction_info[0].tr_transaction_date);
-                console.log(date);
                 this.dates= months[date.getMonth()] + ' ' + date.getDate() + ', ' +  date.getFullYear();
             }
         },

@@ -9,8 +9,7 @@
                     <div class="row mt-2">
                         <div class="col-lg-3 col-4">
                             <div class="form-inline">
-                                    <input type="search" id="form1" class="form-control" placeholder="Search...">
-                                    <button type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                                    <input type="text" v-model="search" class="form-control" placeholder="Search...">
                             </div>
                         </div>
                         <div class="col-lg-3 col-7">
@@ -18,7 +17,7 @@
                                 <span style="display: block">Category:</span>
                             </label>
                             <label for="">
-                                <select v-model="form.item_category_id" 
+                                <select v-model="category_search" 
                                     name="category_id" id="category_id" 
                                     class="form-control" style="display: block"
                                     @change="onChange($event)">
@@ -37,12 +36,12 @@
                 </div>
                 <div class="card-body">
                     <!-- item list -->
-                    <div class="row mt-2" v-for="i in Math.ceil(items.length / 4)" :key="i">
-                        <div class="col-lg-3" v-for="item in items.slice((i - 1) * 4, i * 4)" :key="item.id">
-                            <div class="card h-100 ">
+                    <div class="row mt-2">
+                        <div class="col-lg-3" v-for="item in filteredItems" :key="item.id">
+                            <div class="card">
                                 <img class="card-img-top" :src="item.item_image" alt="Card image cap">
                                 <div class="card-body">
-                                    <h6 class="card-title"><router-link :to="'/item_details/'+item.id" class="link-primary"><strong>{{item.item_name}}</strong></router-link></h6>
+                                    <h6 class="card-title"><router-link :to="'/item_details/'+item.id" class="link-primary"><strong>{{item.item_name+" "}}</strong></router-link><a @click="deleteData(item.id)"><i class="fas fa-trash-alt red"></i></a></h6>
                                     <p class="card-text">{{item.item_desc}}</p>
                                     <h5><strong>Rp. {{(item.item_sell_price).toLocaleString('en')
                                                         +'/'+items.find((a) => {
@@ -80,9 +79,11 @@
                 disabled: false,
                 modal: false,
                 categories : {},
-                items : {},
+                items : [],
                 unitTypes: {},
                 deletes :{},
+                search : '',
+                category_search: '',
                 form: new Form({    
                     id:"",
                     item_name:"",
@@ -159,15 +160,11 @@
                 }
             },
             showModalAdd(){
-                console.log("showAddModal");
                 this.modal = false;
                 this.form.reset();
-                console.log($("#addItemForm"));
                 window.$("#addItemForm").modal("show");
             },
             showModalImport(){
-                console.log("showImportModal");
-                console.log($("#importItemForm"));
                 window.$("#importItemForm").modal("show");
             },
             showModalEdit(a){
@@ -179,7 +176,7 @@
             async loadData(){
                 //untuk panggil progress bar
                 this.$Progress.start();
-
+                
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
                 await axios
                     .get('api/get_category')
@@ -187,11 +184,9 @@
                 await axios
                     .get('api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
-                 console.log(this.items);
                 await axios
                     .get('api/getUnitType')
                     .then(({data}) => (this.unitTypes = data));
-
                 //untuk mengakhiri progress bar setelah halaman muncul
                 this.$Progress.finish();
             },
@@ -208,31 +203,6 @@
                     Toast.fire({
                         icon: 'success',
                         title: 'Item Saved successfully'
-                        });
-                    this.$Progress.finish();
-                    this.loading = false;
-                    this.disabled = false;
-                    })
-                // else
-                .catch(()=>{
-                    this.$Progress.fail();
-                    this.loading = false;
-                    this.disabled = false; 
-                });
-            },
-            editData(){
-                this.$Progress.start();
-                this.loading = true;
-                this.disabled = true;
-
-                this.form
-                    .post('api/edit_item/'+this.form.id)
-                    .then(()=>{
-                    Fire.$emit("refreshData");
-                    $('#addItemForm').modal('hide');
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Item Edited successfully'
                         });
                     this.$Progress.finish();
                     this.loading = false;
@@ -282,6 +252,24 @@
             Fire.$on('refreshData',() => {
                 this.loadData();
             })
+        },
+        computed:{
+            filteredItems: function (){
+                let filterSearch= this.search;
+                let filterCat = this.category_search;
+                return this.items.filter((item)=>{
+                        let filtered = true;
+                        if(filterSearch && filterSearch.length > 0){
+                                filtered = item.item_name.match(filterSearch)
+                            }
+                        if(filtered){
+                            if(filterCat != ""){
+                                filtered = item.item_category_id == filterCat
+                            }
+                        }
+                    return filtered
+                })
+            },
         }
     }
 </script>

@@ -65,11 +65,9 @@ class TransactionController extends Controller
     public function getSoldProduct($id){
         $trans_detail=TransactionDetail::join('transaction_header','transaction_detail.td_transaction_id','=','transaction_header.id')
                         ->where('transaction_header.tr_user_id',$id)->get();
-
         $total_product=0;
         for($i=0;$i<count($trans_detail);$i++){
             $total_product += $trans_detail[$i]->td_item_qty;
-
         }
         return $total_product;
     }
@@ -212,12 +210,29 @@ class TransactionController extends Controller
          return $trans_dtl;
         }
 
-    public function getSaleTransactions($id)
+    public function getSaleTransactions($id,$start,$end)
     {
-        return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
-                                                            ->where('tr_user_id',$id)
-                                                            ->paginate(5)
-                                                            ->onEachSide(2));
+        if($start==0 && $end==0){//smua kosong
+            return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
+                        ->where('tr_user_id',$id)
+                        ->paginate(5));
+        }else if($start!=0 && $end !=0){ //smua ada
+            return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
+                        ->where('tr_user_id',$id)
+                        ->where('tr_transaction_date','>=',$start)
+                        ->where('tr_transaction_date','<=',$end)
+                        ->paginate(5));
+        }else if($start!=0 && $end ==0){//start date doang adanya
+            return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
+                        ->where('tr_user_id',$id)
+                        ->where('tr_transaction_date','>=',$start)
+                        ->paginate(5));
+        }else if($start==0 && $end !=0){//end date nya doang
+            return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
+                        ->where('tr_user_id',$id)
+                        ->where('tr_transaction_date','<=',$end)
+                        ->paginate(5));
+        }
     }
 
     public function getAsset()

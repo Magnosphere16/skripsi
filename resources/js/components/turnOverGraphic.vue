@@ -66,6 +66,8 @@ export default {
       this.dataTemp=this.dataTemp.sort((a,b) =>{ // sort based on year
                     return a.year - b.year;
                 } );
+      console.log(this.passing.id);
+      console.log(this.dataTemp);
       var date = new Date();
       var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
       
@@ -74,10 +76,10 @@ export default {
         targetArr[0]=this.dataTemp[0].tod_target_turn_over;
 
         this.currData=this.dataTemp[0].tod_turn_over_amount;
-        monthArr[0]=months[this.dataTemp[0].month-1]+" "+this.dataTemp[0].year;
+        monthArr[0]=months[this.dataTemp[0].tod_month-1]+" "+this.dataTemp[0].tod_year;
         }else{
           for(let i=0; i<this.dataTemp.length; i++){
-              monthArr[i]=months[this.dataTemp[i].month-1]+" "+this.dataTemp[i].year;
+              monthArr[i]=months[this.dataTemp[i].tod_month-1]+" "+this.dataTemp[i].tod_year;
               dataArr[i]=this.dataTemp[i].tod_turn_over_amount;
               if(this.dataTemp[i].tod_target_turn_over<=0){
                 targetArr[i]=this.turn_over.to_final_target_turnover/this.turn_over.to_turnover_duration;
@@ -94,7 +96,7 @@ export default {
           }
         }
       this.datacollection = {
-            labels: months,
+            labels: monthArr,
             datasets: [
               {
                 type: 'bar',

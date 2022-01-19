@@ -52,7 +52,8 @@ let routes =[
     {path: '/item_details/:id',component:require('./components/item_details.vue').default},
     {path: '/transaction_detail/:id',component:require('./components/transaction_detail.vue').default},
     {path: '/import',component:require('./components/import.vue').default},
-    {path: '/addNewItem',component:require('./components/addNewItem.vue').default}
+    {path: '/addNewItem',component:require('./components/addNewItem.vue').default},
+    {path: '/edit_item/:id',component:require('./components/editItem.vue').default},
 ]
 
 //per component fragment untuk di put ke dalam blade
