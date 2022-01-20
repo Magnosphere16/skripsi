@@ -3356,6 +3356,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -4130,6 +4132,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
@@ -4171,6 +4174,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return item.id == event.target.value;
       })) === null || _this$items$find === void 0 ? void 0 : _this$items$find.unit_type_id;
       this.calcPrice(this.forms[index], index);
+      this.calcPriceTotal();
+    },
+    deleteRow: function deleteRow(index, form) {
+      var idx = this.forms.indexOf(form);
+      console.log(idx, index);
+
+      if (idx > -1) {
+        this.forms.splice(idx, 1);
+      }
+
       this.calcPriceTotal();
     },
     calcPrice: function calcPrice(form, index) {
@@ -83229,7 +83242,20 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row mt-5" }, [
+    _c(
+      "div",
+      { staticClass: "row mt-5" },
+      [
+        _c(
+          "router-link",
+          { staticStyle: { float: "left" }, attrs: { to: "/items" } },
+          [_c("i", { staticClass: "fas fa-arrow-left" }), _vm._v(" Back")]
+        ),
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "row mt-2" }, [
       _c("div", { staticClass: "col-md-4 mt-4" }, [
         _c("img", {
           staticClass: "img-fluid",
@@ -83238,21 +83264,17 @@ var render = function () {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-8" }, [
-        _c("h3", { staticClass: "my-4" }, [
-          _c(
-            "strong",
-            [
-              _vm._v(_vm._s(_vm.item_info.item_name + " ")),
-              _c("router-link", { attrs: { to: "/edit_item/" + _vm.id } }, [
-                _c("i", {
-                  staticClass: "fas fa-edit",
-                  staticStyle: { color: "black" },
-                }),
-              ]),
-            ],
-            1
-          ),
-        ]),
+        _c(
+          "h3",
+          { staticClass: "my-4" },
+          [
+            _c("strong", [_vm._v(_vm._s(_vm.item_info.item_name + " "))]),
+            _c("router-link", { attrs: { to: "/edit_item/" + _vm.id } }, [
+              _c("i", { staticClass: "fas fa-edit" }),
+            ]),
+          ],
+          1
+        ),
         _vm._v(" "),
         _c("h1", [
           _c("strong", [
@@ -84036,14 +84058,17 @@ var render = function () {
               _vm._l(_vm.forms, function (form, a) {
                 return _c("tr", { key: a }, [
                   _c("td", [
-                    _c("i", {
-                      staticClass: "fas fa-trash-alt red",
-                      on: {
-                        click: function ($event) {
-                          return _vm.deleteRow(a, form)
+                    _c(
+                      "a",
+                      {
+                        on: {
+                          click: function ($event) {
+                            return _vm.deleteRow(a, form)
+                          },
                         },
                       },
-                    }),
+                      [_c("i", { staticClass: "fas fa-trash-alt red" })]
+                    ),
                   ]),
                   _vm._v(" "),
                   _c("td", [
@@ -84292,32 +84317,46 @@ var render = function () {
               _vm._v("Rp. " + _vm._s(_vm.final_total.toLocaleString("en"))),
             ]),
             _vm._v(" "),
-            _c("div", [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger",
-                  staticStyle: { float: "left", left: "0" },
-                  attrs: { type: "submit" },
-                },
-                [
-                  _c("i", {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.loading,
-                        expression: "loading",
-                      },
-                    ],
-                    staticClass: "fa fa-spinner fa-spin",
-                  }),
-                  _vm._v(
-                    "\n                            Submit Transaction\n                    "
-                  ),
-                ]
-              ),
-            ]),
+            _c(
+              "div",
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary mr-2",
+                    staticStyle: { float: "left", left: "0" },
+                    attrs: { type: "submit" },
+                  },
+                  [
+                    _c("i", {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.loading,
+                          expression: "loading",
+                        },
+                      ],
+                      staticClass: "fa fa-spinner fa-spin",
+                    }),
+                    _vm._v(
+                      "\n                            Submit Transaction\n                    "
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-secondary",
+                    staticStyle: { float: "left" },
+                    attrs: { to: "/sale_transactions" },
+                  },
+                  [_vm._v("Cancel")]
+                ),
+              ],
+              1
+            ),
           ]
         ),
       ]
@@ -84339,7 +84378,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Unit Type*")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Product Price*")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Price*")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Sub Total Price*")]),
       ]),

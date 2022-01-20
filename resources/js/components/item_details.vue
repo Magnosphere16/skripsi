@@ -1,14 +1,16 @@
 <template>
     <div class="container">
-  
-    <!-- Portfolio Item Row -->
     <div class="row mt-5">
+        <router-link :to="'/items'" style="float:left"><i class="fas fa-arrow-left"></i> Back</router-link>
+    </div>
+    <!-- Portfolio Item Row -->
+    <div class="row mt-2">
       <div class="col-md-4 mt-4">
         <img class="img-fluid" :src="item_info.item_image" alt="itemimage">
       </div>
       <div class="col-md-8">
         <h3 class="my-4">
-            <strong>{{item_info.item_name+" "}}<router-link :to="'/edit_item/'+id"><i class="fas fa-edit" style="color: black;"></i></router-link></strong>
+            <strong>{{item_info.item_name+" "}}</strong><router-link :to="'/edit_item/'+id"><i class="fas fa-edit"></i></router-link>
         </h3>
         <h1>
             <strong>Rp. {{(item_info.item_sell_price).toLocaleString('en')}}/{{item_info.unit_type.unit_type_name}}</strong>

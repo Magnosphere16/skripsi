@@ -17,14 +17,14 @@
                             <th scope="col">Product Name*</th>
                             <th scope="col">Product Quantity*</th>
                             <th scope="col">Unit Type*</th>
-                            <th scope="col">Product Price*</th>
+                            <th scope="col">Price*</th>
                             <th scope="col">Sub Total Price*</th>
                         </tr>
                     </thead>
                     <tbody class="add_sale_transaction">
                         <tr v-for="(form, a) in forms" :key="a">
                             <td>
-                                <i class="fas fa-trash-alt red" @click="deleteRow(a, form)"></i>
+                                <a @click="deleteRow(a, form)"><i class="fas fa-trash-alt red"></i></a>
                             </td>
                             <td>
                                 <select v-model="form.tr_item_id" 
@@ -88,10 +88,11 @@
                     <h5>Total:</h5>
                     <h3>Rp. {{(final_total).toLocaleString('en')}}</h3>
                     <div>
-                        <button type="submit" class="btn btn-danger" style="float:left; left:0;">
+                        <button type="submit" class="btn btn-primary mr-2" style="float:left; left:0;">
                             <i v-show="loading" class="fa fa-spinner fa-spin"></i>
                                 Submit Transaction
                         </button>
+                        <router-link :to="'/sale_transactions'" class="btn btn-secondary" style="float:left">Cancel</router-link>
                     </div>
             </div>
         </form>
@@ -140,6 +141,14 @@
                 })?.unit_type_id;
                 
                 this.calcPrice(this.forms[index],index);
+                this.calcPriceTotal();
+            },
+            deleteRow(index, form) {
+                var idx = this.forms.indexOf(form);
+                console.log(idx, index);
+                if (idx > -1) {
+                    this.forms.splice(idx, 1);
+                }
                 this.calcPriceTotal();
             },
             calcPrice(form,index){
