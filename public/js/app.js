@@ -2752,6 +2752,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   // sort based on year
                   return a.year - b.year;
                 });
+                console.log(_this.dataTemp);
                 date = new Date();
                 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -2780,7 +2781,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         if (_this.dataTemp[i].month == date.getMonth() + 1) {
                           _this.currData = _this.dataTemp[i].Sum;
                           _this.prevData = _this.dataTemp[i - 1].Sum;
-                          _this.currGrowth = dataArr[i];
+                          _this.currGrowth = _this.dataTemp[i].Sum - _this.dataTemp[i - 1].Sum;
                         }
                       }
                     }
@@ -2809,7 +2810,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 };
 
-              case 11:
+              case 12:
               case "end":
                 return _context.stop();
             }

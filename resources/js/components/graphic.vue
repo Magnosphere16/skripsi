@@ -61,7 +61,7 @@ export default {
       this.dataTemp=this.dataTemp.sort((a,b) =>{ // sort based on year
                     return a.year - b.year;
                 } );
-
+      console.log(this.dataTemp)
       var date = new Date();
       var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
       if(this.dataTemp.length==1){
@@ -87,7 +87,7 @@ export default {
               if(this.dataTemp[i].month==(date.getMonth()+1)){            
                 this.currData=this.dataTemp[i].Sum;
                 this.prevData=this.dataTemp[i-1].Sum;
-                this.currGrowth=dataArr[i];
+                this.currGrowth=this.dataTemp[i].Sum - this.dataTemp[i-1].Sum;
               }
             }
           }
