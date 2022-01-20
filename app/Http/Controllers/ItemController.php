@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Category;
-use Excel;
+use App\Models\User;
 use App\Imports\ItemImport;
+use Excel;
 use DB;
+use Illuminate\Support\Facades\File;
 use Image;
 
 class ItemController extends Controller
@@ -39,12 +41,12 @@ class ItemController extends Controller
             'item_buy_price' => ['required', 'integer', 'min:1'],
             'item_sell_price' => ['required', 'integer', 'min:1'],
         ]);
-
+        $user=User::where('id',$id)->first();
         if($request->hasfile('item_image')){
             $image=$request->item_image;
             $img = Image::make($image->path());
-            $img->resize(1500, 1500)->save('assets/item_img/'.$request->item_name.'_'.$id.'.'.$request->file('item_image')->extension());
-            $imageString = '../assets/item_img/'.$request->item_name.'_'.$id.'.'.$request->file('item_image')->extension();
+            $img->resize(1500, 1500)->save('assets/item_img/'.'['.$user->userName.'_'.$id.']'.'-'.date("dmY").'_'.$request->item_name.'.'.$request->file('item_image')->extension());
+            $imageString = '../assets/item_img/'.'['.$user->userName.'_'.$id.']'.'-'.date("dmY").'_'.$request->item_name.'.'.$request->file('item_image')->extension();
         }
 
         //Find Existing Item Category
@@ -101,12 +103,19 @@ class ItemController extends Controller
         //     'item_buy_price' => ['required', 'integer', 'min:1'],
         //     'item_sell_price' => ['required', 'integer', 'min:1'],
         // ]);
+        
+        $getItem=Item::where('id',$id)->first();
+        $getUser=User::where('id',$getItem->user_id)->first();
 
         if($request->hasfile('item_image')){
+            $imageString = '../assets/item_img/'.'['.date("dmY").']'.'-'.$getUser->userName.'_'.$request->item_name.'_'.$id.'.'.$request->file('item_image')->extension();
             $image=$request->item_image;
             $img = Image::make($image->path());
-            $img->resize(1500, 1500)->save('assets/item_img/'.$request->item_name.'_'.$id.'.'.$request->file('item_image')->extension());
-            $imageString = '../assets/item_img/'.$request->item_name.'_'.$id.'.'.$request->file('item_image')->extension();
+
+            if($getItem->item_image!='../assets/img/default.jpg'){
+                File::delete($getItem->item_image);
+            }
+            $img->resize(1500, 1500)->save('assets/item_img/'.'['.date("dmY").']'.'-'.$getUser->userName.'_'.$request->item_name.'_'.$id.'.'.$request->file('item_image')->extension());
         }
 
         $updtItem = Item::where('id',$id)->update([

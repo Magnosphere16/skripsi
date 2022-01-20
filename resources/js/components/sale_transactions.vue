@@ -2,18 +2,18 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-xl mt-3">
-            <h1><strong>Sale Transaction Lists</strong><router-link to="newSale" class="btn btn-primary btn-md" style ="float:right;" tag="button">+ New Sale Transaction</router-link></h1>
+            <h1><strong>Transaction Lists</strong><router-link to="newSale" class="btn btn-primary btn-md" style ="float:right;" tag="button">+ New Sale Transaction</router-link></h1>
             <div class="card mt-3">
                 <div class="card-header">
                     <div class="form-inline">
                         <a class="btn btn-success btn-md mb-2 mr-3" :href="'api/downloadTransaction/'+userInfo.id+'/'+start_date+'/'+end_date">Download Transaction Report</a>
                         <div class="form-group mb-2">
                             <label for="inputDateFrom" class="mr-3">From</label>
-                            <input type="date" @change="onChangeStart($event)" class="form-control">
+                            <input type="date" class="form-control">
                             <label for="inputDateTo" class="ml-3">To</label>
                         </div>  
                         <div class="form-group mx-sm-3 mb-2">
-                            <input type="date" @change="onChangeEnd($event)" class="form-control">
+                            <input type="date" class="form-control">
                         </div>
                     </div>
                 </div>

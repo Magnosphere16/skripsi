@@ -24,6 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('upload_profile_photo/{id}',[UserController::class, 'uploadProfilePhoto']);
+Route::post('edit_profile/{id}',[UserController::class, 'editProfile']);
+
 Route::get('downloadTransaction/{id}/{start}/{end}',[TransactionController::class, 'transactionExport']);
 Route::get('get_category',[CategoryController::class, 'index']);
 

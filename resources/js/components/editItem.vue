@@ -162,7 +162,6 @@
                 item_info:{},
                 loading: false,
                 disabled: false,
-                modal: false,
                 categories : {},
                 unitTypes: {},
                 form: new Form({    
