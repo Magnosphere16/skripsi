@@ -5317,12 +5317,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.get('api/userTurnOver/' + _this.userInfo.id).then(function (_ref) {
+                return axios.get('api/getAsset/' + _this.userInfo.id).then(function (_ref) {
                   var data = _ref.data;
-                  return _this.turn_over = data;
+                  return _this.harga_modal = data;
                 });
 
               case 2:
+                _context.next = 4;
+                return axios.get('api/userTurnOver/' + _this.userInfo.id).then(function (_ref2) {
+                  var data = _ref2.data;
+                  return _this.turn_over = data;
+                });
+
+              case 4:
               case "end":
                 return _context.stop();
             }

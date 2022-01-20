@@ -235,15 +235,15 @@ class TransactionController extends Controller
         }
     }
 
-    public function getAsset()
+    public function getAsset($id)
     {
-        $trans_Header=TransactionHeader::where('tr_transaction_type_id',1)->get();
+        $item_asset=Item::where('user_id',$id)->get();
 
         $total_price=0;
-        for($i=0;$i<count($trans_Header);$i++){
-            $total_price += $trans_Header[$i]->tr_total_price;
+        for($i=0;$i<count($item_asset);$i++){
+            $total_price += $item_asset[$i]->item_buy_price * $item_asset[$i]->item_qty;
         }
-        return $total_asset;
+        return $total_price;
     }
 
     public function getSale($id)

@@ -144,26 +144,13 @@
         },
         methods:{
             async loadData(){
-               //Contoh get Data dari Database 
-                //untuk panggil progress bar
-                // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
-                // await axios
-                //     .get('api/getAsset')
-                //     .then(({data}) => (this.harga_modal = data));
+                await axios
+                    .get('api/getAsset/'+this.userInfo.id)
+                    .then(({data}) => (this.harga_modal = data));
 
                 await axios
                       .get('api/userTurnOver/'+this.userInfo.id)
                       .then(({data}) => (this.turn_over = data));
-
-                // //untuk mengakhiri progress bar setelah halaman muncul
-                // this.$Progress.finish();
-
-
-                // await axios
-                //     .get('api/getSale')
-                //     .then(({data}) => (this.total_jual = data));
-                
-                //untuk mengakhiri progress bar setelah halaman muncul
             },
             //Contoh insert ke Database
             postData(){

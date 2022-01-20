@@ -36,7 +36,7 @@ Route::get('getUnitTypeId/{id}',[ItemController::class, 'getUnitTypeId']);
 Route::get('getCategoryId/{id}',[ItemController::class, 'getUnitTypeId']);
 
 
-Route::get('getAsset',[TransactionController::class, 'getAsset']);
+Route::get('getAsset/{id}',[TransactionController::class, 'getAsset']);
 
 Route::post('add_item/{user_id}',[ItemController::class, 'addItem']);
 Route::post('import_item/{user_id}',[ItemController::class, 'import']);
