@@ -3684,7 +3684,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       Swal.fire({
         title: "Do you wanto to delete this item ?",
-        text: "Click cancel button to cancel the delete process",
+        text: "Click 'cancel' button to cancel the process",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -4879,10 +4879,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     onChangeStart: function onChangeStart(event) {
       this.start_date = event.target.value;
+      console.log("start: " + this.start_date);
       this.getTransaction();
     },
     onChangeEnd: function onChangeEnd(event) {
       this.end_date = event.target.value;
+      console.log("end: " + this.end_date);
       this.getTransaction();
     },
     getTransaction: function getTransaction(page) {
@@ -4896,7 +4898,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       if (this.end_date != "") {
-        end = this["this"].end_date;
+        end = this.end_date;
       }
 
       axios.get('api/getSaleTransactions/' + this.userInfo.id + '/' + start + '/' + end, {
@@ -4924,37 +4926,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this2.getTransaction();
 
                 _context.next = 4;
-                return axios.get('api/getTransactionType').then(function (_ref2) {
+                return axios.get('api/get_category').then(function (_ref2) {
                   var data = _ref2.data;
-                  return _this2.transactionType = data;
+                  return _this2.categories = data;
                 });
 
               case 4:
                 _context.next = 6;
-                return axios.get('api/get_category').then(function (_ref3) {
+                return axios.get('api/getItem/' + _this2.userInfo.id).then(function (_ref3) {
                   var data = _ref3.data;
-                  return _this2.categories = data;
+                  return _this2.items = data;
                 });
 
               case 6:
                 _context.next = 8;
-                return axios.get('api/getItem/' + _this2.userInfo.id).then(function (_ref4) {
+                return axios.get('api/getUnitType').then(function (_ref4) {
                   var data = _ref4.data;
-                  return _this2.items = data;
-                });
-
-              case 8:
-                _context.next = 10;
-                return axios.get('api/getUnitType').then(function (_ref5) {
-                  var data = _ref5.data;
                   return _this2.unitTypes = data;
                 });
 
-              case 10:
+              case 8:
                 //untuk mengakhiri progress bar setelah halaman muncul
                 _this2.$Progress.finish();
 
-              case 11:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -85141,9 +85136,33 @@ var render = function () {
                 [_vm._v("Download Transaction Report")]
               ),
               _vm._v(" "),
-              _vm._m(0),
+              _c("div", { staticClass: "form-group mb-2" }, [
+                _c(
+                  "label",
+                  { staticClass: "mr-3", attrs: { for: "inputDateFrom" } },
+                  [_vm._v("From")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "date" },
+                  on: { change: _vm.onChangeStart },
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  { staticClass: "ml-3", attrs: { for: "inputDateTo" } },
+                  [_vm._v("To")]
+                ),
+              ]),
               _vm._v(" "),
-              _vm._m(1),
+              _c("div", { staticClass: "form-group mx-sm-3 mb-2" }, [
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "date" },
+                  on: { change: _vm.onChangeEnd },
+                }),
+              ]),
             ]),
           ]),
           _vm._v(" "),
@@ -85164,7 +85183,7 @@ var render = function () {
               "table",
               { staticClass: "table table-striped", attrs: { id: "myTable" } },
               [
-                _vm._m(2),
+                _vm._m(0),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -85223,30 +85242,6 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group mb-2" }, [
-      _c("label", { staticClass: "mr-3", attrs: { for: "inputDateFrom" } }, [
-        _vm._v("From"),
-      ]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "date" } }),
-      _vm._v(" "),
-      _c("label", { staticClass: "ml-3", attrs: { for: "inputDateTo" } }, [
-        _vm._v("To"),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group mx-sm-3 mb-2" }, [
-      _c("input", { staticClass: "form-control", attrs: { type: "date" } }),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -85680,7 +85675,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header border-0 bg-primary" }, [
       _c("div", { staticClass: "d-flex justify-content-between" }, [
         _c("h3", { staticClass: "card-title" }, [
-          _c("strong", [_vm._v("Turn Over")]),
+          _c("strong", [_vm._v("Turnover")]),
         ]),
       ]),
     ])
@@ -85957,7 +85952,7 @@ var render = function () {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _c("span", [_vm._v("This Month Amount of Turn Over")]),
+          _c("span", [_vm._v("This Month Amount of Turnover")]),
         ]),
         _vm._v(" "),
         _c("p", { staticClass: "ml-auto d-flex flex-column text-right" }, [

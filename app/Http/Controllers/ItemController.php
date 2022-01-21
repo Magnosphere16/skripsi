@@ -63,8 +63,6 @@ class ItemController extends Controller
             $currCategory=Category::where('id',$request->item_category_id)->first();
         }
 
-
-
         //Insert new Item data
         $itemName= $request->item_name;
         $itemDesc=$request->item_desc;
@@ -95,15 +93,6 @@ class ItemController extends Controller
     }
 
     public function editItem(Request $request, $id){
-        // $this->validate($request, [
-        //     'item_name' => ['required', 'string', 'min:3', 'max:255'],
-        //     'item_desc' => ['required', 'string', 'min:3', 'max:255'],
-        //     'item_category_id' => ['required', 'integer'],
-        //     'item_qty' => ['required', 'integer', 'min:3', 'max:999'],
-        //     'item_buy_price' => ['required', 'integer', 'min:1'],
-        //     'item_sell_price' => ['required', 'integer', 'min:1'],
-        // ]);
-        
         $getItem=Item::where('id',$id)->first();
         $getUser=User::where('id',$getItem->user_id)->first();
 

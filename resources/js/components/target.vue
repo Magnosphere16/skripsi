@@ -69,7 +69,7 @@
             <div class="card">
               <div class="card-header border-0 bg-primary">
                 <div class="d-flex justify-content-between">
-                  <h3 class="card-title"><strong>Turn Over</strong></h3>
+                  <h3 class="card-title"><strong>Turnover</strong></h3>
                 </div>
               </div>               
                 <turn-over :passing="userInfo"></turn-over>

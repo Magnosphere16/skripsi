@@ -4,7 +4,7 @@
         <div class="d-flex">
                 <p class="d-flex flex-column">
                 <span class="text-bold text-lg" v-if="currData !== null">Rp. {{parseInt(currData).toLocaleString('en')}}</span>
-                <span>This Month Amount of Turn Over</span>
+                <span>This Month Amount of Turnover</span>
             </p>
             <p class="ml-auto d-flex flex-column text-right">
                 <span class="text" v-if="currData-prevData==0 || prevData-currData==0 || currData==null || prevData==null">

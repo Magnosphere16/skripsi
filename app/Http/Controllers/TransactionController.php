@@ -210,28 +210,32 @@ class TransactionController extends Controller
          return $trans_dtl;
         }
 
-    public function getSaleTransactions($id,$start,$end)
+    public function getSaleTransactions($id,$start,$end)// still in construction
     {
-        if($start==0 && $end==0){//smua kosong
-            return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
-                        ->where('tr_user_id',$id)
-                        ->paginate(5));
-        }else if($start!=0 && $end !=0){ //smua ada
-            return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
-                        ->where('tr_user_id',$id)
-                        ->where('tr_transaction_date','>=',$start)
-                        ->where('tr_transaction_date','<=',$end)
-                        ->paginate(5));
-        }else if($start!=0 && $end ==0){//start date doang adanya
-            return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
-                        ->where('tr_user_id',$id)
-                        ->where('tr_transaction_date','>=',$start)
-                        ->paginate(5));
-        }else if($start==0 && $end !=0){//end date nya doang
-            return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
-                        ->where('tr_user_id',$id)
-                        ->where('tr_transaction_date','<=',$end)
-                        ->paginate(5));
+        if($start==0){
+                if($end==0){
+                    return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
+                            ->where('tr_user_id',$id)
+                            ->paginate(5)->withQueryString());
+                }else if($end!=0){
+                    return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
+                    ->where('tr_user_id',$id)
+                    ->where('tr_transaction_date','<=',$end)
+                    ->paginate(5)->withQueryString());
+                }
+        }else if($start!=0){
+                if($end !=0){
+                    return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
+                    ->where('tr_user_id',$id)
+                    ->where('tr_transaction_date','>=',$start)
+                    ->where('tr_transaction_date','<=',$end)
+                    ->paginate(5)->withQueryString());
+                }else if($end ==0){
+                    return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
+                    ->where('tr_user_id',$id)
+                    ->where('tr_transaction_date','>=',$start)
+                    ->paginate(5)->withQueryString());
+                }
         }
     }
 
@@ -266,9 +270,9 @@ class TransactionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function getTransactionType()
-    {
-        return TransactionType::all();
-    }
+    // public function getTransactionType()
+    // {
+    //     return TransactionType::all();
+    // }
 
 }

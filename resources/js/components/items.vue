@@ -222,7 +222,7 @@
             deleteData(id){
                 Swal.fire({
                 title: "Do you wanto to delete this item ?",
-                text: "Click cancel button to cancel the delete process",
+                text: "Click 'cancel' button to cancel the process",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",

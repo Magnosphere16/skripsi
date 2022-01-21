@@ -9,11 +9,11 @@
                         <a class="btn btn-success btn-md mb-2 mr-3" :href="'api/downloadTransaction/'+userInfo.id+'/'+start_date+'/'+end_date">Download Transaction Report</a>
                         <div class="form-group mb-2">
                             <label for="inputDateFrom" class="mr-3">From</label>
-                            <input type="date" class="form-control">
+                            <input type="date" class="form-control" @change="onChangeStart">
                             <label for="inputDateTo" class="ml-3">To</label>
                         </div>  
                         <div class="form-group mx-sm-3 mb-2">
-                            <input type="date" class="form-control">
+                            <input type="date" class="form-control" @change="onChangeEnd">
                         </div>
                     </div>
                 </div>
@@ -72,10 +72,12 @@
         methods:{
             onChangeStart(event){
                 this.start_date=event.target.value;
+                console.log("start: "+this.start_date);
                 this.getTransaction();
             },
             onChangeEnd(event){
                 this.end_date=event.target.value;
+                console.log("end: "+this.end_date);
                 this.getTransaction();
             },
             getTransaction(page){
@@ -85,7 +87,7 @@
                     start=this.start_date;
                 }
                 if(this.end_date!=""){
-                    end=this.this.end_date;
+                    end=this.end_date;
                 }
                 axios
                     .get('api/getSaleTransactions/'+this.userInfo.id+'/'+start+'/'+end,{
@@ -105,10 +107,6 @@
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
                 //get all transaction pagination 5 data
                 this.getTransaction();
-
-                await axios
-                    .get('api/getTransactionType')
-                    .then(({data}) => (this.transactionType = data));
 
                 await axios
                     .get('api/get_category')
