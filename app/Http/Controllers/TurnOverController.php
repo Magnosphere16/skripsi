@@ -33,7 +33,7 @@ class TurnOverController extends Controller
 
     public function setTarget(Request $request, $id){
         $startingTarget=$request->target/$request->duration;
-        $trans_Header=TransactionHeader::where('tr_transaction_type_id',2)->get();
+        $trans_Header=TransactionHeader::where('tr_user_id',$id)->get();
 
         //calculate total turn over in current month as the current turn over
         $total_price=0;
@@ -64,18 +64,6 @@ class TurnOverController extends Controller
             'tod_year'=>date('Y')
         ];
         DB::table('turn_over_detail')->insert($dataSaveDetail);
-    }
-
-    public function getTurnOverCurrentMonth(){
-        $trans_Header=TransactionHeader::where('tr_transaction_type_id',2)->get();
-
-        $total_price=0;
-        for($i=0;$i<count($trans_Header);$i++){
-            if(date("m",strtotime($trans_Header[$i]->tr_transaction_date))==date('m')){
-                $total_price += $trans_Header[$i]->tr_total_price;
-            }
-        }
-        return $total_price;
     }
 
 }

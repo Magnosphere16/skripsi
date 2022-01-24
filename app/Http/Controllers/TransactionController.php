@@ -10,9 +10,13 @@ use App\Models\TransactionType;
 use App\Models\TransactionDetail;
 use App\Models\TurnOver;
 use App\Models\TurnOverDetail;
+use App\Models\UnitType;
+use App\Models\User;
 use App\Models\Item;
 use Carbon\Carbon;
+use PDF;
 use DB;
+use App;
 
 use App\Exports\TransactionExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -72,7 +76,6 @@ class TransactionController extends Controller
         return $total_product;
     }
 
-
     public function addSaleTransaction(Request $request){
         $transaction_date=$request->get('transactionDate');
         $transaction_type=$request->get('transactionType');
@@ -81,9 +84,11 @@ class TransactionController extends Controller
 
         $transaction=$request->get('saleArray');
 
+        $userInfo=User::where('id',$transaction_user)->first();
+        
+    // Comment bentar
         $headerSave=[
             'tr_user_id'=>$transaction_user,
-            'tr_transaction_type_id'=>$transaction_type,
             'tr_transaction_date'=>$transaction_date,
             'tr_total_price'=>$transaction_total,
         ];
@@ -112,7 +117,7 @@ class TransactionController extends Controller
             ]);
         }
 
-        $trans_Header=TransactionHeader::where('tr_transaction_type_id',2)->get();
+        $trans_Header=TransactionHeader::all();
 
         $total_price=0;
         for($i=0;$i<count($trans_Header);$i++){
@@ -136,66 +141,30 @@ class TransactionController extends Controller
                                 ->update([
                                 'tod_turn_over_amount'=>$total_price,
                             ]);
+
+    //print receipt
+        $printTransHeader=TransactionHeader::where('id',$trans_id)->first();
+        $printTransDtl=TransactionDetail::where('td_transaction_id',$trans_id)->get();
+    
+        $unitType=UnitType::all();
+        
+        $data = [
+            'shop' => $userInfo->userBusinessName,
+            'phone' => $userInfo->userPhone,
+            'address' => $userInfo->userAddress,
+            'email' =>  $userInfo->email,
+            'transHeader' =>$printTransHeader,
+            'transDetail' =>$printTransDtl,
+            'unitType' =>$unitType,
+            'item' =>$item,
+            'date' => date("l jS \of F Y h:i:s A", strtotime('+7 hours')),
+
+        ];
+        
+        $pdf = PDF::loadView('myPDF', $data);
+        $pdf->setPaper('a4' , 'portrait');
+        return $pdf->output();
     }
-
-    // public function addPurchaseTransaction(Request $request)
-    // {
-    //     $transaction_date=$request->get('transactionDate');
-    //     $transaction_type=$request->get('transactionType');
-    //     $transaction_user=$request->get('userId');
-    //     $transaction_total=$request->get('total_price');
-
-    //     $transaction=$request->get('purchaseArray');
-
-    //     $headerSave=[
-    //                 'tr_user_id'=>$transaction_user,
-    //                 'tr_transaction_type_id'=>$transaction_type,
-    //                 'tr_transaction_date'=>$transaction_date,
-    //                 'tr_total_price'=>$transaction_total,
-    //             ];
-    //     $trans_id=DB::table('transaction_header')->insertGetId($headerSave);
-
-    //     $item_id=0;
-    //     $item=Item::all();
-    //     foreach($transaction as $arrTrans){
-    //         //search existing item
-    //         for($i=0;$i<count($item);$i++){
-    //             if(strcasecmp($arrTrans['tr_item_name'],$item[$i]->item_name)==0){
-    //                 $item_id=$item[$i]->id;
-    //                 $item[$i]->update([
-    //                     'item_qty' => $item[$i]->item_qty+$arrTrans['tr_item_qty']
-    //                 ]);
-    //                 break;
-    //             }else{
-    //                 $itemSave=[
-    //                     'item_name'=>$arrTrans['tr_item_name'],
-    //                     'item_desc'=>"New Item",
-    //                     'item_qty'=>$arrTrans['tr_item_qty'],
-    //                     'item_buy_price'=>$arrTrans['tr_item_price'],
-    //                     'item_sell_price'=>0,
-    //                     'item_category_id'=>1,
-    //                     'user_id'=>$transaction_user,
-    //                     'unit_type_id'=>$arrTrans['tr_unit_type_id'],
-    //                 ];
-    //                 $item_id=DB::table('item')->insertGetId($itemSave);
-    //                 break;
-    //             }
-    //         }
-    //         TransactionDetail::create([
-    //             'td_transaction_id' => $trans_id,
-    //             'td_item_id' =>$item_id,
-    //             'td_item_qty' =>$arrTrans['tr_item_qty'],
-    //             'td_item_price' =>$arrTrans['tr_item_price'],
-    //             'td_sub_total_price' =>$arrTrans['tr_line_total'],
-    //         ]);
-    //     }
-    //     return back();
-    // }
-
-    // public function getPurchaseTransactions()
-    // {
-    //     return TransactionHeader::where('tr_transaction_type_id',1)->get();
-    // }
 
     public function getTransactionDetail($id){
         $trans_dtl=DB::table('transaction_detail')
@@ -214,25 +183,21 @@ class TransactionController extends Controller
     {
         if($start==0){
                 if($end==0){
-                    return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
-                            ->where('tr_user_id',$id)
+                    return new TransactionResource(TransactionHeader::where('tr_user_id',$id)
                             ->paginate(5)->withQueryString());
                 }else if($end!=0){
-                    return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
-                    ->where('tr_user_id',$id)
+                    return new TransactionResource(TransactionHeader::where('tr_user_id',$id)
                     ->where('tr_transaction_date','<=',$end)
                     ->paginate(5)->withQueryString());
                 }
         }else if($start!=0){
                 if($end !=0){
-                    return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
-                    ->where('tr_user_id',$id)
+                    return new TransactionResource(TransactionHeader::where('tr_user_id',$id)
                     ->where('tr_transaction_date','>=',$start)
                     ->where('tr_transaction_date','<=',$end)
                     ->paginate(5)->withQueryString());
                 }else if($end ==0){
-                    return new TransactionResource(TransactionHeader::where('tr_transaction_type_id',2)
-                    ->where('tr_user_id',$id)
+                    return new TransactionResource(TransactionHeader::where('tr_user_id',$id)
                     ->where('tr_transaction_date','>=',$start)
                     ->paginate(5)->withQueryString());
                 }
@@ -252,10 +217,7 @@ class TransactionController extends Controller
 
     public function getSale($id)
     {
-        $trans_Header=TransactionHeader::where([
-                            ['tr_transaction_type_id',2],
-                            ['tr_user_id',$id]
-                        ])->get();
+        $trans_Header=TransactionHeader::where('tr_user_id',$id)->get();
 
         $total_price=0;
         for($i=0;$i<count($trans_Header);$i++){

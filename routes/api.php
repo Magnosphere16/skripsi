@@ -61,7 +61,6 @@ Route::get('getBestSeller/{id}',[TransactionController::class, 'bestSeller']);
 Route::get('getItem/{id}',[ItemController::class, 'getItem']);
 
 Route::post('setTarget/{id}',[TurnOverController::class,'setTarget']);
-Route::get('getCurrMonthSale',[TurnOverController::class, 'getTurnOverCurrentMonth']);
 Route::get('userTurnOver/{id}',[TurnOverController::class, 'getUserTurnOver']);
 
 Route::get('getItemInfo/{id}',[ItemController::class, 'getItemInfo']);

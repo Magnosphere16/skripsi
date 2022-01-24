@@ -189,6 +189,7 @@ return [
     'provides' => [
         Barryvdh\DomPDF\ServiceProvider::class,
         'Intervention\Image\ImageServiceProvider',
+        
     ],
 
     'aliases' => [

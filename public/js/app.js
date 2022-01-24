@@ -4248,8 +4248,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     postData: function postData() {
-      var _this2 = this;
-
       this.$Progress.start();
       this.loading = true;
       this.disabled = true;
@@ -4259,37 +4257,58 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         transactionType: 2,
         userId: this.tr_user_id,
         total_price: this.final_total
-      }).then(function () {
-        Fire.$emit("refreshData");
-        Swal.fire('Success!', 'Sale Transaction Saved Successfully!', 'success').then(function () {
-          window.location = "/sale_transactions";
-        });
+      }, {
+        responseType: 'blob'
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'TransactionReceipt.pdf'); //or any other extension
 
-        _this2.$Progress.finish();
-
-        _this2.loading = false;
-        _this2.disabled = false;
-      }) // else
-      ["catch"](function () {
-        Swal.fire({
-          icon: 'error',
-          title: 'Transaction Failed',
-          text: "Please fill the required fields"
-        });
-
-        _this2.$Progress.fail();
-
-        _this2.loading = false;
-        _this2.disabled = false;
-      });
+        document.body.appendChild(link);
+        link.click();
+      }); // .then(()=>{
+      // Fire.$emit("refreshData");
+      // Swal.fire(
+      //     'Success!',
+      //     'Sale Transaction Saved Successfully!',
+      //     'success'
+      //     ).then(function() {
+      //     window.location = "/sale_transactions";
+      // });
+      // this.$Progress.finish();
+      // this.loading = false;
+      // this.disabled = false;
+      // })
+      // else
+      // .catch(()=>{
+      //     Swal.fire({
+      //     icon: 'error',
+      //     title: 'Transaction Failed',
+      //     text: "Please fill the required fields",
+      //     })
+      //     this.$Progress.fail();
+      //     this.loading = false;
+      //     this.disabled = false; 
+      // });
+      // axios
+      //     .get('api/getPDF/'+this.userInfo.id, {responseType: 'blob'})
+      //     .then(response => {
+      //             const url = window.URL.createObjectURL(new Blob([response.data]));
+      //             const link = document.createElement('a');
+      //             link.href = url;
+      //             link.setAttribute('download', 'remaining_fee.pdf'); //or any other extension
+      //             document.body.appendChild(link);
+      //             link.click();
+      //     });
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this2 = this;
 
     this.loadData();
     Fire.$on('refreshData', function () {
-      _this3.loadData();
+      _this2.loadData();
     });
   }
 });

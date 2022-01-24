@@ -17,8 +17,6 @@ class CreateTransactionHeaderTable extends Migration
             $table->id();
             $table->unsignedBigInteger('tr_user_id');
             $table->foreign('tr_user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('tr_transaction_type_id');
-            $table->foreign('tr_transaction_type_id')->references('id')->on('transaction_type')->onDelete('cascade')->onUpdate('cascade');
             $table->date('tr_transaction_date');
             $table->integer('tr_total_price');
         });
