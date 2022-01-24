@@ -187,10 +187,12 @@ return [
     |
     */
     'provides' => [
-        'Intervention\Image\ImageServiceProvider'
+        Barryvdh\DomPDF\ServiceProvider::class,
+        'Intervention\Image\ImageServiceProvider',
     ],
 
     'aliases' => [
+        'PDF' => Barryvdh\DomPDF\Facade::class,
         'Image' => 'Intervention\Image\Facades\Image',
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,

@@ -11,7 +11,6 @@ window.Form = Form;
 Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
 
-
 let Fire =new Vue();
 window.Fire = Fire;
 //Import Alert

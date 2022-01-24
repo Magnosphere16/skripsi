@@ -90,7 +90,7 @@
                                     <input
                                         v-model="form.target"
                                         id="target" 
-                                        type="number.toFixed(2)" 
+                                        type="number" 
                                         class="form-control"
                                         name="target"
                                         >

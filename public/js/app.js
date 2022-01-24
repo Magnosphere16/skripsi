@@ -85530,11 +85530,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control",
-                      attrs: {
-                        id: "target",
-                        type: "number.toFixed(2)",
-                        name: "target",
-                      },
+                      attrs: { id: "target", type: "number", name: "target" },
                       domProps: { value: _vm.form.target },
                       on: {
                         input: function ($event) {
