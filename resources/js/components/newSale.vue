@@ -85,7 +85,7 @@
                 </table>
             </div>
             <div id="final_total" style="float:right; right:0;">
-                    <h5>Total:</h5>
+                    <h5>Grand Total:</h5>
                     <h3>Rp. {{(final_total).toLocaleString('en')}}</h3>
                     <div>
                         <button type="submit" class="btn btn-primary mr-2" style="float:left; left:0;">

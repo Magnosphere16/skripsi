@@ -25,7 +25,6 @@
                                         <option v-for="item in categories" :key="item.id" :value="item.id">
                                             {{item.category_name}}
                                         </option>
-                                        <option value="create new category">Others</option>
                                 </select></label>
                         </div>
                          <div class="col-lg-6">

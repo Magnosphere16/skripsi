@@ -3500,7 +3500,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
@@ -83458,12 +83457,6 @@ var render = function () {
                             ]
                           )
                         }),
-                        _vm._v(" "),
-                        _c(
-                          "option",
-                          { attrs: { value: "create new category" } },
-                          [_vm._v("Others")]
-                        ),
                       ],
                       2
                     ),
@@ -84314,7 +84307,7 @@ var render = function () {
             attrs: { id: "final_total" },
           },
           [
-            _c("h5", [_vm._v("Total:")]),
+            _c("h5", [_vm._v("Grand Total:")]),
             _vm._v(" "),
             _c("h3", [
               _vm._v("Rp. " + _vm._s(_vm.final_total.toLocaleString("en"))),
