@@ -3,12 +3,14 @@
         <h1 class="mt-3">New Sale Transaction</h1>
         <form @submit.prevent="postData()">
             <label for="tr_transaction_date">Transaction Date*</label>
-            <input  v-model="tr_transaction_date"
+            <input  
+                    v-model="tr_transaction_date"
                     id="tr_transaction_date" 
                     class="form-control"
                     name="tr_transaction_date" 
                     type="date" 
-                    :placeholder="curr_date">
+                    disabled
+                    >
             <div class="row justify-content-center mt-5">
                 <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
@@ -109,7 +111,7 @@
                 items : [],
                 unitTypes : [],
                 errors: [],
-                curr_date:new Date(),
+                curr_date:{},
 
                 tr_user_id:this.userInfo.id,
                 tr_transaction_type:2,
@@ -206,45 +208,36 @@
                             link.setAttribute('download', 'TransactionReceipt.pdf'); //or any other extension
                             document.body.appendChild(link);
                             link.click();
-                    });
-                    // .then(()=>{
-                    // Fire.$emit("refreshData");
-                    // Swal.fire(
-                    //     'Success!',
-                    //     'Sale Transaction Saved Successfully!',
-                    //     'success'
-                    //     ).then(function() {
-                    //     window.location = "/sale_transactions";
-                    // });
-                    // this.$Progress.finish();
-                    // this.loading = false;
-                    // this.disabled = false;
-                    // })
-                // else
-                    // .catch(()=>{
-                    //     Swal.fire({
-                    //     icon: 'error',
-                    //     title: 'Transaction Failed',
-                    //     text: "Please fill the required fields",
-                    //     })
-                    //     this.$Progress.fail();
-                    //     this.loading = false;
-                    //     this.disabled = false; 
-                    // });
 
-                // axios
-                //     .get('api/getPDF/'+this.userInfo.id, {responseType: 'blob'})
-                //     .then(response => {
-                //             const url = window.URL.createObjectURL(new Blob([response.data]));
-                //             const link = document.createElement('a');
-                //             link.href = url;
-                //             link.setAttribute('download', 'remaining_fee.pdf'); //or any other extension
-                //             document.body.appendChild(link);
-                //             link.click();
-                //     });
+                            Fire.$emit("refreshData");
+                            Swal.fire(
+                                'Success!',
+                                'Sale Transaction Saved Successfully!',
+                                'success'
+                                ).then(function() {
+                                window.location = "/sale_transactions";
+                            });
+                            this.$Progress.finish();
+                            this.loading = false;
+                            this.disabled = false;
+                    })
+                // else
+                    .catch(()=>{
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Transaction Failed',
+                        text: "Please fill the required fields",
+                        })
+                        this.$Progress.fail();
+                        this.loading = false;
+                        this.disabled = false; 
+                    });
             }
         },
         created(){
+            const myDate = new Date();
+            myDate.setHours( myDate.getHours() + 7 );
+            this.tr_transaction_date=myDate.toISOString().slice(0,10);
             this.loadData();
             Fire.$on('refreshData',() => {
                 this.loadData();

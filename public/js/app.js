@@ -4133,6 +4133,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userInfo'],
   data: function data() {
@@ -4142,7 +4144,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       items: [],
       unitTypes: [],
       errors: [],
-      curr_date: new Date(),
+      curr_date: {},
       tr_user_id: this.userInfo.id,
       tr_transaction_type: 2,
       tr_transaction_date: {},
@@ -4248,6 +4250,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     postData: function postData() {
+      var _this2 = this;
+
       this.$Progress.start();
       this.loading = true;
       this.disabled = true;
@@ -4267,48 +4271,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         document.body.appendChild(link);
         link.click();
-      }); // .then(()=>{
-      // Fire.$emit("refreshData");
-      // Swal.fire(
-      //     'Success!',
-      //     'Sale Transaction Saved Successfully!',
-      //     'success'
-      //     ).then(function() {
-      //     window.location = "/sale_transactions";
-      // });
-      // this.$Progress.finish();
-      // this.loading = false;
-      // this.disabled = false;
-      // })
-      // else
-      // .catch(()=>{
-      //     Swal.fire({
-      //     icon: 'error',
-      //     title: 'Transaction Failed',
-      //     text: "Please fill the required fields",
-      //     })
-      //     this.$Progress.fail();
-      //     this.loading = false;
-      //     this.disabled = false; 
-      // });
-      // axios
-      //     .get('api/getPDF/'+this.userInfo.id, {responseType: 'blob'})
-      //     .then(response => {
-      //             const url = window.URL.createObjectURL(new Blob([response.data]));
-      //             const link = document.createElement('a');
-      //             link.href = url;
-      //             link.setAttribute('download', 'remaining_fee.pdf'); //or any other extension
-      //             document.body.appendChild(link);
-      //             link.click();
-      //     });
+        Fire.$emit("refreshData");
+        Swal.fire('Success!', 'Sale Transaction Saved Successfully!', 'success').then(function () {
+          window.location = "/sale_transactions";
+        });
+
+        _this2.$Progress.finish();
+
+        _this2.loading = false;
+        _this2.disabled = false;
+      }) // else
+      ["catch"](function () {
+        Swal.fire({
+          icon: 'error',
+          title: 'Transaction Failed',
+          text: "Please fill the required fields"
+        });
+
+        _this2.$Progress.fail();
+
+        _this2.loading = false;
+        _this2.disabled = false;
+      });
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
+    var myDate = new Date();
+    myDate.setHours(myDate.getHours() + 7);
+    this.tr_transaction_date = myDate.toISOString().slice(0, 10);
     this.loadData();
     Fire.$on('refreshData', function () {
-      _this2.loadData();
+      _this3.loadData();
     });
   }
 });
@@ -84050,7 +84045,7 @@ var render = function () {
             id: "tr_transaction_date",
             name: "tr_transaction_date",
             type: "date",
-            placeholder: _vm.curr_date,
+            disabled: "",
           },
           domProps: { value: _vm.tr_transaction_date },
           on: {
