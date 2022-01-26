@@ -84,7 +84,7 @@
 
                                     <div class="form-group">
                                         <div class="col-md-4 offset-md-4">
-                                          <button type="submit" class="btn btn-primary btn-lg btn-block" id="register">
+                                          <button type="submit" class="btn btn-primary btn-lg btn-block" id="register" disabled>
                                             Sign Up
                                         </button>
                                       </div>
