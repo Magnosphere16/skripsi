@@ -98,8 +98,8 @@
         </div>
     </div>
 </div>
-<footer class="py-5 bg-black">
-            <div class="container px-5"><p class="m-0 text-center text-white small">Copyright &copy; KassaKu 2021</p></div>
+<footer class="py-5 bg-black text-center">
+            <p class="text-white">Copyright &copy; KassaKu 2021</p>
 </footer>
 <!-- java script -->
 <script src="http://code.jquery.com/jquery-3.4.1.js"></script>
