@@ -14,7 +14,7 @@
                             <h3 class="login-heading mb-4 text-center">Sign Up</h3>
 
                             <!-- Sign In Form -->
-                            <form method="POST" action="/registerUser">
+                            <form method="POST" action="/registerUser" id="register_form">
                                 @csrf
                                 <div class="personal_sect">
                                     <div class="form-group">
@@ -84,7 +84,7 @@
 
                                     <div class="form-group">
                                         <div class="col-md-4 offset-md-4">
-                                          <button type="submit" class="btn btn-primary btn-lg btn-block" id="register" disabled>
+                                          <button type="button" onClick="submitRegister()" class="btn btn-primary btn-lg btn-block" id="register" disabled>
                                             Sign Up
                                         </button>
                                       </div>
@@ -104,6 +104,68 @@
 <!-- java script -->
 <script src="http://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
+    function submitRegister() {
+        var username=document.getElementById("userName");
+        var email=document.getElementById("userEmail");
+        var birthdate=document.getElementById("userBirthdate");
+        var address=document.getElementById("userAddress");
+        var phone=document.getElementById("userPhone");
+        var busName=document.getElementById("userBusinessName");
+        var busCat=document.getElementById("userBusinessCategory");
+        var password=document.getElementById("userPassword");
+        var confPass=document.getElementById("userPasswordConfirm");
+        if (username && username.value)
+        {
+            if (email && email.value)
+            {
+                if (birthdate && birthdate.value)
+                {
+                    if (address && address.value)
+                    {
+                        if (phone && phone.value)
+                        {
+                            if (busName && busName.value)
+                            {
+                                if (busCat && busCat.value)
+                                {
+                                    if (password && password.value)
+                                    {
+                                        if (confPass && confPass.value)
+                                        {
+                                            if (confPass.value==password.value)
+                                            {
+                                                $( "#register_form" ).submit();
+                                            }else{
+                                                alert("Please fill the confirm password field same as the password field");  
+                                            }   
+                                        }else{
+                                            alert("Please fill the required field (Confirm Password)");  
+                                        }   
+                                    }else{
+                                        alert("Please fill the required field (Password)");  
+                                    }   
+                                }else{
+                                    alert("Please fill the required field (Business Category)");  
+                                }
+                            }else{
+                                alert("Please fill the required field (Business Name)");  
+                            }   
+                        }else{
+                            alert("Please fill the required field (Phone)");  
+                        }   
+                    }else{
+                        alert("Please fill the required field (Address)");  
+                    }   
+                }else{
+                    alert("Please fill the required field (Birthdate)");
+                }   
+            }else{
+                alert("Please fill the required field (Email)");
+            }
+        }else{
+            alert("Please fill the required field (Full Name)");
+        }
+    }
 
     $(document).ready(function(){
       //Change register section
