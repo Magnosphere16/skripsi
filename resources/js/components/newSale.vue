@@ -80,7 +80,7 @@
                     <tfoot>
                         <tr>
                             <th>
-                                <button class="btn btn-primary btn-md" v-on:click="addItemRow" type="button" id="addItems"> Add Items </button>
+                                <button class="btn btn-primary btn-md" v-on:click="addItemRow" type="button" id="addItems"> Add Products </button>
                             </th>
                         </tr>
                     </tfoot>

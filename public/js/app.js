@@ -84306,7 +84306,7 @@ var render = function () {
                       attrs: { type: "button", id: "addItems" },
                       on: { click: _vm.addItemRow },
                     },
-                    [_vm._v(" Add Items ")]
+                    [_vm._v(" Add Products ")]
                   ),
                 ]),
               ]),
