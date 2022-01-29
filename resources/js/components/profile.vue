@@ -224,7 +224,7 @@
                 this.disabled = true;
 
                 this.form
-                    .post('http:/api/edit_profile/'+this.form.id)
+                    .post('api/edit_profile/'+this.form.id)
                     .then(()=>{
                     Fire.$emit("refreshData");
                     Swal.fire(

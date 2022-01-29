@@ -86,7 +86,6 @@ class TransactionController extends Controller
 
         $userInfo=User::where('id',$transaction_user)->first();
         
-    // Comment bentar
         $headerSave=[
             'tr_user_id'=>$transaction_user,
             'tr_transaction_date'=>$transaction_date,
@@ -131,16 +130,18 @@ class TransactionController extends Controller
         ->groupBy('to_user_id')->where('to_user_id',$transaction_user)
         ->first();
 
-        $updtTurnOver = TurnOver::where('to_user_id',$transaction_user)->where('id',$turnOver->max_Id)->update([
-            'to_current_turnover'=>$total_price,
-        ]);
+        if($turnOver->max_Id){// jika udh ada pasang target   
+            $updtTurnOver = TurnOver::where('to_user_id',$transaction_user)->where('id',$turnOver->max_Id)->update([
+                'to_current_turnover'=>$total_price,
+            ]);
 
-        $updtTurnOverDtl = TurnOverDetail::where('tod_turn_over_id',$turnOver->max_Id)
+            $updtTurnOverDtl = TurnOverDetail::where('tod_turn_over_id',$turnOver->max_Id)
                                 ->where('tod_month',date('m'))
                                 ->where('tod_year',date('Y'))
                                 ->update([
                                 'tod_turn_over_amount'=>$total_price,
                             ]);
+        }
 
     //print receipt
         $printTransHeader=TransactionHeader::where('id',$trans_id)->first();
