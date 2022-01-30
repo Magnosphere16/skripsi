@@ -4621,7 +4621,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$Progress.start();
       this.loading = true;
       this.disabled = true;
-      this.form.post('http:/api/edit_profile/' + this.form.id).then(function () {
+      this.form.post('api/edit_profile/' + this.form.id).then(function () {
         Fire.$emit("refreshData");
         Swal.fire('Success!', 'Profile Edited Successfully!', 'success').then(function () {
           window.location = "/profile";
