@@ -188,13 +188,13 @@
 
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
                 await axios
-                    .get('http:/api/get_category')
+                    .get('/api/get_category')
                     .then(({data}) => (this.categories = data));
                 await axios
-                    .get('http:/api/getUnitType')
+                    .get('/api/getUnitType')
                     .then(({data}) => (this.unitTypes = data));
                 await axios
-                    .get('http:/api/getItemInfo/'+this.id)
+                    .get('/api/getItemInfo/'+this.id)
                     .then(({data}) => (this.item_info = data));
                     this.form.fill(this.item_info);
                 //untuk mengakhiri progress bar setelah halaman muncul
@@ -206,7 +206,7 @@
                 this.disabled = true;
 
                 this.form
-                    .post('http:/api/edit_item/'+this.form.id)
+                    .post('/api/edit_item/'+this.form.id)
                     .then(()=>{
                     Fire.$emit("refreshData");
                     Swal.fire(

@@ -185,10 +185,9 @@
                                 $('#userImage').attr('src',e.target.result).css('width','1500px;').css('height','1500px;');
                             };
                             reader.readAsDataURL(e.target.files[0]);
-                            console.log("Sampai di Sini");
                             //upload photo to database
                             this.formPhoto
-                                .post('http:/api/upload_profile_photo/'+this.formPhoto.id)
+                                .post('/api/upload_profile_photo/'+this.formPhoto.id)
                                 .then(()=>{
                                 Fire.$emit("refreshData");
                                 Toast.fire(
@@ -224,7 +223,7 @@
                 this.disabled = true;
 
                 this.form
-                    .post('api/edit_profile/'+this.form.id)
+                    .post('/api/edit_profile/'+this.form.id)
                     .then(()=>{
                     Fire.$emit("refreshData");
                     Swal.fire(

@@ -80,12 +80,12 @@
                 //untuk panggil progress bar
                 this.$Progress.start();
                 await axios
-                    .get('http:/api/getTransactionDetail/'+this.id)
+                    .get('/api/getTransactionDetail/'+this.id)
                     .then(({data})=>(this.transaction_info = data));  
 
                 //untuk mengakhiri progress bar setelah halaman muncul
                 await axios
-                    .get('http:/api/getItem/'+this.userInfo.id)
+                    .get('/api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
 
                 this.date();

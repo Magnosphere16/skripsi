@@ -49,7 +49,7 @@
 
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
                 await axios
-                    .get('http:/api/getItemInfo/'+this.id)
+                    .get('/api/getItemInfo/'+this.id)
                     .then(({data}) => (this.item_info = data));
                 //untuk mengakhiri progress bar setelah halaman muncul
 

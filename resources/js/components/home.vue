@@ -30,7 +30,8 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Total Products Sold</span>
-                <span class="info-box-number">{{ (sold_product).toLocaleString('en') }}</span>
+                <span class="info-box-number" v-if="sold_product!=null">{{ (sold_product).toLocaleString('en') }}</span>
+                <span class="info-box-number" v-else>0</span>
               </div>
             </div>
           </div>
@@ -202,17 +203,11 @@
                 }
             },
             async loadData(){
-               //Contoh get Data dari Database 
-                //untuk panggil progress bar
+
                 this.$Progress.start();
 
-                // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
-                // await axios
-                //     .get('api/getTransactionData')
-                //     .then(({data}) => (this.transactions = data));
-
                 await axios
-                    .get('api/getItem/'+this.userInfo.id)
+                    .get('/api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
 
                 this.items=this.items.sort((a,b) =>{
@@ -220,64 +215,27 @@
                 } );
 
                 await axios
-                    .get('api/getSale/'+this.userInfo.id)
+                    .get('/api/getSale/'+this.userInfo.id)
                     .then(({data}) => (this.omset = data));
                 
                 await axios
-                      .get('api/userTurnOver/'+this.userInfo.id)
-                      .then(({data}) => (this.turn_over = data));
-                
-                await axios
-                    .get('api/getSoldProduct/'+this.userInfo.id)
+                    .get('/api/getSoldProduct/'+this.userInfo.id)
                     .then(({data}) => (this.sold_product = data));
 
                 await axios
-                      .get('api/getBestSeller/'+this.userInfo.id)
+                      .get('/api/getBestSeller/'+this.userInfo.id)
                       .then(({data}) => (this.best_seller = Object.values(data)));
 
                 this.best_seller=this.best_seller.sort((a,b) =>{
                     return b.total - a.total;
                 } );
                 //untuk mengakhiri progress bar setelah halaman muncul
+
+                await axios
+                      .get('/api/userTurnOver/'+this.userInfo.id)
+                      .then(({data}) => (this.turn_over = data));
+
                 this.$Progress.finish();
-            },
-            //Contoh insert ke Database
-            postData(){
-                this.$Progress.start();
-                this.loading = true;
-                this.disabled = true;
-                    axios
-                    .post("api/addSaleData", {
-                        saleArray: this.forms,
-                        transactionDate :this.tr_transaction_date,
-                        transactionType:2,
-                        userId:this.tr_user_id,
-                        total_price:this.final_total
-                    }).then(()=>{
-                        //pop up
-                    Fire.$emit("refreshData");
-                    Swal.fire(
-                        'Success!',
-                        'Sale Transaction Saved Successfully!',
-                        'success'
-                        ).then(function() {
-                        window.location = "/home";
-                    });
-                    this.$Progress.finish();
-                    this.loading = false;
-                    this.disabled = false;
-                    })
-                // else
-                    .catch(()=>{
-                        Swal.fire({
-                        icon: 'error',
-                        title: 'Transaction Failed',
-                        text: "Please fill the required fields",
-                        })
-                        this.$Progress.fail();
-                        this.loading = false;
-                        this.disabled = false; 
-                    });
             },
         },
         mounted(){

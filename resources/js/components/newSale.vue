@@ -180,10 +180,10 @@
 
                 // untuk call route yang ada di api.php>> bisa call controller untuk get data dari database
                 await axios
-                    .get('api/getItem/'+this.userInfo.id)
+                    .get('/api/getItem/'+this.userInfo.id)
                     .then(({data}) => (this.items = data));
                 await axios
-                    .get('api/getUnitType')
+                    .get('/api/getUnitType')
                     .then(({data}) => (this.unitTypes = data));
 
                 //untuk mengakhiri progress bar setelah halaman muncul
